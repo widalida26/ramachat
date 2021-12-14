@@ -3,7 +3,7 @@ name: Task card
 about: Make task cards
 title: "[분류] 제목"
 labels: Advanced, Bare-minimum, Client, Nightmare, Server
-assignees: inde153, JAM-PARK, alexjleee, widalida26
+assignees: alexjleee, inde153, JAM-PARK, widalida26
 
 ---
 
