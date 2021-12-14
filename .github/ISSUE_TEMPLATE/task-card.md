@@ -3,11 +3,9 @@ name: Task card
 about: Make task cards
 title: "[분류] 제목"
 labels: Advanced, Bare-minimum, Client, Nightmare, Server
-assignees: ''
+assignees: inde153, JAM-PARK, alexjleee, widalida26
 
 ---
-
-task 카드 작성 => 마일스톤 논의
 
 ### ISSUE
 - Group: `client`, `server`, `sr`
