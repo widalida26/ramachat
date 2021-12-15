@@ -6,7 +6,7 @@ const cookieParser = require('cookie-parser');
 const express = require('express');
 const app = express();
 
-const controllers = require('./controllers');
+//const controllers = require('./controllers');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -14,7 +14,7 @@ app.use(
   cors({
     origin: ['https://localhost:3000'],
     credentials: true,
-    methods: ['GET', 'POST', 'OPTIONS']
+    methods: ['GET', 'POST', 'OPTIONS'],
   })
 );
 app.use(cookieParser());
@@ -23,7 +23,7 @@ app.get('/', (req, res) => {
   res.status(200).send('Hello World!');
 });
 
-const HTTPS_PORT = process.env.HTTPS_PORT || 4000;
+const HTTPS_PORT = process.env.HTTPS_PORT || 80;
 
 let server;
 if (fs.existsSync('./key.pem') && fs.existsSync('./cert.pem')) {
@@ -32,8 +32,12 @@ if (fs.existsSync('./key.pem') && fs.existsSync('./cert.pem')) {
   const credentials = { key: privateKey, cert: certificate };
 
   server = https.createServer(credentials, app);
-  server.listen(HTTPS_PORT, () => console.log('https server runnning'));
+  server.listen(HTTPS_PORT, () =>
+    console.log('https server runnning', `\nport number is ${HTTPS_PORT}`)
+  );
 } else {
-  server = app.listen(HTTPS_PORT, () => console.log('http server runnning'));
+  server = app.listen(HTTPS_PORT, () =>
+    console.log('http server runnning', `\nport number is ${HTTPS_PORT}`)
+  );
 }
 module.exports = server;
