@@ -14,11 +14,7 @@ app.use(
   cors({
     origin: ['https://localhost:3000'],
     credentials: true,
-<<<<<<< HEAD
     methods: ['GET', 'POST', 'OPTIONS'],
-=======
-    methods: ['GET', 'POST', 'OPTIONS']
->>>>>>> 79a98285301770c29d2cbd250ecc624dbc1b6550
   })
 );
 app.use(cookieParser());
@@ -40,8 +36,4 @@ if (fs.existsSync('./key.pem') && fs.existsSync('./cert.pem')) {
 } else {
   server = app.listen(HTTPS_PORT, () => console.log('http server runnning'));
 }
-<<<<<<< HEAD
 module.exports = server;
-=======
-module.exports = server;
->>>>>>> 79a98285301770c29d2cbd250ecc624dbc1b6550
