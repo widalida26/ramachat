@@ -23,7 +23,7 @@ app.get('/', (req, res) => {
   res.status(200).send('Hello World!');
 });
 
-const HTTPS_PORT = process.env.HTTPS_PORT || 4000;
+const HTTPS_PORT = process.env.HTTPS_PORT || 8080;
 
 let server;
 if (fs.existsSync('./key.pem') && fs.existsSync('./cert.pem')) {
