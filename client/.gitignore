@@ -12,6 +12,7 @@
 /build
 
 # misc
+.gitmessage.txt
 .DS_Store
 *.pem
 .env.local
