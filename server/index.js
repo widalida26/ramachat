@@ -23,7 +23,7 @@ app.get('/', (req, res) => {
   res.status(200).send('Hello World!');
 });
 
-const HTTPS_PORT = process.env.HTTPS_PORT || 8080;
+const HTTPS_PORT = process.env.HTTPS_PORT || 80;
 
 let server;
 if (fs.existsSync('./key.pem') && fs.existsSync('./cert.pem')) {
@@ -32,8 +32,12 @@ if (fs.existsSync('./key.pem') && fs.existsSync('./cert.pem')) {
   const credentials = { key: privateKey, cert: certificate };
 
   server = https.createServer(credentials, app);
-  server.listen(HTTPS_PORT, () => console.log('https server runnning'));
+  server.listen(HTTPS_PORT, () =>
+    console.log('https server runnning', `\nport number is ${HTTPS_PORT}`)
+  );
 } else {
-  server = app.listen(HTTPS_PORT, () => console.log('http server runnning'));
+  server = app.listen(HTTPS_PORT, () =>
+    console.log('http server runnning', `\nport number is ${HTTPS_PORT}`)
+  );
 }
 module.exports = server;
