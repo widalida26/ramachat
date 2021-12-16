@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import SearchBar from '../components/SearchBar';
 
-export default function Home({ setSearchResult }) {
+export default function Home() {
   const Main = styled.main`
     width: 100vw;
     height: 100vh;
@@ -14,7 +14,7 @@ export default function Home({ setSearchResult }) {
       {/* <Navbar /> */}
       <Main>
         <h1>Start the chat about the series you like!</h1>
-        <SearchBar setSearchResult={setSearchResult} />
+        <SearchBar />
       </Main>
     </div>
   );

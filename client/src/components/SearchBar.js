@@ -1,17 +1,16 @@
-import { getDrama } from '../api/DramaDataAPI';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export default function SearchBar({ setSearchResult }) {
   const [keyword, setKeyword] = useState('');
   let navigate = useNavigate();
+
   const handleInputChange = (event) => {
     setKeyword(event.target.value);
   };
-  const handleSubmit = async (event) => {
+
+  const handleSubmit = (event) => {
     event.preventDefault();
-    const data = await getDrama(keyword);
-    setSearchResult(data);
     navigate(`/search?query=${keyword}`);
   };
 
