@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Episode_infos', {
+    await queryInterface.createTable('Episode_info', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -12,6 +12,7 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       drama_name: {
+        allowNull: false,
         type: Sequelize.STRING,
       },
       season_index: {
@@ -21,11 +22,12 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       comment_num: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
+        defaultValue: 0,
       },
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Episode_infos');
+    await queryInterface.dropTable('Episode_info');
   },
 };

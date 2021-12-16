@@ -22,6 +22,7 @@ app.use(cookieParser());
 app.get('/', (req, res) => {
   res.status(200).send('Hello World!');
 });
+app.post('/login', controllers.login);
 
 app.post('/login', controllers.login);
 

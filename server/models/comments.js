@@ -1,7 +1,5 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Comments extends Model {
     /**
@@ -11,17 +9,36 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      models.Comments.hasOne(models.Users, {
+        foreignKey: 'id',
+      });
+      models.Comments.belongsTo(models.Episode_info, {
+        onDelete: 'cascade',
+        foreignKey: 'id',
+      });
+      models.Comments.hasMany(models.Notifications, {
+        foreignKey: 'comment_id',
+      });
+      models.Comments.hasMany(models.Likes, {
+        foreignKey: 'target_id',
+      });
     }
-  };
-  Comments.init({
-    episode_id: DataTypes.INTEGER,
-    user_id: DataTypes.INTEGER,
-    content: DataTypes.STRING,
-    likes: DataTypes.INTEGER,
-    parent_comment_id: DataTypes.INTEGER
-  }, {
-    sequelize,
-    modelName: 'Comments',
-  });
+  }
+  Comments.init(
+    {
+      episode_id: DataTypes.INTEGER,
+      user_id: DataTypes.INTEGER,
+      content: DataTypes.STRING,
+      likes: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
+      },
+      parent_comment_id: DataTypes.INTEGER,
+    },
+    {
+      sequelize,
+      modelName: 'Comments',
+    }
+  );
   return Comments;
 };

@@ -9,6 +9,13 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      models.Likes.hasOne(models.Users, {
+        foreignKey: 'id',
+      });
+      models.Likes.belongsTo(models.Comments, {
+        onDelete: 'cascade',
+        foreignKey: 'id',
+      });
     }
   }
   Likes.init(

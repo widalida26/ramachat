@@ -10,14 +10,28 @@ module.exports = {
       },
       user_id: {
         type: Sequelize.INTEGER,
+        onDelete: 'cascade',
+        references: {
+          model: 'Users',
+          key: 'id',
+        },
       },
       comment_id: {
         type: Sequelize.INTEGER,
+        onDelete: 'cascade',
+        references: {
+          model: 'Comments',
+          key: 'id',
+        },
+      },
+      isChecked: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
       },
       createdAt: {
         allowNull: false,
-        defaultValue: Sequelize.fn('NOW'),
         type: Sequelize.DATE,
+        defaultValue: Sequelize.fn('NOW'),
       },
     });
   },

@@ -1,7 +1,5 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Episode_info extends Model {
     /**
@@ -11,17 +9,26 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      models.Episode_info.hasMany(models.Comments, {
+        foreignKey: 'episode_id',
+      });
     }
-  };
-  Episode_info.init({
-    drama_id: DataTypes.INTEGER,
-    drama_name: DataTypes.STRING,
-    season_index: DataTypes.INTEGER,
-    episode_index: DataTypes.INTEGER,
-    comment_num: DataTypes.STRING
-  }, {
-    sequelize,
-    modelName: 'Episode_info',
-  });
+  }
+  Episode_info.init(
+    {
+      drama_id: DataTypes.INTEGER,
+      drama_name: DataTypes.STRING,
+      season_index: DataTypes.INTEGER,
+      episode_index: DataTypes.INTEGER,
+      comment_num: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
+      },
+    },
+    {
+      sequelize,
+      modelName: 'Episode_info',
+    }
+  );
   return Episode_info;
 };
