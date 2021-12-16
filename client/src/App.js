@@ -14,7 +14,7 @@ function App() {
   const navigate = useNavigate();
   const isAuthenticated = () => {
     axios
-      .get('https://localhost:80/users/auth', {
+      .get('http://localhost:8000/users/auth', {
         withCredentials: true,
       })
       .then((res) => {

@@ -49,7 +49,7 @@ axios.defaults.withCredentials = true;
 
 function Login({ handleResponseSuccess }) {
   const [loginInfo, setLoginInfo] = useState({
-    userId: '',
+    user_id: '',
     password: '',
   });
   const [errorMessage, setErrorMessage] = useState('');
@@ -59,16 +59,17 @@ function Login({ handleResponseSuccess }) {
   };
 
   const handleLogin = () => {
-    // console.log('작동?');
-    if (!loginInfo.userId || !loginInfo.password) {
+    console.log('작동?');
+    if (!loginInfo.user_id || !loginInfo.password) {
       setErrorMessage('아이디와 비밀번호를 입력하세요');
     } else {
       axios
-        .post('https://localhost:80/users/login', {
-          email: loginInfo.userId,
+        .post('http://localhost:8000/users/login', {
+          user_id: loginInfo.user_id,
           password: loginInfo.password,
         })
-        .then(() => handleResponseSuccess())
+        // .then(() => handleResponseSuccess())
+        .then()
         .catch();
     }
   };
@@ -82,10 +83,10 @@ function Login({ handleResponseSuccess }) {
           <InputField>
             <p>User ID</p>
             <input
-              name="userId"
+              name="user_id"
               type="text"
               placeholder="Type user ID here"
-              onChange={handleInputValue('userId')}
+              onChange={handleInputValue('user_id')}
             />
           </InputField>
           <InputField>
