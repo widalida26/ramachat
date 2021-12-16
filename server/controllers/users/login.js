@@ -5,7 +5,7 @@ module.exports = (req, res) => {
   // TODO: 로그인 정보를 통해 사용자 인증 후 토큰 전달
 
   console.log(444, Users);
-
+  console.log(666, req.body);
   const { user_id, password } = req.body;
 
   console.log(555, user_id, password);
@@ -27,6 +27,7 @@ module.exports = (req, res) => {
       }
     })
     .catch((err) => {
+      return res.status(500).send('err');
       console.log(err);
     });
 };

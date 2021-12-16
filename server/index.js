@@ -24,8 +24,6 @@ app.get('/', (req, res) => {
 });
 app.post('/login', controllers.login);
 
-app.post('/login', controllers.login);
-
 const HTTPS_PORT = process.env.HTTPS_PORT || 8000;
 
 let server;
