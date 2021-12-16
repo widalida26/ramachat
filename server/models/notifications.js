@@ -15,7 +15,8 @@ module.exports = (sequelize, DataTypes) => {
   };
   Notifications.init({
     user_id: DataTypes.INTEGER,
-    comment_id: DataTypes.INTEGER
+    comment_id: DataTypes.INTEGER,
+    isChecked: DataTypes.BOOLEAN
   }, {
     sequelize,
     modelName: 'Notifications',

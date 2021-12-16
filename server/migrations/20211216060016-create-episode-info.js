@@ -6,26 +6,34 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER,
+        type: Sequelize.INTEGER
       },
       drama_id: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.INTEGER
       },
       drama_name: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING
       },
       season_index: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.INTEGER
       },
       episode_index: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.INTEGER
       },
       comment_num: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING
       },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      }
     });
   },
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('Episode_infos');
-  },
+  }
 };
