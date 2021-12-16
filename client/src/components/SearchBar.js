@@ -7,6 +7,9 @@ export default function SearchBar({ setSearchResult }) {
 
   const handleInputChange = (event) => {
     setKeyword(event.target.value);
+    if (event.key === 'Enter') {
+      handleSubmit(event);
+    }
   };
 
   const handleSubmit = (event) => {
