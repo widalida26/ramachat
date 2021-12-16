@@ -1,7 +1,28 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import { colors } from '../styles/Colors';
 
-export default function SearchBar({ setSearchResult }) {
+const SearchInput = styled.input`
+  width: 300px;
+  height: 40px;
+  padding: 10px;
+  border-radius: 0;
+  border: 2px solid ${colors.primary};
+`;
+
+const SearchButton = styled.button`
+  height: 40px;
+  padding: 10px;
+  margin: 0;
+  border-radius: 0;
+  border: none;
+  background-color: ${colors.primary};
+  color: white;
+  cursor: pointer;
+`;
+
+export default function SearchBar() {
   const [keyword, setKeyword] = useState('');
   let navigate = useNavigate();
 
@@ -20,14 +41,14 @@ export default function SearchBar({ setSearchResult }) {
   return (
     <div>
       <form>
-        <input
+        <SearchInput
           type="text"
           placeholder="Search the series"
-          onChange={handleInputChange}
-        ></input>
-        <button type="button" onClick={handleSubmit}>
+          onKeyUp={handleInputChange}
+        ></SearchInput>
+        <SearchButton type="submit" onClick={handleSubmit}>
           Search
-        </button>
+        </SearchButton>
       </form>
     </div>
   );
