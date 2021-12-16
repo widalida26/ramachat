@@ -3,7 +3,7 @@ name: KPT 회고
 about: KPT 회고
 title: "[KPT] N주차 M요일"
 labels: KPT
-assignees: inde153, JAM-PARK, alexjleee, widalida26
+assignees: alexjleee, inde153, JAM-PARK, widalida26
 
 ---
 
