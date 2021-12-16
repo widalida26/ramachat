@@ -6,7 +6,7 @@ const cookieParser = require('cookie-parser');
 const express = require('express');
 const app = express();
 
-//const controllers = require('./controllers');
+const controllers = require('./controllers');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -22,8 +22,9 @@ app.use(cookieParser());
 app.get('/', (req, res) => {
   res.status(200).send('Hello World!');
 });
+app.post('/login', controllers.login);
 
-const HTTPS_PORT = process.env.HTTPS_PORT || 80;
+const HTTPS_PORT = process.env.HTTPS_PORT || 8000;
 
 let server;
 if (fs.existsSync('./key.pem') && fs.existsSync('./cert.pem')) {

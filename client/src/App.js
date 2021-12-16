@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './App.css';
+import Home from './pages/Home';
+import Search from './pages/Search';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Navbar from './components/Navbar';
@@ -41,17 +43,19 @@ function App() {
   return (
     <>
       <Routes>
-        <Route
+        {/* <Route
           exact
           path="/"
           element={<Navbar isLogin={isLogin} handleLogout={handleLogout} />}
-        />
+        /> */}
         <Route
           exact
           path="/login"
           element={<Login handleResponseSuccess={handleResponseSuccess} />}
         />
         <Route exact path="/signup" element={<Signup />} />
+        <Route exact path="/" element={<Home />} />
+        <Route path="/search" element={<Search />} />
       </Routes>
     </>
   );
