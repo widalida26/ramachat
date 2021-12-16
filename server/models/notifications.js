@@ -1,7 +1,5 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Notifications extends Model {
     /**
@@ -11,15 +9,29 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      models.Notifications.belongsTo(models.Users, {
+        onDelete: 'cascade',
+        foreignKey: 'id',
+      });
+      models.Notifications.belongsTo(models.Comments, {
+        onDelete: 'cascade',
+        foreignKey: 'id',
+      });
     }
-  };
-  Notifications.init({
-    user_id: DataTypes.INTEGER,
-    comment_id: DataTypes.INTEGER,
-    isChecked: DataTypes.BOOLEAN
-  }, {
-    sequelize,
-    modelName: 'Notifications',
-  });
+  }
+  Notifications.init(
+    {
+      user_id: DataTypes.INTEGER,
+      comment_id: DataTypes.INTEGER,
+      isChecked: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      },
+    },
+    {
+      sequelize,
+      modelName: 'Notifications',
+    }
+  );
   return Notifications;
 };

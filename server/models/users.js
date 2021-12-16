@@ -11,7 +11,12 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       models.Users.hasMany(models.Comments, {
         foreignKey: 'user_id',
-        sourceKey: 'id',
+      });
+      models.Users.hasMany(models.Notifications, {
+        foreignKey: 'user_id',
+      });
+      models.Users.hasMany(models.Likes, {
+        foreignKey: 'user_id',
       });
     }
   }
@@ -20,7 +25,10 @@ module.exports = (sequelize, DataTypes) => {
       user_id: DataTypes.STRING,
       email: DataTypes.STRING,
       password: DataTypes.STRING,
-      role: DataTypes.STRING,
+      role: {
+        type: DataTypes.STRING,
+        defaultValue: 'user',
+      },
     },
     {
       sequelize,

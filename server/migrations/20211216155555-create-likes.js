@@ -1,22 +1,14 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Notifications', {
+    await queryInterface.createTable('Likes', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      user_id: {
-        type: Sequelize.INTEGER,
-        onDelete: 'cascade',
-        references: {
-          model: 'Users',
-          key: 'id',
-        },
-      },
-      comment_id: {
+      target_id: {
         type: Sequelize.INTEGER,
         onDelete: 'cascade',
         references: {
@@ -24,9 +16,12 @@ module.exports = {
           key: 'id',
         },
       },
-      isChecked: {
-        type: Sequelize.BOOLEAN,
-        defaultValue: false,
+      user_id: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Users',
+          key: 'id',
+        },
       },
       createdAt: {
         allowNull: false,
@@ -36,6 +31,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Notifications');
+    await queryInterface.dropTable('Likes');
   },
 };

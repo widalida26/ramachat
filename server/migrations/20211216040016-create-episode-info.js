@@ -1,30 +1,33 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Likes', {
+    await queryInterface.createTable('Episode_info', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      target_id: {
+      drama_id: {
         type: Sequelize.INTEGER,
       },
-      user_id: {
+      drama_name: {
+        allowNull: false,
+        type: Sequelize.STRING,
+      },
+      season_index: {
         type: Sequelize.INTEGER,
       },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE,
+      episode_index: {
+        type: Sequelize.INTEGER,
       },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE,
+      comment_num: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0,
       },
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Likes');
+    await queryInterface.dropTable('Episode_info');
   },
 };
