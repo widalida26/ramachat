@@ -9,22 +9,22 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      models.Users.hasMany(models.Comments, {
+        foreignKey: 'user_id',
+        sourceKey: 'id',
+      });
     }
   }
   Users.init(
     {
-      id: DataTypes.INTEGER,
       user_id: DataTypes.STRING,
       email: DataTypes.STRING,
       password: DataTypes.STRING,
-      role: {
-        type: DataTypes.STRING,
-        defaultValue: 'user',
-      },
+      role: DataTypes.STRING,
     },
     {
       sequelize,
-      modelName: 'User',
+      modelName: 'Users',
     }
   );
   return Users;
