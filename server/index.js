@@ -23,6 +23,7 @@ app.get('/', (req, res) => {
   res.status(200).send('Hello World!');
 });
 app.post('/login', controllers.login);
+app.post('/search', controllers.drama);
 
 const HTTPS_PORT = process.env.HTTPS_PORT || 8000;
 
