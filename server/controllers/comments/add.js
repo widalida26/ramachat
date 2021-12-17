@@ -3,7 +3,12 @@
 // const axios = require('axios');
 
 module.exports = (req, res) => {
-  console.log('coment');
+  let body = req.body;
+  // parentEpisodeId가 없을 때 => 답글이 아닐 때
+  if (!body.parentEpisodeId) {
+    const { userId, content, episodeId } = body;
+    console.log(userId);
+  }
   res.end();
   //   let drama_id = req.query['drama-id'];
   //   let season_index = req.query['season-index'];
