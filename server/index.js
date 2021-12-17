@@ -23,7 +23,12 @@ app.get('/', (req, res) => {
   res.status(200).send('Hello World!');
 });
 app.post('/login', controllers.login);
+
+// 드라마 검색
 app.get('/episode-infos', controllers.drama);
+
+// 댓글 작성
+app.post('/comments/add', controllers.add);
 
 const HTTPS_PORT = process.env.HTTPS_PORT || 8000;
 
