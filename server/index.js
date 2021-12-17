@@ -12,16 +12,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(
   cors({
-    origin: ['https://localhost:3000'],
+    origin: [`http://localhost:3000`],
     credentials: true,
-    methods: ['GET', 'POST', 'OPTIONS'],
+    methods: ['GET', 'POST', 'PUT', 'OPTIONS'],
   })
 );
 app.use(cookieParser());
 
-app.get('/', (req, res) => {
-  res.status(200).send('Hello World!');
-});
 app.post('/login', controllers.login);
 app.get('/episode-infos', controllers.drama);
 

@@ -8,5 +8,6 @@ module.exports = {
     port: process.env.RDS_PORT,
     host: process.env.RDS_HOST,
     dialect: 'mysql',
+    timezone: '+09:00',
   },
 };
