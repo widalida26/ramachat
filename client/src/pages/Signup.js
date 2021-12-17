@@ -61,16 +61,17 @@ function Signup() {
   };
   const handleSignup = () => {
     if (
-      !userinfo.email ||
-      !userinfo.userId ||
-      !userinfo.password ||
+      !userinfo.email &&
+      !userinfo.userId &&
+      !userinfo.password &&
       !userinfo.passwordConfirmation
     ) {
       setErrorMessage('모든 항목은 필수입니다');
     } else {
-      // console.log('설마');
+      setErrorMessage('');
+      console.log('회원가입요청전작동?');
       axios
-        .post('https://localhost:80/users/signup', {
+        .post('http://localhost:8000/signup', {
           email: userinfo.email,
           password: userinfo.userId,
           username: userinfo.password,
@@ -82,35 +83,23 @@ function Signup() {
   };
 
   // ! 유효성검사 코드
-  //이름, 이메일, 비밀번호, 비밀번호 확인
-  const [name, setName] = useState('');
+  //이메일, 아이디, 비밀번호, 비밀번호 확인
   const [email, setEmail] = useState('');
+  const [userId, setUserId] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
 
   //오류메시지 상태저장
-  const [nameMessage, setNameMessage] = useState('');
   const [emailMessage, setEmailMessage] = useState('');
+  const [userIdMessage, setUserIdMessage] = useState('');
   const [passwordMessage, setPasswordMessage] = useState('');
   const [passwordConfirmMessage, setPasswordConfirmMessage] = useState('');
 
   // 유효성 검사
-  const [isName, setIsName] = useState(false);
   const [isEmail, setIsEmail] = useState(false);
+  const [isUserId, setIsUserId] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
   const [isPasswordConfirm, setIsPasswordConfirm] = useState(false);
-
-  // 이름
-  const onChangeName = useCallback((e) => {
-    setName(e.target.value);
-    if (e.target.value.length < 2 || e.target.value.length > 5) {
-      setNameMessage('2글자 이상 5글자 미만으로 입력해주세요.');
-      setIsName(false);
-    } else {
-      setNameMessage('올바른 이름 형식입니다 :)');
-      setIsName(true);
-    }
-  }, []);
 
   // 이메일
   const onChangeEmail = useCallback((e) => {
@@ -121,9 +110,21 @@ function Signup() {
 
     if (!emailRegex.test(emailCurrent)) {
       setEmailMessage('이메일 형식이 틀렸어요! 다시 확인해주세요!');
-      setIsEmail(false);
+      setIsUserId(false);
     } else {
       setEmailMessage('올바른 이메일 형식이에요 :)');
+      setIsUserId(true);
+    }
+  }, []);
+
+  // 이름
+  const onChangeUserId = useCallback((e) => {
+    setUserId(e.target.value);
+    if (e.target.value.length < 2 || e.target.value.length > 5) {
+      setUserIdMessage('2글자 이상 6글자 미만으로 입력해주세요.');
+      setIsEmail(false);
+    } else {
+      setUserIdMessage('올바른 이름 형식입니다 :)');
       setIsEmail(true);
     }
   }, []);
@@ -173,8 +174,12 @@ function Signup() {
               name="email"
               type="email"
               placeholder="Type user E-mail here"
-              onChange={handleInputValue('email')}
+              onChange={(e) => {
+                onChangeEmail(e);
+                handleInputValue('email');
+              }}
             />
+            {email.length > 0 && <span>{emailMessage}</span>}
           </InputField>
           <InputField>
             <p>User ID</p>
@@ -182,8 +187,12 @@ function Signup() {
               name="userId"
               type="text"
               placeholder="Type Password here"
-              onChange={handleInputValue('userId')}
+              onChange={(e) => {
+                onChangeUserId(e);
+                handleInputValue('userId');
+              }}
             />
+            {userId.length > 0 && <span>{userIdMessage}</span>}
           </InputField>
           <InputField>
             <p>Password</p>
@@ -191,9 +200,12 @@ function Signup() {
               name="password"
               type="password"
               placeholder="Type password here"
-              onChange={handleInputValue('password')}
+              onChange={(e) => {
+                onChangePassword(e);
+                handleInputValue('password');
+              }}
             />
-            {name.length > 0 && <span>{nameMessage}</span>}
+            {password.length > 0 && <span>{passwordMessage}</span>}
           </InputField>
           <InputField>
             <p>Password Confirmation</p>
@@ -201,10 +213,16 @@ function Signup() {
               name="passwordConfirmation"
               type="password"
               placeholder="Type the password again"
-              onChange={handleInputValue('passwordConfirmation')}
+              onChange={(e) => {
+                onChangePasswordConfirm(e);
+                handleInputValue('passwordConfirmation');
+              }}
             />
+            {passwordConfirmMessage.length > 0 && <span>{passwordConfirmMessage}</span>}
           </InputField>
           <br />
+          {/* disabled={!(isEmail && isUserId && isPassword && isPasswordConfirm)} */}
+          {/* button attr disabled 작동 확인 */}
           <div type="submit" onClick={handleSignup}>
             <TextButton>Sign Up</TextButton>
           </div>

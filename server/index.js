@@ -12,7 +12,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(
   cors({
-    origin: ['https://localhost:3000'],
+    origin: ['http://localhost:3000'],
     credentials: true,
     methods: ['GET', 'POST', 'OPTIONS'],
   })
@@ -23,6 +23,7 @@ app.get('/', (req, res) => {
   res.status(200).send('Hello World!');
 });
 app.post('/login', controllers.login);
+app.get('/auth', controllers.auth);
 
 const HTTPS_PORT = process.env.HTTPS_PORT || 8000;
 
