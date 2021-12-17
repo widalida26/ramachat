@@ -13,18 +13,28 @@ const Main = styled.main`
   width: 100%;
   max-width: 850px;
   text-align: left;
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 1fr;
   gap: 1rem;
+  padding: 1rem;
+
+  @media ${device.tablet} {
+    grid-template-columns: 240px 1fr;
+  }
 `;
 
 const DramaInfo = styled.article`
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
+  align-content: flex-start;
 
   @media ${device.tablet} {
     width: 240px;
+  }
+
+  h4 {
+    color: ${colors.grey};
   }
 `;
 
@@ -43,7 +53,11 @@ const Poster = styled.div`
   }
 `;
 
-const EpisodeList = styled.article``;
+const EpisodeList = styled.article`
+  ul {
+    padding: 0;
+  }
+`;
 
 export default function Drama() {
   console.log('drama comp');
@@ -110,7 +124,7 @@ export default function Drama() {
           <Poster poster={url}></Poster>
           <div>
             <h1>{drama.name}</h1>
-            <h3>{drama.original_name}</h3>
+            {drama.name !== drama.original_name ? <h4>{drama.original_name}</h4> : null}
             <p>{period}</p>
             <p>{genres}</p>
           </div>

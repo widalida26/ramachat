@@ -8,14 +8,13 @@ export default function Home() {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
+    padding: 1rem;
   `;
   return (
-    <div>
-      {/* <Navbar /> */}
-      <Main>
-        <h1>Start the chat about the series you like!</h1>
-        <SearchBar />
-      </Main>
-    </div>
+    <Main>
+      <h1>Start the chat about the series you like!</h1>
+      <SearchBar />
+    </Main>
   );
 }

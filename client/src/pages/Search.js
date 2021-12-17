@@ -6,10 +6,17 @@ import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
+const Main = styled.main`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+`;
+
 const DramaList = styled.ul`
   list-style: none;
-  padding: 1rem;
   display: grid;
+  padding: 0;
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
 
@@ -38,26 +45,23 @@ export default function Search() {
   }, [keyword]);
 
   return (
-    <div>
-      {/* <Navbar /> */}
-      <main>
-        <SearchBar />
-        {dramas.length === 0 ? (
-          <p>Oops! There's no matching result :(</p>
-        ) : (
-          <DramaList>
-            {dramas.map((drama) => (
-              <DramaListItem
-                id={drama.id}
-                name={drama.name}
-                poster_path={drama.poster_path}
-                key={drama.id}
-              />
-            ))}
-          </DramaList>
-        )}
-      </main>
-    </div>
+    <Main>
+      <SearchBar />
+      {dramas.length === 0 ? (
+        <p>Oops! There's no matching result :(</p>
+      ) : (
+        <DramaList>
+          {dramas.map((drama) => (
+            <DramaListItem
+              id={drama.id}
+              name={drama.name}
+              poster_path={drama.poster_path}
+              key={drama.id}
+            />
+          ))}
+        </DramaList>
+      )}
+    </Main>
   );
 }
 

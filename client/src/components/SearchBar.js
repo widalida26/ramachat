@@ -2,9 +2,19 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { colors } from '../styles/Colors';
+import { device } from '../styles/Breakpoints';
+
+const SearchBarContainer = styled.div`
+  width: 100%;
+  display: flex;
+
+  @media ${device.tablet} {
+    width: 400px;
+  }
+`;
 
 const SearchInput = styled.input`
-  width: 300px;
+  width: 100%;
   height: 40px;
   padding: 10px;
   border-radius: 0;
@@ -39,17 +49,15 @@ export default function SearchBar() {
   };
 
   return (
-    <div>
-      <form>
-        <SearchInput
-          type="text"
-          placeholder="Search the series"
-          onKeyUp={handleInputChange}
-        ></SearchInput>
-        <SearchButton type="submit" onClick={handleSubmit}>
-          Search
-        </SearchButton>
-      </form>
-    </div>
+    <SearchBarContainer>
+      <SearchInput
+        type="text"
+        placeholder="Search the series"
+        onKeyUp={handleInputChange}
+      ></SearchInput>
+      <SearchButton type="submit" onClick={handleSubmit}>
+        Search
+      </SearchButton>
+    </SearchBarContainer>
   );
 }

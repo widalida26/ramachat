@@ -3,15 +3,36 @@ import { colors } from '../styles/Colors';
 
 const Item = styled.li`
   list-style: none;
+  display: grid;
+  grid-template-columns: 150px 1fr 60px;
+  gap: 1rem;
+  padding: 1rem;
+  align-items: center;
+  border-top: 1px solid ${colors.primary};
+  &:hover {
+    background-color: ${colors.primaryL};
+  }
 
   .still {
     position: relative;
-    width: 150px;
-    height: 100px;
+    width: 100%;
+    height: 0;
+    padding-bottom: 66%;
     background-color: ${colors.greyL};
     background-image: url(${(props) => props.still});
     background-size: cover;
     background-position: center center;
+  }
+  h4 {
+    margin: 0;
+  }
+  .overview {
+    grid-column: 1 / span 3;
+  }
+  .comment {
+    margin: 0;
+    text-align: right;
+    color: ${colors.primary};
   }
 `;
 
@@ -26,11 +47,14 @@ export default function EpisodeListItem({ episode, episodeInfos }) {
   const commentNum = filteredInfos.length !== 0 ? filteredInfos[0].commentNum : '0';
   return (
     <Item still={url}>
-      <h3>{episode.episode_number}</h3>
       <div className="still"></div>
-      <h4>{episode.name}</h4>
-      <p>{episode.overview}</p>
-      <p>Comments: {commentNum}</p>
+      <h4>
+        {episode.episode_number}. {episode.name}
+      </h4>
+      <p className="comment">
+        <i className="fas fa-comment-alt"></i> {commentNum}
+      </p>
+      {episode.overview ? <p className="overview">{episode.overview}</p> : null}
     </Item>
   );
 }
