@@ -14,21 +14,26 @@ function App() {
   const navigate = useNavigate();
   const isAuthenticated = () => {
     axios
-      .get('http://localhost:8000/users/auth', {
+      .get('http://localhost:8000/auth', {
         withCredentials: true,
       })
       .then((res) => {
+        console.log(res);
         setIsLogin(true);
-        setUserinfo(res.data);
+        setUserinfo(res.data.data);
         navigate('/');
+        console.log('로그인 성공');
       })
       .catch();
   };
-  const handleResponseSuccess = () => {
+  const handleResponseSuccess = (data) => {
+    // ! 넘긴 데이터 수정
+    console.log('post 넘겨받은 데이터', data);
+
     isAuthenticated();
   };
   const handleLogout = () => {
-    axios.post('https://localhost:80/users/logout').then((res) => {
+    axios.post('http://localhost:8000/logout').then((res) => {
       setUserinfo(null);
       setIsLogin(false);
       navigate('/');
@@ -40,21 +45,27 @@ function App() {
   }, []);
   // ! 마운트 될 때만 => [] vs 렌더링 될때마다 => []삭제
 
+  const nowCheck = () => {
+    console.log(userinfo);
+    console.log(isLogin);
+  };
+
   return (
     <>
       <Routes>
-        {/* <Route
-          exact
-          path="/"
-          element={<Navbar isLogin={isLogin} handleLogout={handleLogout} />}
-        /> */}
         <Route
           exact
           path="/login"
           element={<Login handleResponseSuccess={handleResponseSuccess} />}
         />
         <Route exact path="/signup" element={<Signup />} />
-        <Route exact path="/" element={<Home />} />
+        <Route
+          exact
+          path="/"
+          element={
+            <Home isLogin={isLogin} handleLogout={handleLogout} nowCheck={nowCheck} />
+          }
+        />
         <Route path="/search" element={<Search />} />
       </Routes>
     </>

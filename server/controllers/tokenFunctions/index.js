@@ -15,4 +15,17 @@ module.exports = {
       })
       .json({ data: { data: accessToken }, message: 'ok' });
   },
+  isAuthorized: (req) => {
+    const authorization = req.jwt;
+    if (!authorization) {
+      return null;
+    }
+    const token = authorization.split(' ')[0];
+    try {
+      return verify(token, process.env.ACCESS_SECRET);
+    } catch (err) {
+      console.log(err);
+      return null;
+    }
+  },
 };

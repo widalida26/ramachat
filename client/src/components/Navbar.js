@@ -8,7 +8,6 @@ const NavContainer = styled.div`
   border: 2px solid black;
   align-items: center;
   justify-content: space-between;
-  width: 40vh;
   margin: 0 auto;
   padding: 10px;
 `;

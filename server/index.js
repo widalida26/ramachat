@@ -12,19 +12,16 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(
   cors({
-    origin: ['https://localhost:3000'],
+    origin: [`http://localhost:3000`],
     credentials: true,
-    methods: ['GET', 'POST', 'OPTIONS'],
+    methods: ['GET', 'POST', 'PUT', 'OPTIONS'],
   })
 );
 app.use(cookieParser());
 
-app.get('/', (req, res) => {
-  res.status(200).send('Hello World!');
-});
 app.post('/login', controllers.login);
-
-// 드라마 검색
+app.post('/signup', controllers.signup);
+app.get('/auth', controllers.auth);
 app.get('/episode-infos', controllers.drama);
 
 // 댓글 작성
