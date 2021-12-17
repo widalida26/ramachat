@@ -8,6 +8,8 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Navbar from './components/Navbar';
 
+import Modal from './components/Modal';
+
 function App() {
   const [isLogin, setIsLogin] = useState(false);
   const [userinfo, setUserinfo] = useState(null);
@@ -45,6 +47,7 @@ function App() {
   return (
     <>
       <Navbar isLogin={isLogin} handleLogout={handleLogout} />
+      {/* <Modal /> */}
       <Routes>
         <Route
           exact

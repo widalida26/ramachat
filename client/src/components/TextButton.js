@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 const StyledButton = styled.button`
   /* 공통 스타일 */
-  display: inline-flex;
+  /* display: inline-flex; */
   align-items: center;
   outline: none;
   border: none;
