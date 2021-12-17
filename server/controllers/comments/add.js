@@ -1,37 +1,41 @@
 //const { getDrama } = require('../../../client/src/api/DramaDataAPI');
 // const axios = require('axios');
 const { Comments } = require('../../models');
+const { Episode_info } = require('../../models');
 const { isAuthorized } = require('../tokenFunctions');
 
 module.exports = (req, res) => {
   const accessTokenData = isAuthorized(req.cookies);
+  console.log(Episode_info);
   // 인증 성공
   if (accessTokenData !== null) {
     res.status(200).send({ data: { userInfo: accessTokenData } });
+    let body = req.body;
+    // parentEpisodeId가 없을 때 => 답글이 아닐 때
+    if (!body.parentEpisodeId) {
+      const { userId, content, episodeId } = body;
+      // 새 댓글 객체 세팅
+      let newComment = {
+        episode_id: episodeId,
+        user_id: userId,
+        content: content,
+      };
+      // 댓글을 Comments 테이블에 삽입
+      Comments.create(newComment)
+        .then((result) => {
+          Episode_info.findOne({
+            episode_id: episodeId,
+          }).then((result) => {});
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
     // 인증 실패
   } else {
     res.status(401).send('unauthorized user');
   }
 
-  let body = req.body;
-  // parentEpisodeId가 없을 때 => 답글이 아닐 때
-  if (!body.parentEpisodeId) {
-    const { userId, content, episodeId } = body;
-    // 새 댓글 객체 세팅
-    let newComment = {
-      episode_id: episodeId,
-      user_id: userId,
-      content: content,
-    };
-    // 댓글을 Comments 테이블에 삽입
-    Comments.create(newComment)
-      .then((result) => {
-        console.log(result);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
   res.end();
   //   let drama_id = req.query['drama-id'];
   //   let season_index = req.query['season-index'];
