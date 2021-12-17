@@ -3,14 +3,14 @@ const { Episode_infos } = require('../../models');
 const axios = require('axios');
 
 module.exports = (req, res) => {
-  let drama_id = req.query['drama-id'];
-  let season_index = req.query['season-index'];
+  let dramaId = req.query['drama-id'];
+  let seasonIndex = req.query['season-index'];
   const episodeInfos = [];
 
   Episode_infos.findAll({
     where: {
-      drama_id,
-      season_index,
+      dramaId,
+      seasonIndex,
     },
   })
     .then((data) => {
@@ -18,11 +18,12 @@ module.exports = (req, res) => {
       // sql db에서 에피소드 정보 받기
       if (data.length > 0) {
         for (let i = 0; i < data.length; i++) {
-          let val = data[i].dataValues;
-          let info = {};
-          info.id = val.id;
-          info.episodeIndex = val.episode_index;
-          info.commentNum = val.comment_num;
+          const { id, episodeIndex, commentNum } = data[i].dataValues;
+          let info = {
+            id,
+            episodeIndex,
+            commentNum,
+          };
           episodeInfos.push(info);
         }
         res.status(200).json(episodeInfos);
@@ -31,7 +32,7 @@ module.exports = (req, res) => {
       } else {
         axios
           .get(
-            `https://api.themoviedb.org/3/tv/${drama_id}/season/${season_index}?api_key=${process.env.TMDB_API_KEY}&language=en-US`,
+            `https://api.themoviedb.org/3/tv/${dramaId}/season/${seasonIndex}?api_key=${process.env.TMDB_API_KEY}&language=en-US`,
             {
               withCredentials: false,
             }

@@ -25,10 +25,10 @@ module.exports = (req, res) => {
       // 에피소드 정보 객체 세팅
       let epiInfo = {
         id: episodeId,
-        drama_id: dramaId,
-        drama_name: dramaName,
-        season_index: seasonIndex,
-        episode_index: episodeIndex,
+        dramaId,
+        dramaName,
+        seasonIndex,
+        episodeIndex,
       };
       // Episode_infos 테이블에 에피소드 정보 추가
       Episode_infos.create(epiInfo)
@@ -42,10 +42,10 @@ module.exports = (req, res) => {
 
       // 새 댓글 객체 세팅
       let newComment = {
-        episode_id: episodeId,
-        user_id: userId,
-        content: content,
-        parent_comment_id: parentCommentId,
+        episodeId,
+        userId,
+        content,
+        parentCommentId,
       };
       // 댓글을 Comments 테이블에 삽입
       Comments.create(newComment)
@@ -62,7 +62,7 @@ module.exports = (req, res) => {
       let newCommentNum = commentNum + 1;
       Episode_infos.update(
         {
-          comment_num: newCommentNum,
+          commentNum: newCommentNum,
         },
         {
           where: {
@@ -78,6 +78,7 @@ module.exports = (req, res) => {
           console.log(err);
           //res.status(500).send('err');
         });
+
       // parentEpisodeId가 있을 때 => 답글 O
       // if (parentCommentId) {
       //   console.log();
