@@ -25,10 +25,6 @@ module.exports = {
       return verify(token, process.env.ACCESS_SECRET);
     } catch (err) {
       console.log(err);
-<<<<<<< HEAD
-      // return null if invalid token
-=======
->>>>>>> 782514e984c9242d66e4731c5666cd0e00c60f66
       return null;
     }
   },

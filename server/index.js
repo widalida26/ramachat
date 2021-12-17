@@ -12,11 +12,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(
   cors({
-<<<<<<< HEAD
-    origin: ['http://localhost:3000'],
-=======
     origin: [`http://localhost:3000`],
->>>>>>> 782514e984c9242d66e4731c5666cd0e00c60f66
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'OPTIONS'],
   })
@@ -24,11 +20,9 @@ app.use(
 app.use(cookieParser());
 
 app.post('/login', controllers.login);
-<<<<<<< HEAD
+app.post('/signup', controllers.signup);
 app.get('/auth', controllers.auth);
-=======
 app.get('/episode-infos', controllers.drama);
->>>>>>> 782514e984c9242d66e4731c5666cd0e00c60f66
 
 const HTTPS_PORT = process.env.HTTPS_PORT || 8000;
 

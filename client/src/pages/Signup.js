@@ -50,7 +50,7 @@ const AlertBox = styled.div`
 function Signup() {
   const [userinfo, setuserinfo] = useState({
     email: '',
-    userId: '',
+    user_id: '',
     password: '',
     passwordConfirmation: '',
   });
@@ -58,27 +58,29 @@ function Signup() {
   const navigate = useNavigate();
   const handleInputValue = (key) => (e) => {
     setuserinfo({ ...userinfo, [key]: e.target.value });
+    console.log(userinfo);
   };
   const handleSignup = () => {
     if (
-      !userinfo.email &&
-      !userinfo.userId &&
-      !userinfo.password &&
+      !userinfo.email ||
+      !userinfo.user_id ||
+      !userinfo.password ||
       !userinfo.passwordConfirmation
     ) {
       setErrorMessage('모든 항목은 필수입니다');
     } else {
-      setErrorMessage('');
       console.log('회원가입요청전작동?');
       axios
         .post('http://localhost:8000/signup', {
           email: userinfo.email,
-          password: userinfo.userId,
-          username: userinfo.password,
-          mobile: userinfo.passwordConfirmation,
+          user_id: userinfo.user_id,
+          password: userinfo.password,
         })
         .then(() => navigate('/'))
-        .catch();
+        .catch(() => {
+          setErrorMessage('이미 존재하는 회원입니다');
+          console.log('axios 에러');
+        });
     }
   };
 
@@ -174,23 +176,25 @@ function Signup() {
               name="email"
               type="email"
               placeholder="Type user E-mail here"
-              onChange={(e) => {
-                onChangeEmail(e);
-                handleInputValue('email');
-              }}
+              // onChange={(e) => {
+              //   onChangeEmail(e);
+              //   handleInputValue('email');
+              // }}
+              onChange={handleInputValue('email')}
             />
             {email.length > 0 && <span>{emailMessage}</span>}
           </InputField>
           <InputField>
             <p>User ID</p>
             <input
-              name="userId"
+              name="user_id"
               type="text"
               placeholder="Type Password here"
-              onChange={(e) => {
-                onChangeUserId(e);
-                handleInputValue('userId');
-              }}
+              // onChange={(e) => {
+              //   onChangeUserId(e);
+              //   handleInputValue('userId');
+              // }}
+              onChange={handleInputValue('user_id')}
             />
             {userId.length > 0 && <span>{userIdMessage}</span>}
           </InputField>
@@ -200,10 +204,11 @@ function Signup() {
               name="password"
               type="password"
               placeholder="Type password here"
-              onChange={(e) => {
-                onChangePassword(e);
-                handleInputValue('password');
-              }}
+              // onChange={(e) => {
+              //   onChangePassword(e);
+              //   handleInputValue('password');
+              // }}
+              onChange={handleInputValue('password')}
             />
             {password.length > 0 && <span>{passwordMessage}</span>}
           </InputField>
@@ -213,10 +218,11 @@ function Signup() {
               name="passwordConfirmation"
               type="password"
               placeholder="Type the password again"
-              onChange={(e) => {
-                onChangePasswordConfirm(e);
-                handleInputValue('passwordConfirmation');
-              }}
+              // onChange={(e) => {
+              //   onChangePasswordConfirm(e);
+              //   handleInputValue('passwordConfirmation');
+              // }}
+              onChange={handleInputValue('passwordConfirmation')}
             />
             {passwordConfirmMessage.length > 0 && <span>{passwordConfirmMessage}</span>}
           </InputField>

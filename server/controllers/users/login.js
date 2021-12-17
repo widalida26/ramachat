@@ -23,10 +23,6 @@ module.exports = (req, res) => {
       }
     })
     .catch((err) => {
-<<<<<<< HEAD
-      console.log(err);
-=======
->>>>>>> 782514e984c9242d66e4731c5666cd0e00c60f66
       return res.status(500).send('err');
     });
 };
