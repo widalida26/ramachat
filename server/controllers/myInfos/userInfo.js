@@ -14,7 +14,6 @@ module.exports = (req, res) => {
       userId,
     },
   }).then((data) => {
-    const dbpw = decrypt(data.password);
     const dbem = decrypt(data.email);
     delete data.dataValues.password;
     const userInfo = {

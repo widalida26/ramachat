@@ -5,4 +5,5 @@ module.exports = {
   drama: require('./search/drama'),
   userInfo: require('./myInfos/userInfo'),
   logout: require('./users/logout'),
+  modify: require('./myInfos/modify'),
 };
