@@ -26,7 +26,7 @@ module.exports = (req, res) => {
           email: email,
         });
 
-        return status(200).send('ok');
+        return res.status(200).send('ok');
       }
     })
     .catch((err) => {
