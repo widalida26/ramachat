@@ -1,25 +1,43 @@
 import { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
-import TextButton from '../components/TextButton';
-import Navbar from '../components/Navbar';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import styled from 'styled-components';
+import { colors } from '../styles/Colors';
+import { device } from '../styles/Breakpoints';
+import TextButton from '../components/TextButton';
+import InputForm from '../components/InputForm';
 
 axios.defaults.withCredentials = true;
 
+const Main = styled.main`
+  width: 100%;
+  @media ${device.tablet} {
+    background-color: ${colors.primaryL};
+    height: calc(100vh - 80px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+`;
+
 const LoginContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 100vh;
-  width: 40vh;
-  background-color: #dae266;
-  padding: 20px;
-  border-radius: 10px;
-  opacity: 0.8;
-  font-weight: 900;
-  font-size: 1rem;
+  width: 100%;
+  background-color: ${colors.white};
+  padding: 1rem;
+
+  @media ${device.tablet} {
+    width: 400px;
+    padding: 2rem;
+  }
+
+  form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: center;
+  }
 `;
 
 const InputField = styled.div`
@@ -29,22 +47,19 @@ const InputField = styled.div`
   width: 80%;
 `;
 
-const LoginHeader = styled.div`
-  font-weight: 900;
-  font-size: 2rem;
-  margin: 10px;
+const AlertBox = styled.div`
+  width: 100%;
+  text-align: center;
+  color: ${colors.warning};
+  background-color: ${colors.warningL};
+  padding: 0.75rem 1.25rem;
 `;
 
-const AlertBox = styled.div`
-  color: #721c24;
-  background-color: #f8d7da;
-  border-color: #f5c6cb;
-
-  position: relative;
-  padding: 0.75rem 1.25rem;
-  margin-bottom: 1rem;
-  border: 1px solid transparent;
-  border-radius: 0.25rem;
+const LinkSpan = styled.span`
+  font-weight: bold;
+  &:hover {
+    color: ${colors.secondary};
+  }
 `;
 
 function Signup() {
@@ -161,13 +176,12 @@ function Signup() {
   );
 
   return (
-    <>
-      <form onSubmit={(e) => e.preventDefault()}>
-        <LoginContainer>
-          <Navbar />
-          <LoginHeader>Sign Up</LoginHeader>
+    <Main>
+      <LoginContainer>
+        <form onSubmit={(e) => e.preventDefault()}>
+          <h1>Sign Up</h1>
           <p>모든 항목은 필수입니다.</p>
-          <InputField>
+          {/* <InputField>
             <p>E-mail</p>
             <input
               name="email"
@@ -175,47 +189,43 @@ function Signup() {
               placeholder="Type user E-mail here"
               onChange={handleInputValue('email')}
             />
-          </InputField>
-          <InputField>
-            <p>User ID</p>
-            <input
-              name="userId"
-              type="text"
-              placeholder="Type Password here"
-              onChange={handleInputValue('userId')}
-            />
-          </InputField>
-          <InputField>
-            <p>Password</p>
-            <input
-              name="password"
-              type="password"
-              placeholder="Type password here"
-              onChange={handleInputValue('password')}
-            />
-            {name.length > 0 && <span>{nameMessage}</span>}
-          </InputField>
-          <InputField>
-            <p>Password Confirmation</p>
-            <input
-              name="passwordConfirmation"
-              type="password"
-              placeholder="Type the password again"
-              onChange={handleInputValue('passwordConfirmation')}
-            />
-          </InputField>
-          <br />
-          <div type="submit" onClick={handleSignup}>
-            <TextButton>Sign Up</TextButton>
-          </div>
+          </InputField> */}
+          <InputForm
+            target="email"
+            label="Email"
+            handleInputValue={handleInputValue}
+          ></InputForm>
+          <InputForm
+            target="userId"
+            label="User ID"
+            handleInputValue={handleInputValue}
+          ></InputForm>
+          {name.length > 0 && <span>{nameMessage}</span>}
+          <InputForm
+            target="password"
+            label="Password"
+            handleInputValue={handleInputValue}
+          ></InputForm>
+          <InputForm
+            target="passwordConfirmation"
+            label="Password Confirmation"
+            handleInputValue={handleInputValue}
+          ></InputForm>
+          <TextButton
+            color="secondary"
+            isTransparent={false}
+            width="full"
+            onClick={handleSignup}
+          >
+            Sign Up
+          </TextButton>
           {errorMessage ? <AlertBox>{errorMessage}</AlertBox> : ''}
-          <br />
           <Link to="/login">
-            <TextButton>Back To Log In</TextButton>
+            <LinkSpan>Back To Log In</LinkSpan>
           </Link>
-        </LoginContainer>
-      </form>
-    </>
+        </form>
+      </LoginContainer>
+    </Main>
   );
 }
 

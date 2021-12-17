@@ -3,46 +3,53 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import TextButton from '../components/TextButton';
-import Navbar from '../components/Navbar';
+import InputForm from '../components/InputForm';
+import { colors } from '../styles/Colors';
+import { device } from '../styles/Breakpoints';
+
+const Main = styled.main`
+  width: 100%;
+  @media ${device.tablet} {
+    background-color: ${colors.primaryL};
+    height: calc(100vh - 80px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+`;
 
 const LoginContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 60vh;
-  width: 40vh;
-  background-color: #dae266;
-  padding: 20px;
-  border-radius: 10px;
-  opacity: 0.8;
-  font-weight: 900;
-  font-size: 1rem;
-`;
+  width: 100%;
+  background-color: ${colors.white};
+  padding: 1rem;
 
-const InputField = styled.div`
-  display: flex;
-  flex-direction: column;
-  text-align: left;
-  width: 80%;
-  margin: 20px;
-`;
+  @media ${device.tablet} {
+    width: 400px;
+    padding: 2rem;
+  }
 
-const LoginHeader = styled.div`
-  font-weight: 900;
-  font-size: 2rem;
-  margin: 10px;
+  form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: center;
+  }
 `;
 
 const AlertBox = styled.div`
-  color: #721c24;
-  background-color: #f8d7da;
-  border-color: #f5c6cb;
-
-  position: relative;
+  width: 100%;
+  text-align: center;
+  color: ${colors.warning};
+  background-color: ${colors.warningL};
   padding: 0.75rem 1.25rem;
-  margin-bottom: 1rem;
-  border: 1px solid transparent;
-  border-radius: 0.25rem;
+`;
+
+const LinkSpan = styled.span`
+  font-weight: bold;
+  &:hover {
+    color: ${colors.secondary};
+  }
 `;
 
 axios.defaults.withCredentials = true;
@@ -54,8 +61,9 @@ function Login({ handleResponseSuccess }) {
   });
   const [errorMessage, setErrorMessage] = useState('');
 
-  const handleInputValue = (key) => (e) => {
-    setLoginInfo({ ...loginInfo, [key]: e.target.value });
+  const handleInputValue = (target) => (e) => {
+    setLoginInfo({ ...loginInfo, [target]: e.target.value });
+    console.log(loginInfo);
   };
 
   const handleLogin = () => {
@@ -75,44 +83,37 @@ function Login({ handleResponseSuccess }) {
   };
 
   return (
-    <>
-      <form onSubmit={(e) => e.preventDefault()}>
-        <LoginContainer>
-          <Navbar />
-          <LoginHeader>Log In</LoginHeader>
-          <InputField>
-            <p>User ID</p>
-            <input
-              name="user_id"
-              type="text"
-              placeholder="Type user ID here"
-              onChange={handleInputValue('user_id')}
-            />
-          </InputField>
-          <InputField>
-            <p>Password</p>
-            <input
-              name="password"
-              type="password"
-              placeholder="Type Password here"
-              onChange={handleInputValue('password')}
-            />
-          </InputField>
-          <div type="submit" onClick={handleLogin}>
-            <TextButton>Log In</TextButton>
-          </div>
-          {/* 아래 코드는 작동하지 않음 */}
-          {/* <TextButton type="submit" onClick={handleLogin}>
-          Log In
-          </TextButton> */}
+    <Main>
+      <LoginContainer>
+        <form onSubmit={(e) => e.preventDefault()}>
+          <h1>Log In</h1>
+          <InputForm
+            target="user_id"
+            label="User ID"
+            handleInputValue={handleInputValue}
+          ></InputForm>
+          <InputForm
+            target="password"
+            label="Password"
+            handleInputValue={handleInputValue}
+          ></InputForm>
+          {/* <div type="submit" onClick={handleLogin}> */}
           {errorMessage ? <AlertBox>{errorMessage}</AlertBox> : ''}
+          <TextButton
+            color="secondary"
+            isTransparent={false}
+            width="full"
+            onClick={handleLogin}
+          >
+            Log In
+          </TextButton>
           <br />
           <Link to="/signup">
-            <TextButton>Sign Up</TextButton>
+            <LinkSpan>Sign up</LinkSpan>
           </Link>
-        </LoginContainer>
-      </form>
-    </>
+        </form>
+      </LoginContainer>
+    </Main>
   );
 }
 
