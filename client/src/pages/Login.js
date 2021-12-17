@@ -59,18 +59,21 @@ function Login({ handleResponseSuccess }) {
   };
 
   const handleLogin = () => {
-    console.log('작동?');
     if (!loginInfo.user_id || !loginInfo.password) {
       setErrorMessage('아이디와 비밀번호를 입력하세요');
     } else {
+      console.log(loginInfo);
       axios
-        .post('http://localhost:8000/users/login', {
+        .post('http://localhost:8000/login', {
           user_id: loginInfo.user_id,
           password: loginInfo.password,
         })
-        // .then(() => handleResponseSuccess())
-        .then()
-        .catch();
+        .then((data) => {
+          console.log('포스트 넘어옴?');
+          // ! handleResponseSuccess에 데이터 넘기기
+          handleResponseSuccess(data);
+        })
+        .catch(() => setErrorMessage('유효하지 않은 아이디와 비밀번호 입니다'));
     }
   };
 

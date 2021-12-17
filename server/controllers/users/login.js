@@ -16,7 +16,7 @@ module.exports = (req, res) => {
       if (!data) {
         return res.status(401).send('invalid user or wrong password');
       } else {
-        delete data.dataValues.password;
+        // delete data.dataValues.password;
         const accessToken = generateAccessToken(data.dataValues);
 
         sendAccessToken(res, accessToken);
