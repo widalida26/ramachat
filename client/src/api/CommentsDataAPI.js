@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 export function getEpisodeInfos(dramaId, seasonNumber) {
+  console.log('api call made');
   return axios
     .get(
       `http://localhost:8000/episode-infos?drama-id=${dramaId}&season-index=${seasonNumber}`,
@@ -9,7 +10,6 @@ export function getEpisodeInfos(dramaId, seasonNumber) {
       }
     )
     .then((result) => {
-      // console.log(result) ;
-      return result.episodeInfos;
+      return result.data;
     });
 }

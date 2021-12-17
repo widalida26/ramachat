@@ -37,7 +37,6 @@ export function getEpisodes(dramaId, seasonIdx) {
       }
     )
     .then((result) => {
-      console.log(result);
       return result.data.episodes;
     });
 }
