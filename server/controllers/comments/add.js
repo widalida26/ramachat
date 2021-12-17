@@ -1,22 +1,35 @@
 //const { getDrama } = require('../../../client/src/api/DramaDataAPI');
-// const { Comments } = require('../../models');
 // const axios = require('axios');
+const { Comments } = require('../../models');
 const { isAuthorized } = require('../tokenFunctions');
 
 module.exports = (req, res) => {
-  console.log(req);
   const accessTokenData = isAuthorized(req.cookies);
+  // 인증 성공
   if (accessTokenData !== null) {
     res.status(200).send({ data: { userInfo: accessTokenData } });
+    // 인증 실패
   } else {
-    res.status(401).send({ data: null, message: 'not authorized' });
+    res.status(401).send('unauthorized user');
   }
 
   let body = req.body;
   // parentEpisodeId가 없을 때 => 답글이 아닐 때
   if (!body.parentEpisodeId) {
     const { userId, content, episodeId } = body;
-    console.log(userId);
+    // comment
+    let newComment = {
+      episode_id: episodeId,
+      user_id: userId,
+      content: content,
+    };
+    Comments.create(newComment)
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
   res.end();
   //   let drama_id = req.query['drama-id'];
