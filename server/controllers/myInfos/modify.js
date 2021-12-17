@@ -3,10 +3,8 @@ const { isAuthorized } = require('../tokenFunctions');
 const { decrypt, encrypt } = require('../users/crypto');
 
 module.exports = async (req, res) => {
-  console.log(111, req.cookies);
   const accessTokenData = isAuthorized(req.cookies);
 
-  console.log(222, accessTokenData);
   if (accessTokenData === null) {
     res.status(401).send({ data: null, message: 'not authorized' });
   }
@@ -14,9 +12,7 @@ module.exports = async (req, res) => {
   const { userId, email } = accessTokenData;
   const { password } = req.body;
 
-  console.log(444, password);
   const dbpw = encrypt(password);
-  console.log(666, dbpw);
 
   Users.findOne({
     where: {
