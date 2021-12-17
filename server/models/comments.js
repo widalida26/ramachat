@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
       models.Comments.hasOne(models.Users, {
         foreignKey: 'id',
       });
-      models.Comments.belongsTo(models.Episode_info, {
+      models.Comments.belongsTo(models.Episode_infos, {
         onDelete: 'cascade',
         foreignKey: 'id',
       });
@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
   Comments.init(
     {
       episode_id: DataTypes.INTEGER,
-      user_id: DataTypes.INTEGER,
+      userId: DataTypes.INTEGER,
       content: DataTypes.STRING,
       likes: {
         type: DataTypes.INTEGER,

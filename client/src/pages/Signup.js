@@ -1,6 +1,5 @@
 import { useState, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
 import { colors } from '../styles/Colors';
@@ -63,104 +62,108 @@ const LinkSpan = styled.span`
 `;
 
 function Signup() {
-  const [userinfo, setuserinfo] = useState({
+  const [userInfo, setUserInfo] = useState({
     email: '',
-    userId: '',
+    user_id: '',
     password: '',
     passwordConfirmation: '',
   });
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
-  const handleInputValue = (key) => (e) => {
-    setuserinfo({ ...userinfo, [key]: e.target.value });
-  };
+
   const handleSignup = () => {
-    if (
-      !userinfo.email ||
-      !userinfo.userId ||
-      !userinfo.password ||
-      !userinfo.passwordConfirmation
-    ) {
-      setErrorMessage('모든 항목은 필수입니다');
-    } else {
-      // console.log('설마');
-      axios
-        .post('https://localhost:80/users/signup', {
-          email: userinfo.email,
-          password: userinfo.userId,
-          username: userinfo.password,
-          mobile: userinfo.passwordConfirmation,
-        })
-        .then(() => navigate('/'))
-        .catch();
-    }
+    axios
+      .post('http://localhost:8000/signup', {
+        email: userInfo.email,
+        user_id: userInfo.user_id,
+        password: userInfo.password,
+      })
+      .then(() => navigate('/'))
+      .catch(() => {
+        setErrorMessage('이미 존재하는 회원입니다');
+        console.log('axios 에러');
+      });
   };
 
-  // ! 유효성검사 코드
-  //이름, 이메일, 비밀번호, 비밀번호 확인
-  const [name, setName] = useState('');
+  // 유효성검사 코드
+  // 이메일, 아이디, 비밀번호, 비밀번호 확인
   const [email, setEmail] = useState('');
+  const [userId, setUserId] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
 
-  //오류메시지 상태저장
-  const [nameMessage, setNameMessage] = useState('');
+  // 오류메시지 상태
   const [emailMessage, setEmailMessage] = useState('');
+  const [userIdMessage, setUserIdMessage] = useState('');
   const [passwordMessage, setPasswordMessage] = useState('');
   const [passwordConfirmMessage, setPasswordConfirmMessage] = useState('');
 
   // 유효성 검사
-  const [isName, setIsName] = useState(false);
   const [isEmail, setIsEmail] = useState(false);
+  const [isUserId, setIsUserId] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
   const [isPasswordConfirm, setIsPasswordConfirm] = useState(false);
 
-  // 이름
-  const onChangeName = useCallback((e) => {
-    setName(e.target.value);
-    if (e.target.value.length < 2 || e.target.value.length > 5) {
-      setNameMessage('2글자 이상 5글자 미만으로 입력해주세요.');
-      setIsName(false);
-    } else {
-      setNameMessage('올바른 이름 형식입니다 :)');
-      setIsName(true);
-    }
-  }, []);
-
   // 이메일
-  const onChangeEmail = useCallback((e) => {
-    const emailRegex =
-      /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
-    const emailCurrent = e.target.value;
-    setEmail(emailCurrent);
+  const onChangeEmail = useCallback(
+    (e) => {
+      setUserInfo({ ...userInfo, email: e.target.value });
+      const emailRegex =
+        /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+      const emailCurrent = e.target.value;
+      setEmail(emailCurrent);
 
-    if (!emailRegex.test(emailCurrent)) {
-      setEmailMessage('이메일 형식이 틀렸어요! 다시 확인해주세요!');
-      setIsEmail(false);
-    } else {
-      setEmailMessage('올바른 이메일 형식이에요 :)');
-      setIsEmail(true);
-    }
-  }, []);
+      if (!emailRegex.test(emailCurrent)) {
+        console.log('이메일 형식이 틀렸어요! 다시 확인해주세요!');
+        setEmailMessage('이메일 형식이 틀렸어요! 다시 확인해주세요!');
+        setIsUserId(false);
+      } else {
+        setEmailMessage('올바른 이메일 형식이에요 :)');
+        setIsUserId(true);
+      }
+    },
+    [userInfo]
+  );
+
+  // 아이디
+  const onChangeUserId = useCallback(
+    (e) => {
+      setUserInfo({ ...userInfo, user_id: e.target.value });
+      setUserId(e.target.value);
+      if (e.target.value.length < 2 || e.target.value.length > 5) {
+        setUserIdMessage('2글자 이상 6글자 미만으로 입력해주세요.');
+        setIsEmail(false);
+      } else {
+        setUserIdMessage('올바른 이름 형식입니다 :)');
+        setIsEmail(true);
+      }
+    },
+    [userInfo]
+  );
 
   // 비밀번호
-  const onChangePassword = useCallback((e) => {
-    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
-    const passwordCurrent = e.target.value;
-    setPassword(passwordCurrent);
+  const onChangePassword = useCallback(
+    (e) => {
+      setUserInfo({ ...userInfo, password: e.target.value });
+      const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
+      const passwordCurrent = e.target.value;
+      setPassword(passwordCurrent);
 
-    if (!passwordRegex.test(passwordCurrent)) {
-      setPasswordMessage('숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요!');
-      setIsPassword(false);
-    } else {
-      setPasswordMessage('안전한 비밀번호에요 :)');
-      setIsPassword(true);
-    }
-  }, []);
+      if (!passwordRegex.test(passwordCurrent)) {
+        setPasswordMessage('숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요!');
+        setIsPassword(false);
+      } else {
+        setPasswordMessage('안전한 비밀번호에요 :)');
+        setIsPassword(true);
+      }
+    },
+    [userInfo]
+  );
 
   // 비밀번호 확인
   const onChangePasswordConfirm = useCallback(
     (e) => {
+      setUserInfo({ ...userInfo, passwordConfirmation: e.target.value });
       const passwordConfirmCurrent = e.target.value;
       setPasswordConfirm(passwordConfirmCurrent);
 
@@ -172,7 +175,7 @@ function Signup() {
         setIsPasswordConfirm(false);
       }
     },
-    [password]
+    [userInfo, password]
   );
 
   return (
@@ -181,41 +184,50 @@ function Signup() {
         <form onSubmit={(e) => e.preventDefault()}>
           <h1>Sign Up</h1>
           <p>모든 항목은 필수입니다.</p>
-          {/* <InputField>
-            <p>E-mail</p>
-            <input
-              name="email"
-              type="email"
-              placeholder="Type user E-mail here"
-              onChange={handleInputValue('email')}
-            />
-          </InputField> */}
           <InputForm
             target="email"
             label="Email"
-            handleInputValue={handleInputValue}
+            type="email"
+            handleInputValue={(target) => (e) => {
+              onChangeEmail(e);
+            }}
           ></InputForm>
+          {email.length > 0 && <span>{emailMessage}</span>}
           <InputForm
             target="userId"
             label="User ID"
-            handleInputValue={handleInputValue}
+            handleInputValue={(target) => (e) => {
+              onChangeUserId(e);
+            }}
           ></InputForm>
-          {name.length > 0 && <span>{nameMessage}</span>}
+          {userId.length > 0 && <span>{userIdMessage}</span>}
           <InputForm
             target="password"
             label="Password"
-            handleInputValue={handleInputValue}
+            type="password"
+            handleInputValue={(target) => (e) => {
+              onChangePassword(e);
+            }}
           ></InputForm>
+          {password.length > 0 && <span>{passwordMessage}</span>}
           <InputForm
             target="passwordConfirmation"
             label="Password Confirmation"
-            handleInputValue={handleInputValue}
+            type="password"
+            handleInputValue={(target) => (e) => {
+              onChangePasswordConfirm(e);
+            }}
           ></InputForm>
+          {passwordConfirm.length > 0 && <span>{passwordConfirmMessage}</span>}
           <TextButton
             color="secondary"
             isTransparent={false}
             width="full"
-            onClick={handleSignup}
+            onClick={() =>
+              !(isEmail && isUserId && isPassword && isPasswordConfirm)
+                ? setErrorMessage('유효하지 않은 입력이 있어요')
+                : handleSignup()
+            }
           >
             Sign Up
           </TextButton>
