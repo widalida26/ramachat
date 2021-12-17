@@ -1,10 +1,8 @@
-import { useState, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useCallback, useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import axios from 'axios';
 import styled from 'styled-components';
 import TextButton from '../components/TextButton';
-import Navbar from '../components/Navbar';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
 
 axios.defaults.withCredentials = true;
 
@@ -39,7 +37,6 @@ const AlertBox = styled.div`
   color: #721c24;
   background-color: #f8d7da;
   border-color: #f5c6cb;
-
   position: relative;
   padding: 0.75rem 1.25rem;
   margin-bottom: 1rem;
@@ -48,7 +45,7 @@ const AlertBox = styled.div`
 `;
 
 function Signup() {
-  const [userinfo, setuserinfo] = useState({
+  const [userInfo, setUserInfo] = useState({
     email: '',
     user_id: '',
     password: '',
@@ -56,42 +53,29 @@ function Signup() {
   });
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
-  const handleInputValue = (key) => (e) => {
-    setuserinfo({ ...userinfo, [key]: e.target.value });
-    console.log(userinfo);
-  };
+
   const handleSignup = () => {
-    if (
-      !userinfo.email ||
-      !userinfo.user_id ||
-      !userinfo.password ||
-      !userinfo.passwordConfirmation
-    ) {
-      setErrorMessage('모든 항목은 필수입니다');
-    } else {
-      console.log('회원가입요청전작동?');
-      axios
-        .post('http://localhost:8000/signup', {
-          email: userinfo.email,
-          user_id: userinfo.user_id,
-          password: userinfo.password,
-        })
-        .then(() => navigate('/'))
-        .catch(() => {
-          setErrorMessage('이미 존재하는 회원입니다');
-          console.log('axios 에러');
-        });
-    }
+    axios
+      .post('http://localhost:8000/signup', {
+        email: userInfo.email,
+        user_id: userInfo.user_id,
+        password: userInfo.password,
+      })
+      .then(() => navigate('/'))
+      .catch(() => {
+        setErrorMessage('이미 존재하는 회원입니다');
+        console.log('axios 에러');
+      });
   };
 
-  // ! 유효성검사 코드
-  //이메일, 아이디, 비밀번호, 비밀번호 확인
+  // 유효성검사 코드
+  // 이메일, 아이디, 비밀번호, 비밀번호 확인
   const [email, setEmail] = useState('');
   const [userId, setUserId] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
 
-  //오류메시지 상태저장
+  // 오류메시지 상태
   const [emailMessage, setEmailMessage] = useState('');
   const [userIdMessage, setUserIdMessage] = useState('');
   const [passwordMessage, setPasswordMessage] = useState('');
@@ -104,51 +88,64 @@ function Signup() {
   const [isPasswordConfirm, setIsPasswordConfirm] = useState(false);
 
   // 이메일
-  const onChangeEmail = useCallback((e) => {
-    const emailRegex =
-      /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
-    const emailCurrent = e.target.value;
-    setEmail(emailCurrent);
+  const onChangeEmail = useCallback(
+    (e) => {
+      setUserInfo({ ...userInfo, email: e.target.value });
+      const emailRegex =
+        /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+      const emailCurrent = e.target.value;
+      setEmail(emailCurrent);
 
-    if (!emailRegex.test(emailCurrent)) {
-      setEmailMessage('이메일 형식이 틀렸어요! 다시 확인해주세요!');
-      setIsUserId(false);
-    } else {
-      setEmailMessage('올바른 이메일 형식이에요 :)');
-      setIsUserId(true);
-    }
-  }, []);
+      if (!emailRegex.test(emailCurrent)) {
+        setEmailMessage('이메일 형식이 틀렸어요! 다시 확인해주세요!');
+        setIsUserId(false);
+      } else {
+        setEmailMessage('올바른 이메일 형식이에요 :)');
+        setIsUserId(true);
+      }
+    },
+    [userInfo]
+  );
 
-  // 이름
-  const onChangeUserId = useCallback((e) => {
-    setUserId(e.target.value);
-    if (e.target.value.length < 2 || e.target.value.length > 5) {
-      setUserIdMessage('2글자 이상 6글자 미만으로 입력해주세요.');
-      setIsEmail(false);
-    } else {
-      setUserIdMessage('올바른 이름 형식입니다 :)');
-      setIsEmail(true);
-    }
-  }, []);
+  // 아이디
+  const onChangeUserId = useCallback(
+    (e) => {
+      setUserInfo({ ...userInfo, user_id: e.target.value });
+      setUserId(e.target.value);
+      if (e.target.value.length < 2 || e.target.value.length > 5) {
+        setUserIdMessage('2글자 이상 6글자 미만으로 입력해주세요.');
+        setIsEmail(false);
+      } else {
+        setUserIdMessage('올바른 이름 형식입니다 :)');
+        setIsEmail(true);
+      }
+    },
+    [userInfo]
+  );
 
   // 비밀번호
-  const onChangePassword = useCallback((e) => {
-    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
-    const passwordCurrent = e.target.value;
-    setPassword(passwordCurrent);
+  const onChangePassword = useCallback(
+    (e) => {
+      setUserInfo({ ...userInfo, password: e.target.value });
+      const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
+      const passwordCurrent = e.target.value;
+      setPassword(passwordCurrent);
 
-    if (!passwordRegex.test(passwordCurrent)) {
-      setPasswordMessage('숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요!');
-      setIsPassword(false);
-    } else {
-      setPasswordMessage('안전한 비밀번호에요 :)');
-      setIsPassword(true);
-    }
-  }, []);
+      if (!passwordRegex.test(passwordCurrent)) {
+        setPasswordMessage('숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요!');
+        setIsPassword(false);
+      } else {
+        setPasswordMessage('안전한 비밀번호에요 :)');
+        setIsPassword(true);
+      }
+    },
+    [userInfo]
+  );
 
   // 비밀번호 확인
   const onChangePasswordConfirm = useCallback(
     (e) => {
+      setUserInfo({ ...userInfo, passwordConfirmation: e.target.value });
       const passwordConfirmCurrent = e.target.value;
       setPasswordConfirm(passwordConfirmCurrent);
 
@@ -160,14 +157,13 @@ function Signup() {
         setIsPasswordConfirm(false);
       }
     },
-    [password]
+    [userInfo, password]
   );
 
   return (
     <>
       <form onSubmit={(e) => e.preventDefault()}>
         <LoginContainer>
-          <Navbar />
           <LoginHeader>Sign Up</LoginHeader>
           <p>모든 항목은 필수입니다.</p>
           <InputField>
@@ -176,11 +172,9 @@ function Signup() {
               name="email"
               type="email"
               placeholder="Type user E-mail here"
-              // onChange={(e) => {
-              //   onChangeEmail(e);
-              //   handleInputValue('email');
-              // }}
-              onChange={handleInputValue('email')}
+              onChange={(e) => {
+                onChangeEmail(e);
+              }}
             />
             {email.length > 0 && <span>{emailMessage}</span>}
           </InputField>
@@ -190,11 +184,9 @@ function Signup() {
               name="user_id"
               type="text"
               placeholder="Type Password here"
-              // onChange={(e) => {
-              //   onChangeUserId(e);
-              //   handleInputValue('userId');
-              // }}
-              onChange={handleInputValue('user_id')}
+              onChange={(e) => {
+                onChangeUserId(e);
+              }}
             />
             {userId.length > 0 && <span>{userIdMessage}</span>}
           </InputField>
@@ -204,11 +196,9 @@ function Signup() {
               name="password"
               type="password"
               placeholder="Type password here"
-              // onChange={(e) => {
-              //   onChangePassword(e);
-              //   handleInputValue('password');
-              // }}
-              onChange={handleInputValue('password')}
+              onChange={(e) => {
+                onChangePassword(e);
+              }}
             />
             {password.length > 0 && <span>{passwordMessage}</span>}
           </InputField>
@@ -218,18 +208,21 @@ function Signup() {
               name="passwordConfirmation"
               type="password"
               placeholder="Type the password again"
-              // onChange={(e) => {
-              //   onChangePasswordConfirm(e);
-              //   handleInputValue('passwordConfirmation');
-              // }}
-              onChange={handleInputValue('passwordConfirmation')}
+              onChange={(e) => {
+                onChangePasswordConfirm(e);
+              }}
             />
             {passwordConfirmMessage.length > 0 && <span>{passwordConfirmMessage}</span>}
           </InputField>
           <br />
-          {/* disabled={!(isEmail && isUserId && isPassword && isPasswordConfirm)} */}
-          {/* button attr disabled 작동 확인 */}
-          <div type="submit" onClick={handleSignup}>
+          <div
+            type="submit"
+            onClick={() =>
+              !(isEmail && isUserId && isPassword && isPasswordConfirm)
+                ? setErrorMessage('유효하지 않은 입력이 있어요')
+                : handleSignup()
+            }
+          >
             <TextButton>Sign Up</TextButton>
           </div>
           {errorMessage ? <AlertBox>{errorMessage}</AlertBox> : ''}

@@ -12,7 +12,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         onDelete: 'cascade',
         references: {
-          model: 'Episode_info',
+          model: 'Episode_infos',
           key: 'id',
         },
       },

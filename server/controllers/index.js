@@ -4,4 +4,5 @@ module.exports = {
   auth: require('./users/auth'),
   drama: require('./search/drama'),
   add: require('./comments/add'),
+  userInfo: require('./myInfos/userInfo'),
 };
