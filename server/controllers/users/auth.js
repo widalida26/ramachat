@@ -7,10 +7,10 @@ module.exports = (req, res) => {
   if (accessTokenData === null) {
     res.status(401).send({ data: null, message: 'not authorized' });
   }
-  const { user_id } = accessTokenData;
+  const { userId } = accessTokenData;
   Users.findOne({
     where: {
-      user_id,
+      userId,
     },
   }).then((data) => {
     if (data) {

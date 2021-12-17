@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
   Comments.init(
     {
       episode_id: DataTypes.INTEGER,
-      user_id: DataTypes.INTEGER,
+      userId: DataTypes.INTEGER,
       content: DataTypes.STRING,
       likes: {
         type: DataTypes.INTEGER,

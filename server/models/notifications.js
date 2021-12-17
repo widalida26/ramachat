@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Notifications.init(
     {
-      user_id: DataTypes.INTEGER,
+      userId: DataTypes.INTEGER,
       comment_id: DataTypes.INTEGER,
       isChecked: {
         type: DataTypes.BOOLEAN,
