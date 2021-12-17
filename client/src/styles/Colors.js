@@ -8,4 +8,8 @@ export const colors = {
   grey: 'grey',
   greyL: 'lightgrey',
   greyD: 'darkgrey',
+  white: 'white',
+  black: 'black',
+  warning: '#CB4335',
+  warningL: '#FADBD8',
 };
