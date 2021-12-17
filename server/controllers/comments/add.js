@@ -17,12 +17,13 @@ module.exports = (req, res) => {
   // parentEpisodeId가 없을 때 => 답글이 아닐 때
   if (!body.parentEpisodeId) {
     const { userId, content, episodeId } = body;
-    // comment
+    // 새 댓글 객체 세팅
     let newComment = {
       episode_id: episodeId,
       user_id: userId,
       content: content,
     };
+    // 댓글을 Comments 테이블에 삽입
     Comments.create(newComment)
       .then((result) => {
         console.log(result);
