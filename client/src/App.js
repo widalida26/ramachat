@@ -43,6 +43,7 @@ function App() {
 
   return (
     <>
+      <Navbar />
       <Routes>
         {/* <Route
           exact
