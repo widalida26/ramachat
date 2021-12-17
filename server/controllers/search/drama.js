@@ -1,3 +1,4 @@
+//const { getDrama } = require('../../../client/src/api/DramaDataAPI');
 const { Episode_infos } = require('../../models');
 const axios = require('axios');
 
@@ -17,7 +18,6 @@ module.exports = (req, res) => {
       // sql db에서 에피소드 정보 받기
       if (data.length > 0) {
         for (let i = 0; i < data.length; i++) {
-          //console.log(data[i].dataValues);
           let val = data[i].dataValues;
           let info = {};
           info.id = val.id;
