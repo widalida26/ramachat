@@ -1,7 +1,7 @@
 import SearchBar from '../components/SearchBar';
 import DramaListItem from '../components/DramaListItem';
 import { device } from '../styles/Breakpoints';
-import { getDrama } from '../api/DramaDataAPI';
+import { getDramas } from '../api/DramaDataAPI';
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
@@ -23,14 +23,15 @@ const DramaList = styled.ul`
 `;
 
 export default function Search() {
+  console.log('search comp');
   const [dramas, setDramas] = useState([]);
   const keyword = new URLSearchParams(useLocation().search).get('query');
   console.log(keyword);
 
   useEffect(() => {
     setDramas([]);
-    const sendAPICall = async (event) => {
-      const data = await getDrama(keyword);
+    const sendAPICall = async () => {
+      const data = await getDramas(keyword);
       setDramas(data);
     };
     sendAPICall();
@@ -47,6 +48,7 @@ export default function Search() {
           <DramaList>
             {dramas.map((drama) => (
               <DramaListItem
+                id={drama.id}
                 name={drama.name}
                 poster_path={drama.poster_path}
                 key={drama.id}
