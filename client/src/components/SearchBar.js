@@ -3,14 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { colors } from '../styles/Colors';
 import { device } from '../styles/Breakpoints';
+import TextButton from './TextButton';
 
 const SearchBarContainer = styled.div`
   width: 100%;
   display: flex;
-
-  @media ${device.tablet} {
-    width: 400px;
-  }
 `;
 
 const SearchInput = styled.input`
@@ -19,17 +16,7 @@ const SearchInput = styled.input`
   padding: 10px;
   border-radius: 0;
   border: 2px solid ${colors.primary};
-`;
-
-const SearchButton = styled.button`
-  height: 40px;
-  padding: 10px;
-  margin: 0;
-  border-radius: 0;
-  border: none;
-  background-color: ${colors.primary};
-  color: white;
-  cursor: pointer;
+  font-size: 1rem;
 `;
 
 export default function SearchBar() {
@@ -55,9 +42,14 @@ export default function SearchBar() {
         placeholder="Search the series"
         onKeyUp={handleInputChange}
       ></SearchInput>
-      <SearchButton type="submit" onClick={handleSubmit}>
+      <TextButton
+        color="primary"
+        isTransparent={false}
+        width="fit"
+        onClick={handleSubmit}
+      >
         Search
-      </SearchButton>
+      </TextButton>
     </SearchBarContainer>
   );
 }

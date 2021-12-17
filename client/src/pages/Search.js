@@ -7,13 +7,19 @@ import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 const Main = styled.main`
+  width: 100%;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 1rem;
+  @media ${device.laptop} {
+    max-width: 850px;
+  }
 `;
 
 const DramaList = styled.ul`
+  width: 100%;
   list-style: none;
   display: grid;
   padding: 0;
