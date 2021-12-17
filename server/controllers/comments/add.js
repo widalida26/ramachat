@@ -1,8 +1,17 @@
 //const { getDrama } = require('../../../client/src/api/DramaDataAPI');
 // const { Comments } = require('../../models');
 // const axios = require('axios');
+const { isAuthorized } = require('../tokenFunctions');
 
 module.exports = (req, res) => {
+  console.log(req);
+  const accessTokenData = isAuthorized(req.cookies);
+  if (accessTokenData !== null) {
+    res.status(200).send({ data: { userInfo: accessTokenData } });
+  } else {
+    res.status(401).send({ data: null, message: 'not authorized' });
+  }
+
   let body = req.body;
   // parentEpisodeId가 없을 때 => 답글이 아닐 때
   if (!body.parentEpisodeId) {

@@ -3,7 +3,7 @@ const { sign, verify } = require('jsonwebtoken');
 
 module.exports = {
   generateAccessToken: (data) => {
-    return sign(data, process.env.ACCESS_SECRET, { expiresIn: '15s' });
+    return sign(data, process.env.ACCESS_SECRET, { expiresIn: '7d' });
   },
   sendAccessToken: (res, accessToken) => {
     return res
@@ -15,8 +15,8 @@ module.exports = {
       })
       .json({ data: { data: accessToken }, message: 'ok' });
   },
-  isAuthorized: (req) => {
-    const authorization = req.jwt;
+  isAuthorized: (cookies) => {
+    const authorization = cookies.jwt;
     if (!authorization) {
       return null;
     }
