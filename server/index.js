@@ -21,7 +21,9 @@ app.use(cookieParser());
 
 app.post('/login', controllers.login);
 app.post('/signup', controllers.signup);
-app.get('/auth', controllers.auth);
+app.post('/auth', controllers.auth);
+app.post('/logout', controllers.logout);
+app.get('/userInfo', controllers.userInfo);
 app.get('/episode-infos', controllers.drama);
 
 const HTTPS_PORT = process.env.HTTPS_PORT || 8000;
