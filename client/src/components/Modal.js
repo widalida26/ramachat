@@ -74,22 +74,22 @@ function Modal() {
 
   return (
     <>
-      <ModalContainer>
+      {/* <ModalContainer>
         <ModalBtn onClick={openModalHandler}>
           {isOpen === false ? 'Open Modal' : 'Opened!'}
-        </ModalBtn>
-        {isOpen === true ? (
-          <ModalBackdrop>
-            <ModalView onClick={(e) => e.stopPropagation()}>
-              <span onClick={openModalHandler} className="close-btn">
-                &times;
-              </span>
-              <p className="desc">회원가입이 완료되었습니다!</p>
-              <StyledButton>login</StyledButton>
-            </ModalView>
-          </ModalBackdrop>
-        ) : null}
-      </ModalContainer>
+        </ModalBtn> */}
+      {isOpen === true ? (
+        <ModalBackdrop>
+          <ModalView onClick={(e) => e.stopPropagation()}>
+            <span onClick={openModalHandler} className="close-btn">
+              &times;
+            </span>
+            <p className="desc">회원가입이 완료되었습니다!</p>
+            <StyledButton>login</StyledButton>
+          </ModalView>
+        </ModalBackdrop>
+      ) : null}
+      {/* </ModalContainer> */}
     </>
   );
 }

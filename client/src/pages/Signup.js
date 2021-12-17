@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
 import TextButton from '../components/TextButton';
+import Modal from '../components/LogoButton';
 
 axios.defaults.withCredentials = true;
 
@@ -47,7 +48,7 @@ const AlertBox = styled.div`
 function Signup() {
   const [userInfo, setUserInfo] = useState({
     email: '',
-    user_id: '',
+    userId: '',
     password: '',
     passwordConfirmation: '',
   });
@@ -58,7 +59,7 @@ function Signup() {
     axios
       .post('http://localhost:8000/signup', {
         email: userInfo.email,
-        user_id: userInfo.user_id,
+        userId: userInfo.userId,
         password: userInfo.password,
       })
       .then(() => navigate('/'))
@@ -110,7 +111,7 @@ function Signup() {
   // 아이디
   const onChangeUserId = useCallback(
     (e) => {
-      setUserInfo({ ...userInfo, user_id: e.target.value });
+      setUserInfo({ ...userInfo, userId: e.target.value });
       setUserId(e.target.value);
       if (e.target.value.length < 2 || e.target.value.length > 5) {
         setUserIdMessage('2글자 이상 6글자 미만으로 입력해주세요.');
@@ -160,6 +161,13 @@ function Signup() {
     [userInfo, password]
   );
 
+  // 모달 코드
+  // const [isOpen, setIsOpen] = useState(false);
+
+  // const openModalHandler = () => {
+  //   setIsOpen(!isOpen);
+  // };
+
   return (
     <>
       <form onSubmit={(e) => e.preventDefault()}>
@@ -181,7 +189,7 @@ function Signup() {
           <InputField>
             <p>User ID</p>
             <input
-              name="user_id"
+              name="userId"
               type="text"
               placeholder="Type Password here"
               onChange={(e) => {

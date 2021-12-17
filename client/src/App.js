@@ -12,7 +12,7 @@ import Modal from './components/Modal';
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
-  const [userinfo, setUserinfo] = useState(null);
+  const [userInfo, setUserInfo] = useState(null);
   const navigate = useNavigate();
 
   const isAuthenticated = () => {
@@ -22,7 +22,7 @@ function App() {
       })
       .then((res) => {
         setIsLogin(true);
-        setUserinfo(res.data.data);
+        setUserInfo(res.data.data);
         navigate('/');
       })
       .catch();
@@ -34,7 +34,7 @@ function App() {
 
   const handleLogout = () => {
     axios.post('http://localhost:8000/logout').then((res) => {
-      setUserinfo(null);
+      setUserInfo(null);
       setIsLogin(false);
       navigate('/');
     });
