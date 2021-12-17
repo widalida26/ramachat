@@ -1,15 +1,14 @@
 import { useState } from 'react';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 import styled from 'styled-components';
 import TextButton from '../components/TextButton';
-import Navbar from '../components/Navbar';
 
 const LoginContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 60vh;
+  height: 80vh;
   width: 40vh;
   background-color: #dae266;
   padding: 20px;
@@ -37,7 +36,6 @@ const AlertBox = styled.div`
   color: #721c24;
   background-color: #f8d7da;
   border-color: #f5c6cb;
-
   position: relative;
   padding: 0.75rem 1.25rem;
   margin-bottom: 1rem;
@@ -62,16 +60,13 @@ function Login({ handleResponseSuccess }) {
     if (!loginInfo.user_id || !loginInfo.password) {
       setErrorMessage('아이디와 비밀번호를 입력하세요');
     } else {
-      console.log(loginInfo);
       axios
         .post('http://localhost:8000/login', {
           user_id: loginInfo.user_id,
           password: loginInfo.password,
         })
-        .then((data) => {
-          console.log('포스트 넘어옴?');
-          // ! handleResponseSuccess에 데이터 넘기기
-          handleResponseSuccess(data);
+        .then(() => {
+          handleResponseSuccess();
         })
         .catch(() => setErrorMessage('유효하지 않은 아이디와 비밀번호 입니다'));
     }
@@ -81,7 +76,6 @@ function Login({ handleResponseSuccess }) {
     <>
       <form onSubmit={(e) => e.preventDefault()}>
         <LoginContainer>
-          <Navbar />
           <LoginHeader>Log In</LoginHeader>
           <InputField>
             <p>User ID</p>
@@ -104,10 +98,6 @@ function Login({ handleResponseSuccess }) {
           <div type="submit" onClick={handleLogin}>
             <TextButton>Log In</TextButton>
           </div>
-          {/* 아래 코드는 작동하지 않음 */}
-          {/* <TextButton type="submit" onClick={handleLogin}>
-          Log In
-          </TextButton> */}
           {errorMessage ? <AlertBox>{errorMessage}</AlertBox> : ''}
           <br />
           <Link to="/signup">
