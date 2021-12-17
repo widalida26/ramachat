@@ -1,5 +1,4 @@
-//const { getDrama } = require('../../../client/src/api/DramaDataAPI');
-const { Episode_info } = require('../../models');
+const { Episode_infos } = require('../../models');
 const axios = require('axios');
 
 module.exports = (req, res) => {
@@ -7,7 +6,7 @@ module.exports = (req, res) => {
   let season_index = req.query['season-index'];
   const episodeInfos = [];
 
-  Episode_info.findAll({
+  Episode_infos.findAll({
     where: {
       drama_id,
       season_index,
