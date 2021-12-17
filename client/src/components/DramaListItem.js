@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { colors } from '../styles/Colors';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Item = styled.li`
   list-style: none;
@@ -38,8 +38,6 @@ const Item = styled.li`
   }
 `;
 
-//www.themoviedb.org/t/p/w1280
-
 export default function DramaListItem({ name, poster_path, id }) {
   let navigate = useNavigate();
   const handleClick = () => {
@@ -52,11 +50,8 @@ export default function DramaListItem({ name, poster_path, id }) {
 
   return (
     <Item poster={url} onClick={handleClick}>
-      {/* <Link to={`/drama?drama-id=${id}`}> */}
-      {/* <img src={poster}></img> */}
       <div className="poster"></div>
       <h3>{name}</h3>
-      {/* </Link> */}
     </Item>
   );
 }

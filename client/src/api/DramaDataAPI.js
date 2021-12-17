@@ -9,7 +9,6 @@ export function getDramas(keyword) {
       }
     )
     .then((result) => {
-      // console.log(result) ;
       return result.data.results;
     });
 }
@@ -23,7 +22,6 @@ export function getDrama(dramaId) {
       }
     )
     .then((result) => {
-      console.log(result);
       return result.data;
     });
 }

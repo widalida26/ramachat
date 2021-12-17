@@ -85,26 +85,26 @@ export default function Drama() {
   const genres = drama.genres ? drama.genres.map((genre) => genre.name).join(', ') : '';
 
   const [episodes, setEpisodes] = useState([]);
-  const [seasonNumber, setSeasonNumber] = useState(0);
+  const [seasonNumber, setSeasonNumber] = useState(1);
   const [episodeInfos, setEpisodeInfos] = useState([]);
 
-  const dummyData = [
-    {
-      id: 123,
-      episodeIndex: 1,
-      commentNum: 10,
-    },
-    {
-      id: 124,
-      episodeIndex: 2,
-      commentNum: 5,
-    },
-    {
-      id: 125,
-      episodeIndex: 5,
-      commentNum: 8,
-    },
-  ];
+  // const dummyData = [
+  //   {
+  //     id: 123,
+  //     episodeIndex: 1,
+  //     commentNum: 10,
+  //   },
+  //   {
+  //     id: 124,
+  //     episodeIndex: 2,
+  //     commentNum: 5,
+  //   },
+  //   {
+  //     id: 125,
+  //     episodeIndex: 5,
+  //     commentNum: 8,
+  //   },
+  // ];
 
   useEffect(() => {
     setEpisodes([]);
@@ -112,36 +112,35 @@ export default function Drama() {
       const data = await getEpisodes(dramaId, seasonNumber);
       setEpisodes(data);
       const infoData = await getEpisodeInfos(dramaId, seasonNumber);
+      // const infoData = await getEpisodeInfos(71446, 1);
       setEpisodeInfos(infoData);
     };
     sendAPICall();
   }, [seasonNumber]);
 
   return (
-    <div>
-      <Main>
-        <DramaInfo>
-          <Poster poster={url}></Poster>
-          <div>
-            <h1>{drama.name}</h1>
-            {drama.name !== drama.original_name ? <h4>{drama.original_name}</h4> : null}
-            <p>{period}</p>
-            <p>{genres}</p>
-          </div>
-          <p>{drama.overview}</p>
-        </DramaInfo>
-        <EpisodeList>
-          <h3>Episodes</h3>
-          <SeasonSelect seasons={drama.seasons} setSeasonNumber={setSeasonNumber} />
-          <ul>
-            {episodes.length !== 0
-              ? episodes.map((episode) => (
-                  <EpisodeListItem episode={episode} episodeInfos={dummyData} />
-                ))
-              : null}
-          </ul>
-        </EpisodeList>
-      </Main>
-    </div>
+    <Main>
+      <DramaInfo>
+        <Poster poster={url}></Poster>
+        <div>
+          <h1>{drama.name}</h1>
+          {drama.name !== drama.original_name ? <h4>{drama.original_name}</h4> : null}
+          <p>{period}</p>
+          <p>{genres}</p>
+        </div>
+        <p>{drama.overview}</p>
+      </DramaInfo>
+      <EpisodeList>
+        <h3>Episodes</h3>
+        <SeasonSelect seasons={drama.seasons} setSeasonNumber={setSeasonNumber} />
+        <ul>
+          {episodes.length !== 0
+            ? episodes.map((episode) => (
+                <EpisodeListItem episode={episode} episodeInfos={episodeInfos} />
+              ))
+            : null}
+        </ul>
+      </EpisodeList>
+    </Main>
   );
 }
