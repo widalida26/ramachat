@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Likes.init(
     {
-      target_id: DataTypes.INTEGER,
+      targetid: DataTypes.INTEGER,
       userId: DataTypes.INTEGER,
     },
     {

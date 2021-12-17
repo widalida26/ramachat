@@ -16,11 +16,14 @@ module.exports = (req, res) => {
       const dbpw = data.password;
       const depw = decrypt(dbpw);
 
+      console.log(111, depw);
+      console.log(222, password);
+
       if (!data) {
         return res.status(401).send('invalid user or wrong password');
       }
-      console.log();
       if (depw !== password) {
+        console.log();
         return res.status(404).send('password is different');
       }
       // delete data.dataValues.password;

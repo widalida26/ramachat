@@ -8,7 +8,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      target_id: {
+      targetid: {
         type: Sequelize.INTEGER,
         onDelete: 'cascade',
         references: {

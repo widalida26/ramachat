@@ -8,7 +8,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      episode_id: {
+      episodeid: {
         type: Sequelize.INTEGER,
         onDelete: 'cascade',
         references: {
@@ -31,7 +31,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         defaultValue: 0,
       },
-      parent_comment_id: {
+      parentcommentid: {
         type: Sequelize.INTEGER,
       },
       createdAt: {

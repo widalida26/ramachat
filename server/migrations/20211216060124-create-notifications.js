@@ -16,7 +16,7 @@ module.exports = {
           key: 'id',
         },
       },
-      comment_id: {
+      commentid: {
         type: Sequelize.INTEGER,
         onDelete: 'cascade',
         references: {
