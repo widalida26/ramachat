@@ -19,11 +19,14 @@ module.exports = (req, res) => {
         return res.status(409).send('already existed email');
       } else {
         const pw = encrypt(password);
+        const em = encrypt(email);
+
+        console.log(444, pw);
 
         Users.create({
           user_id: user_id,
           password: pw,
-          email: email,
+          email: em,
         });
 
         return res.status(200).send('ok');
