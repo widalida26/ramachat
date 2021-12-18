@@ -56,7 +56,7 @@ module.exports = async (req, res) => {
         createdAt,
         updatedAt,
       } = comment.dataValues);
-      commentResponse.replyNum = replyNums[id];
+      commentResponse.replyNum = replyNums[id] === undefined ? 0 : replyNums[id];
       return commentResponse;
     });
 

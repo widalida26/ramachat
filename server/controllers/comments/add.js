@@ -38,10 +38,8 @@ module.exports = async (req, res) => {
           episodeIndex,
         };
         await EpisodeInfos.create(episodeInfo);
-        console.log('aa');
       }
 
-      console.log('bb');
       // 댓글을 Comments 테이블에 삽입
       const createdComment = await Comments.create(newComment);
       const { id, updatedAt, createdAt } = createdComment.dataValues;
@@ -58,6 +56,7 @@ module.exports = async (req, res) => {
 
       // 답글이 아닐 때
       if (!parentCommentId) {
+        commentResponse.parentCommentId = null;
         res.status(201).json(commentResponse);
         // 답글일 때
         // 알림 테이블에 추가
