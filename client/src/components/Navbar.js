@@ -1,7 +1,9 @@
 import styled from 'styled-components';
 import TextButton from './TextButton';
 import LogoButton from './LogoButton';
+import Modal from './Modal';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
 
 const NavContainer = styled.div`
   display: flex;
@@ -17,6 +19,14 @@ const ButtonGroup = styled.div`
 `;
 
 function Navbar({ isLogin, handleLogout }) {
+  // 모달 코드
+  const [isOpen, setIsOpen] = useState(false);
+
+  const openModalHandler = () => {
+    handleLogout();
+    setIsOpen(!isOpen);
+  };
+
   return (
     <div>
       {isLogin ? (
@@ -28,7 +38,7 @@ function Navbar({ isLogin, handleLogout }) {
             <ButtonGroup>
               {/* mypage 생성시 Link 컴포넌트 추가 */}
               <TextButton>mypage</TextButton>
-              <div onClick={handleLogout}>
+              <div onClick={openModalHandler}>
                 <TextButton>logout</TextButton>
               </div>
             </ButtonGroup>
@@ -51,6 +61,13 @@ function Navbar({ isLogin, handleLogout }) {
           </NavContainer>
         </nav>
       )}
+      <Modal
+        isOpen={isOpen}
+        openModalHandler={openModalHandler}
+        noticeMessage={'정상적으로 로그아웃이 완료되었습니다!'}
+        buttonMessage={'홈으로 가기'}
+        endPoint={'/'}
+      />
     </div>
   );
 }

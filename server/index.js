@@ -21,7 +21,7 @@ app.use(cookieParser());
 
 app.post('/login', controllers.login);
 app.post('/signup', controllers.signup);
-app.post('/auth', controllers.auth);
+app.get('/auth', controllers.auth);
 app.post('/logout', controllers.logout);
 app.get('/userInfo', controllers.userInfo);
 app.get('/episode-infos', controllers.drama);

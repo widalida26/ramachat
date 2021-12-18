@@ -45,9 +45,9 @@ const AlertBox = styled.div`
 
 axios.defaults.withCredentials = true;
 
-function Login({ handleResponseSuccess }) {
+export default function Login({ handleResponseSuccess }) {
   const [loginInfo, setLoginInfo] = useState({
-    user_id: '',
+    userId: '',
     password: '',
   });
   const [errorMessage, setErrorMessage] = useState('');
@@ -57,12 +57,12 @@ function Login({ handleResponseSuccess }) {
   };
 
   const handleLogin = () => {
-    if (!loginInfo.user_id || !loginInfo.password) {
+    if (!loginInfo.userId || !loginInfo.password) {
       setErrorMessage('아이디와 비밀번호를 입력하세요');
     } else {
       axios
         .post('http://localhost:8000/login', {
-          user_id: loginInfo.user_id,
+          userId: loginInfo.userId,
           password: loginInfo.password,
         })
         .then(() => {
@@ -80,10 +80,10 @@ function Login({ handleResponseSuccess }) {
           <InputField>
             <p>User ID</p>
             <input
-              name="user_id"
+              name="userId"
               type="text"
               placeholder="Type user ID here"
-              onChange={handleInputValue('user_id')}
+              onChange={handleInputValue('userId')}
             />
           </InputField>
           <InputField>
@@ -108,5 +108,3 @@ function Login({ handleResponseSuccess }) {
     </>
   );
 }
-
-export default Login;

@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
 import TextButton from '../components/TextButton';
-import Modal from '../components/LogoButton';
+import Modal from '../components/Modal';
 
 axios.defaults.withCredentials = true;
 
@@ -45,7 +45,7 @@ const AlertBox = styled.div`
   border-radius: 0.25rem;
 `;
 
-function Signup() {
+export default function Signup() {
   const [userInfo, setUserInfo] = useState({
     email: '',
     userId: '',
@@ -53,7 +53,7 @@ function Signup() {
     passwordConfirmation: '',
   });
   const [errorMessage, setErrorMessage] = useState('');
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const handleSignup = () => {
     axios
@@ -62,7 +62,8 @@ function Signup() {
         userId: userInfo.userId,
         password: userInfo.password,
       })
-      .then(() => navigate('/'))
+      .then(() => setIsOpen(!isOpen)) // 회원가입 버튼 클릭시 모달 열기
+      // .then(() => navigate('/'))
       .catch(() => {
         setErrorMessage('이미 존재하는 회원입니다');
         console.log('axios 에러');
@@ -162,11 +163,12 @@ function Signup() {
   );
 
   // 모달 코드
-  // const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
-  // const openModalHandler = () => {
-  //   setIsOpen(!isOpen);
-  // };
+  const openModalHandler = () => {
+    setIsOpen(!isOpen);
+    console.log(isOpen);
+  };
 
   return (
     <>
@@ -239,9 +241,14 @@ function Signup() {
             <TextButton>Back To Log In</TextButton>
           </Link>
         </LoginContainer>
+        <Modal
+          isOpen={isOpen}
+          openModalHandler={openModalHandler}
+          noticeMessage={'회원가입이 완료되었습니다!'}
+          buttonMessage={'login'}
+          endPoint={'/login'}
+        />
       </form>
     </>
   );
 }
-
-export default Signup;

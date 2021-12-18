@@ -8,8 +8,6 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Navbar from './components/Navbar';
 
-import Modal from './components/Modal';
-
 function App() {
   const [isLogin, setIsLogin] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
@@ -36,7 +34,7 @@ function App() {
     axios.post('http://localhost:8000/logout').then((res) => {
       setUserInfo(null);
       setIsLogin(false);
-      navigate('/');
+      // navigate('/');
     });
   };
 
@@ -47,7 +45,6 @@ function App() {
   return (
     <>
       <Navbar isLogin={isLogin} handleLogout={handleLogout} />
-      {/* <Modal /> */}
       <Routes>
         <Route
           exact

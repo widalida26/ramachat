@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const ModalBackdrop = styled.div`
   position: fixed;
@@ -14,19 +14,9 @@ const ModalBackdrop = styled.div`
 `;
 
 const ModalContainer = styled.div`
-  height: 15rem;
+  /* height: 15rem; */
   text-align: center;
-  margin: 120px auto;
-`;
-
-const ModalBtn = styled.button`
-  background-color: #4000c7;
-  text-decoration: none;
-  border: none;
-  padding: 20px;
-  color: white;
-  border-radius: 30px;
-  cursor: grab;
+  /* margin: 120px auto; */
 `;
 
 const ModalView = styled.div`
@@ -44,7 +34,7 @@ const ModalView = styled.div`
   }
 `;
 
-const StyledButton = styled.button`
+const ClickButton = styled.button`
   /* 공통 스타일 */
   /* display: inline-flex; */
   align-items: center;
@@ -53,7 +43,7 @@ const StyledButton = styled.button`
   border-radius: 4px;
   color: black;
   font-weight: bold;
-  cursor: grab;
+  cursor: pointer;
   padding-left: 1rem;
   padding-right: 1rem;
 
@@ -65,31 +55,24 @@ const StyledButton = styled.button`
   background: #eee;
 `;
 
-function Modal() {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const openModalHandler = () => {
-    setIsOpen(!isOpen);
-  };
-
+function Modal({ isOpen, openModalHandler, noticeMessage, buttonMessage, endPoint }) {
   return (
     <>
-      {/* <ModalContainer>
-        <ModalBtn onClick={openModalHandler}>
-          {isOpen === false ? 'Open Modal' : 'Opened!'}
-        </ModalBtn> */}
-      {isOpen === true ? (
-        <ModalBackdrop>
-          <ModalView onClick={(e) => e.stopPropagation()}>
-            <span onClick={openModalHandler} className="close-btn">
-              &times;
-            </span>
-            <p className="desc">회원가입이 완료되었습니다!</p>
-            <StyledButton>login</StyledButton>
-          </ModalView>
-        </ModalBackdrop>
-      ) : null}
-      {/* </ModalContainer> */}
+      <ModalContainer>
+        {isOpen ? (
+          <ModalBackdrop>
+            <ModalView onClick={(e) => e.stopPropagation()}>
+              <span onClick={openModalHandler} className="close-btn">
+                &times;
+              </span>
+              <p className="desc">{noticeMessage}</p>
+              <Link to={endPoint}>
+                <ClickButton onClick={openModalHandler}>{buttonMessage}</ClickButton>
+              </Link>
+            </ModalView>
+          </ModalBackdrop>
+        ) : null}
+      </ModalContainer>
     </>
   );
 }
