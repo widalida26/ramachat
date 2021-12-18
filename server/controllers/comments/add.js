@@ -43,7 +43,7 @@ module.exports = (req, res) => {
       // Episode_infos 테이블에 에피소드 정보 추가
       Episode_infos.create(epiInfo)
         .then((result) => {
-          addNewComment(newComment, commentNum, episodeId);
+          addNewComment(newComment, commentNum, episodeId, res);
         })
         // 에피소드 정보 삽입 실패
         .catch((err) => {
@@ -54,10 +54,8 @@ module.exports = (req, res) => {
       // 첫 댓글이 아닐 때
     } else {
       // 댓글을 Comments 테이블에 삽입
-      addNewComment(newComment, commentNum, episodeId);
+      addNewComment(newComment, commentNum, episodeId, res);
     }
-
-    res.end();
     // 인증 실패
   } else {
     res.status(401).send('unauthorized user');
