@@ -54,9 +54,9 @@ const LinkSpan = styled.span`
 
 axios.defaults.withCredentials = true;
 
-function Login({ handleResponseSuccess }) {
+export default function Login({ handleResponseSuccess }) {
   const [loginInfo, setLoginInfo] = useState({
-    user_id: '',
+    userId: '',
     password: '',
   });
   const [errorMessage, setErrorMessage] = useState('');
@@ -67,12 +67,13 @@ function Login({ handleResponseSuccess }) {
   };
 
   const handleLogin = () => {
-    if (!loginInfo.user_id || !loginInfo.password) {
+    // console.log('작동?');
+    if (!loginInfo.userId || !loginInfo.password) {
       setErrorMessage('아이디와 비밀번호를 입력하세요');
     } else {
       axios
         .post('http://localhost:8000/login', {
-          user_id: loginInfo.user_id,
+          userId: loginInfo.userId,
           password: loginInfo.password,
         })
         .then(() => {
@@ -88,7 +89,7 @@ function Login({ handleResponseSuccess }) {
         <form onSubmit={(e) => e.preventDefault()}>
           <h1>Log In</h1>
           <InputForm
-            target="user_id"
+            target="userId"
             label="User ID"
             handleInputValue={handleInputValue}
           ></InputForm>
@@ -116,5 +117,3 @@ function Login({ handleResponseSuccess }) {
     </Main>
   );
 }
-
-export default Login;

@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
   Notifications.init(
     {
       userId: DataTypes.INTEGER,
-      commentid: DataTypes.INTEGER,
+      commentId: DataTypes.INTEGER,
       isChecked: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,

@@ -3,7 +3,7 @@ import { colors } from '../styles/Colors';
 
 const SolidButton = styled.button`
   /* 공통 스타일 */
-  display: inline-flex;
+  /* display: inline-flex; */
   align-items: center;
   justify-content: center;
   outline: none;
