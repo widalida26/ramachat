@@ -1,7 +1,7 @@
-const axios = require('axios');
-const { Comments } = require('../../models');
+// const axios = require('axios');
+// const { Comments } = require('../../models');
 const { Episode_infos } = require('../../models');
-const { addnNewComment, addNewComment } = require('./commentFunctions');
+const { addNewComment } = require('./commentFunctions');
 const { isAuthorized } = require('../tokenFunctions');
 
 module.exports = (req, res) => {
@@ -49,7 +49,7 @@ module.exports = (req, res) => {
         .catch((err) => {
           console.log('episode information insertion failed');
           console.log(err);
-          //res.status(500).send('episode information insertion failed');
+          res.status(500).send('err');
         });
       // 첫 댓글이 아닐 때
     } else {

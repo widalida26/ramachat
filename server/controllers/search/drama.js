@@ -19,6 +19,7 @@ module.exports = (req, res) => {
       if (data.length > 0) {
         for (let i = 0; i < data.length; i++) {
           const { id, episodeIndex, commentNum } = data[i].dataValues;
+          console.log('commentNum', commentNum);
           let info = {
             id,
             episodeIndex,

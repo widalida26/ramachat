@@ -1,3 +1,6 @@
+const { Comments } = require('../../models');
+const { Episode_infos } = require('../../models');
+
 module.exports = {
   addNewComment: (comment, commentNum, episodeId) => {
     // 댓글을 Comments 테이블에 삽입
@@ -21,12 +24,13 @@ module.exports = {
           .catch((err) => {
             console.log('comment number update failed');
             console.log(err);
-            //res.status(500).send('err');
+            res.status(500).send('err');
           });
       })
       .catch((err) => {
         console.log('comment information insertion failed');
         console.log(err);
+        res.status(500).send('err');
       });
   },
 };

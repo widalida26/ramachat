@@ -16,11 +16,11 @@ module.exports = (sequelize, DataTypes) => {
   }
   Episode_infos.init(
     {
-      dramaid: DataTypes.INTEGER,
-      dramaname: DataTypes.STRING,
-      seasonindex: DataTypes.INTEGER,
-      episodeindex: DataTypes.INTEGER,
-      commentnum: {
+      dramaId: DataTypes.INTEGER,
+      dramaName: DataTypes.STRING,
+      seasonIndex: DataTypes.INTEGER,
+      episodeIndex: DataTypes.INTEGER,
+      commentNum: {
         type: DataTypes.INTEGER,
         defaultValue: 0,
       },
