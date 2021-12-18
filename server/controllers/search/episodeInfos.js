@@ -1,6 +1,5 @@
 const db = require('../../models');
 const { EpisodeInfos } = require('../../models');
-const { Comments } = require('../../models');
 const axios = require('axios');
 
 module.exports = async (req, res) => {
@@ -22,8 +21,11 @@ module.exports = async (req, res) => {
             'commentNum',
           ],
         ],
+        exclude: ['dramaId', 'dramaName', 'seasonIndex', 'createdAt', 'updatedAt'],
       },
+      where: { dramaId, seasonIndex },
     });
+
     // db에 해당 에피소드 정보가 없을 때
     // tmdb에서 에피소드 정보 받기
     if (storedEpisodes.length === 0) {

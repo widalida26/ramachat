@@ -1,3 +1,4 @@
+const db = require('../../models');
 const { Comments } = require('../../models');
 const { Likes } = require('../../models');
 
@@ -10,18 +11,37 @@ module.exports = async (req, res) => {
 
     // 댓글 정보 검색
     const searchedComments = await Comments.findAll({
+      attributes: {
+        include: [
+          [
+            db.sequelize.literal(
+              `(SELECT COUNT(*)
+                    FROM Likes
+                    WHERE
+                    Comments.id = Likes.targetId && 
+                    Comments.userId=Likes.userId)`
+            ),
+            'likeNum',
+          ],
+        ],
+      },
       where: { episodeId, parentCommentId: null },
       order: [['createdAt', 'DESC']],
     });
-    console.log(searchedComments);
 
     // 응답 객체 세팅 => 댓글 정보
     for (let i = 0; i < searchedComments.length; i++) {
       let data = searchedComments[i].dataValues;
-      const { id, episodeId, userId, content, parentCommentId, createdAt, updatedAt } =
-        data;
-      // 해당 댓글의 좋아요 수 검색
-      const likeNum = await Likes.count({ where: { targetId: id, userId } });
+      const {
+        id,
+        episodeId,
+        userId,
+        content,
+        parentCommentId,
+        likeNum,
+        createdAt,
+        updatedAt,
+      } = data;
 
       //   // 답글일 때
       //   if (parentCommentId !== null) {
