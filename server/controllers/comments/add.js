@@ -38,12 +38,13 @@ module.exports = async (req, res) => {
           episodeIndex,
         };
         await EpisodeInfos.create(episodeInfo);
+        console.log('aa');
       }
 
+      console.log('bb');
       // 댓글을 Comments 테이블에 삽입
       const createdComment = await Comments.create(newComment);
       const { id, updatedAt, createdAt } = createdComment.dataValues;
-
       // 응답 객체 세팅 => 댓를 정보
       const commentResponse = {
         id,
@@ -66,7 +67,6 @@ module.exports = async (req, res) => {
       }
     }
   } catch (err) {
-    console.log(err);
     res.status(500).send(err);
   }
 };

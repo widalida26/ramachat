@@ -10,9 +10,10 @@ module.exports = async (req, res) => {
 
     // 댓글 정보 검색
     const searchedComments = await Comments.findAll({
-      where: { episodeId },
+      where: { episodeId, parentCommentId: null },
       order: [['createdAt', 'DESC']],
     });
+    console.log(searchedComments);
 
     // 응답 객체 세팅 => 댓글 정보
     for (let i = 0; i < searchedComments.length; i++) {
@@ -22,33 +23,35 @@ module.exports = async (req, res) => {
       // 해당 댓글의 좋아요 수 검색
       const likeNum = await Likes.count({ where: { targetId: id, userId } });
 
-      // 답글일 때
-      if (parentCommentId !== null) {
-        // 답글 개수 계산
-        if (!replyNums[parentCommentId]) {
-          replyNums[parentCommentId] = 1;
-        } else {
-          replyNums[parentCommentId]++;
-        }
-        continue;
-      }
+      //   // 답글일 때
+      //   if (parentCommentId !== null) {
+      //     // 답글 개수 계산
+      //     if (!commentArr[parentCommentId]) {
+      //       commentArr[parentCommentId] = {};
+      //       commentArr[parentCommentId]['replyNum'] = 0;
+      //     } else {
+      //       commentArr[parentCommentId]['replyNum']++;
+      //     }
+      //     continue;
+      //   }
 
-      commentArr.push({
+      //let replyNum = commentArr[id] === undefined ? 0 : commentArr[id]['replyNum'];
+      commentArr[i] = {
         id,
         episodeId,
         userId,
         content: content,
         parentCommentId,
         likeNum,
-        replyNum: 0,
+        //replyNum,
         createdAt,
         updatedAt,
-      });
+      };
     }
 
-    for (const key in replyNums) {
-      commentArr[key - 1].replyNum = replyNums[key];
-    }
+    // for (const key in replyNums) {
+    //   commentArr[key - 1].replyNum = replyNums[key];
+    // }
 
     res.status(200).json({ comments: commentArr });
   } catch (err) {

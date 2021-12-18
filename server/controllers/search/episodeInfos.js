@@ -1,3 +1,4 @@
+const db = require('../../models');
 const { EpisodeInfos } = require('../../models');
 const { Comments } = require('../../models');
 const axios = require('axios');
@@ -9,7 +10,19 @@ module.exports = async (req, res) => {
 
     const episodeInfos = [];
     const storedEpisodes = await EpisodeInfos.findAll({
-      where: { dramaId, seasonIndex },
+      attributes: {
+        include: [
+          [
+            db.sequelize.literal(
+              `(SELECT COUNT(*)
+                  FROM Comments
+                  WHERE
+                  EpisodeInfos.id = Comments.episodeId)`
+            ),
+            'commentNum',
+          ],
+        ],
+      },
     });
     // db에 해당 에피소드 정보가 없을 때
     // tmdb에서 에피소드 정보 받기
@@ -35,8 +48,7 @@ module.exports = async (req, res) => {
     } else {
       // 반환 객체 세팅 => 에피소드 정보
       for (let i = 0; i < storedEpisodes.length; i++) {
-        const { id, episodeIndex } = storedEpisodes[i].dataValues;
-        const commentNum = await Comments.count({ where: { episodeId: id } });
+        const { id, episodeIndex, commentNum } = storedEpisodes[i].dataValues;
         let info = {
           id,
           episodeIndex,
@@ -47,6 +59,7 @@ module.exports = async (req, res) => {
     }
     res.status(200).json(episodeInfos);
   } catch (err) {
+    console.log(err);
     res.status(500).send(err);
   }
 };
