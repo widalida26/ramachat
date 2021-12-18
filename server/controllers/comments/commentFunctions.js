@@ -1,5 +1,4 @@
 const { Comments } = require('../../models');
-const { EpisodeInfos } = require('../../models');
 const { Notifications } = require('../../models');
 
 module.exports = {
@@ -19,7 +18,7 @@ module.exports = {
           parentCommentId: comment.parentCommentId,
         };
 
-        // 답글이 아닐 때
+        // 답글이 아닐 때s
         if (!comment.parentCommentId) {
           res.status(201).json(commentResponse);
           // 답글일 때

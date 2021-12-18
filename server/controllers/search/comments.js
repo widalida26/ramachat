@@ -2,19 +2,21 @@ const { Comments } = require('../../models');
 
 module.exports = (req, res) => {
   const episodeId = req.query['episode-id'];
-  //   Comments.findAll({
-  //     where: {
-  //       episodeId,
-  //     },
-  //   })
-  //     .then((result) => {
-  //       console.log(result);
-  //     })
-  //     .cathc((err) => {
-  //       console.log(err);
-  //       res.send(err);
-  //     });
-  //   console.log(episodeId);
+  Comments.findAll({
+    where: {
+      episodeId,
+    },
+  })
+    .then((data) => {
+      for (let i = 0; i < data.length; i++) {}
+      console.log(result);
+      console.log(result.dataValues);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.send(err);
+    });
+  console.log(episodeId);
 
   res.end();
 };
