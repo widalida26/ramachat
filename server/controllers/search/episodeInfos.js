@@ -1,4 +1,4 @@
-const db = require('../../models');
+const sequelize = require('../../models').sequelize;
 const { EpisodeInfos } = require('../../models');
 const axios = require('axios');
 
@@ -7,16 +7,15 @@ module.exports = async (req, res) => {
     let dramaId = req.query['drama-id'];
     let seasonIndex = req.query['season-index'];
 
-    const episodeInfos = [];
     const storedEpisodes = await EpisodeInfos.findAll({
       attributes: {
         include: [
           [
-            db.sequelize.literal(
+            sequelize.literal(
               `(SELECT COUNT(*)
-                  FROM Comments
-                  WHERE
-                  EpisodeInfos.id = Comments.episodeId)`
+              FROM Comments
+              WHERE
+              EpisodeInfos.id = Comments.episodeId)`
             ),
             'commentNum',
           ],
@@ -26,7 +25,8 @@ module.exports = async (req, res) => {
       where: { dramaId, seasonIndex },
     });
 
-    // db에 해당 에피소드 정보가 없을 때
+    let episodeInfos = [];
+    // DB에 해당 에피소드 정보가 없을 때
     // tmdb에서 에피소드 정보 받기
     if (storedEpisodes.length === 0) {
       const searched = await axios.get(
@@ -37,27 +37,21 @@ module.exports = async (req, res) => {
       );
 
       // 반환 객체 세팅 => 에피소드 정보
-      const episodes = searched.data.episodes;
-      for (let i = 0; i < episodes.length; i++) {
-        let info = {};
-        info.id = episodes[i].id;
-        info.episodeIndex = i + 1;
-        info.commentNum = 0;
-        episodeInfos.push(info);
-      }
-      // db에 해당 에피소드 정보가 있을 때
-      // sql db에서 에피소드 정보 받기
+      episodeInfos = searched.data.episodes.map((episode, idx) => {
+        return {
+          id: episode.id,
+          episodeIndex: idx + 1,
+          commentNum: 0,
+        };
+      });
+
+      // DB에 해당 에피소드 정보가 있을 때
+      // sql DB에서 에피소드 정보 받기
     } else {
       // 반환 객체 세팅 => 에피소드 정보
-      for (let i = 0; i < storedEpisodes.length; i++) {
-        const { id, episodeIndex, commentNum } = storedEpisodes[i].dataValues;
-        let info = {
-          id,
-          episodeIndex,
-          commentNum,
-        };
-        episodeInfos.push(info);
-      }
+      episodeInfos = storedEpisodes.map((episode) => {
+        return ({ id, episodeIndex, commentNum } = episode.dataValues);
+      });
     }
     res.status(200).json(episodeInfos);
   } catch (err) {
