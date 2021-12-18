@@ -1,6 +1,20 @@
+const { Comments } = require('../../models');
+
 module.exports = (req, res) => {
   const episodeId = req.query['episode-id'];
-  console.log(episodeId);
+  //   Comments.findAll({
+  //     where: {
+  //       episodeId,
+  //     },
+  //   })
+  //     .then((result) => {
+  //       console.log(result);
+  //     })
+  //     .cathc((err) => {
+  //       console.log(err);
+  //       res.send(err);
+  //     });
+  //   console.log(episodeId);
 
   res.end();
 };

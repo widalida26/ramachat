@@ -1,9 +1,9 @@
 const { Comments } = require('../../models');
-const { Episode_infos } = require('../../models');
+const { EpisodeInfos } = require('../../models');
 const { Notifications } = require('../../models');
 
 module.exports = {
-  addNewComment: (comment, commentNum, episodeId, res) => {
+  addNewComment: (comment, episodeId, res) => {
     // 댓글을 Comments 테이블에 삽입
     return Comments.create(comment)
       .then((createdComment) => {
@@ -18,44 +18,46 @@ module.exports = {
           createdAt,
           parentCommentId: comment.parentCommentId,
         };
-        // 댓글 숫자 업데이트
-        let newCommentNum = commentNum + 1;
-        Episode_infos.update(
-          {
-            commentNum: newCommentNum,
-          },
-          {
-            where: {
-              id: episodeId,
-            },
-          }
-        )
-          .then((updatedEpisodeInfo) => {
-            // 답글이 아닐 때
-            if (!comment.parentCommentId) {
-              console.log(commentResponse);
-              res.status(201).json(commentResponse);
-              // 답글일 때
-              // 알림 테이블에 추가
-            } else {
-              Notifications.create({
-                userId,
-                commentId: id,
-              })
-                .then((createdNotifications) => {
-                  res.status(201).json(commentResponse);
-                })
-                .catch((err) => {
-                  res.status(500).send('err');
-                });
-            }
+
+        // 답글이 아닐 때
+        if (!comment.parentCommentId) {
+          res.status(201).json(commentResponse);
+          // 답글일 때
+          // 알림 테이블에 추가
+        } else {
+          Notifications.create({
+            userId,
+            commentId: id,
           })
-          .catch((err) => {
-            res.status(500).send('err');
-          });
+            .then((createdNotifications) => {
+              res.status(201).json(commentResponse);
+            })
+            .catch((err) => {
+              res.status(500).send(err);
+            });
+        }
       })
       .catch((err) => {
-        res.status(500).send('err');
+        res.status(500).send(err);
       });
   },
 };
+
+// 댓글 숫자 업데이트
+// let newCommentNum = commentNum + 1;
+// EpisodeInfos.update(
+//   {
+//     commentNum: newCommentNum,
+//   },
+//   {
+//     where: {
+//       id: episodeId,
+//     },
+//   }
+// )
+//.then((updatedEpisodeInfo) => {
+//  }
+// })
+// .catch((err) => {
+//   res.status(500).send('err');
+// });

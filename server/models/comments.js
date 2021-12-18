@@ -12,15 +12,15 @@ module.exports = (sequelize, DataTypes) => {
       models.Comments.hasOne(models.Users, {
         foreignKey: 'id',
       });
-      models.Comments.belongsTo(models.Episode_infos, {
+      models.Comments.belongsTo(models.EpisodeInfos, {
         onDelete: 'cascade',
         foreignKey: 'id',
       });
       models.Comments.hasMany(models.Notifications, {
-        foreignKey: 'comment_id',
+        foreignKey: 'commentId',
       });
       models.Comments.hasMany(models.Likes, {
-        foreignKey: 'target_id',
+        foreignKey: 'targetId',
       });
     }
   }
