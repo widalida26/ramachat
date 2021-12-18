@@ -46,7 +46,7 @@ function Navbar({ isLogin, handleLogout }) {
           {isLogin ? (
             <ButtonGroup>
               {/* mypage 생성시 Link 컴포넌트 추가 */}
-              <div onClick={handleLogout}>
+              <div onClick={openModalHandler}>
                 <TextButton color="white" isTransparent={true} width="fit">
                   LOG OUT
                 </TextButton>
