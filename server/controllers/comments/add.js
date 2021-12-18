@@ -1,6 +1,7 @@
 const axios = require('axios');
 const { Comments } = require('../../models');
 const { Episode_infos } = require('../../models');
+const { addnNewComment, addNewComment } = require('./commentFunctions');
 const { isAuthorized } = require('../tokenFunctions');
 
 module.exports = (req, res) => {
@@ -20,6 +21,14 @@ module.exports = (req, res) => {
       commentNum,
     } = req.body;
 
+    // 새 댓글 객체 세팅
+    let newComment = {
+      episodeId,
+      userId,
+      content,
+      parentCommentId,
+    };
+
     // Episode_infos 테이블에 해당 에피소드 아이디를 가진 값이 없을 때  => 첫 댓글
     if (commentNum === 0) {
       // 에피소드 정보 객체 세팅
@@ -30,63 +39,27 @@ module.exports = (req, res) => {
         seasonIndex,
         episodeIndex,
       };
+
       // Episode_infos 테이블에 에피소드 정보 추가
       Episode_infos.create(epiInfo)
-        .then((result) => {})
+        .then((result) => {
+          addNewComment(newComment, commentNum, episodeId);
+        })
         // 에피소드 정보 삽입 실패
         .catch((err) => {
           console.log('episode information insertion failed');
           console.log(err);
           //res.status(500).send('episode information insertion failed');
         });
-
-      // 새 댓글 객체 세팅
-      let newComment = {
-        episodeId,
-        userId,
-        content,
-        parentCommentId,
-      };
-      // 댓글을 Comments 테이블에 삽입
-      Comments.create(newComment)
-        .then((result) => {
-          console.log(result);
-        })
-        // 댓글 정보 삽입 실패
-        .catch((err) => {
-          console.log('comment information insertion failed');
-          console.log(err);
-        });
-
-      // 댓글 숫자 업데이트
-      let newCommentNum = commentNum + 1;
-      Episode_infos.update(
-        {
-          commentNum: newCommentNum,
-        },
-        {
-          where: {
-            id: episodeId,
-          },
-        }
-      )
-        .then((result) => {
-          console.log(result);
-        })
-        .catch((err) => {
-          console.log('comment number update failed');
-          console.log(err);
-          //res.status(500).send('err');
-        });
-
-      // parentEpisodeId가 있을 때 => 답글 O
-      // if (parentCommentId) {
-      //   console.log();
-      // }
-      // 인증 실패
+      // 첫 댓글이 아닐 때
     } else {
-      res.status(401).send('unauthorized user');
+      // 댓글을 Comments 테이블에 삽입
+      addNewComment(newComment, commentNum, episodeId);
     }
+
     res.end();
+    // 인증 실패
+  } else {
+    res.status(401).send('unauthorized user');
   }
 };

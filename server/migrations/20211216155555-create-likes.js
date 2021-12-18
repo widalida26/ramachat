@@ -9,6 +9,7 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       target_id: {
+        allowNull: false,
         type: Sequelize.INTEGER,
         onDelete: 'cascade',
         references: {
@@ -17,6 +18,7 @@ module.exports = {
         },
       },
       user_id: {
+        allowNull: false,
         type: Sequelize.INTEGER,
         references: {
           model: 'Users',

@@ -9,6 +9,7 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       drama_id: {
+        allowNull: false,
         type: Sequelize.INTEGER,
       },
       drama_name: {

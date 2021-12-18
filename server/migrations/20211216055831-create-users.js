@@ -10,10 +10,12 @@ module.exports = {
       },
       user_id: {
         allowNull: false,
+        unique: true,
         type: Sequelize.STRING,
       },
       email: {
         allowNull: false,
+        unique: true,
         type: Sequelize.STRING,
       },
       password: {
@@ -25,7 +27,6 @@ module.exports = {
         defaultValue: 'user',
       },
       createdAt: {
-        allowNull: false,
         type: Sequelize.DATE,
       },
       updatedAt: {
