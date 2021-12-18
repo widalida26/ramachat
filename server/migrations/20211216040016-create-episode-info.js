@@ -11,6 +11,7 @@ module.exports = {
       dramaId: {
         allowNull: false,
         type: Sequelize.INTEGER,
+      },
       dramaName: {
         allowNull: false,
         type: Sequelize.STRING,
