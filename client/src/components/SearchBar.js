@@ -2,24 +2,21 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { colors } from '../styles/Colors';
+import { device } from '../styles/Breakpoints';
+import TextButton from './TextButton';
+
+const SearchBarContainer = styled.div`
+  width: 100%;
+  display: flex;
+`;
 
 const SearchInput = styled.input`
-  width: 300px;
+  width: 100%;
   height: 40px;
   padding: 10px;
   border-radius: 0;
   border: 2px solid ${colors.primary};
-`;
-
-const SearchButton = styled.button`
-  height: 40px;
-  padding: 10px;
-  margin: 0;
-  border-radius: 0;
-  border: none;
-  background-color: ${colors.primary};
-  color: white;
-  cursor: pointer;
+  font-size: 1rem;
 `;
 
 export default function SearchBar() {
@@ -39,17 +36,20 @@ export default function SearchBar() {
   };
 
   return (
-    <div>
-      <form>
-        <SearchInput
-          type="text"
-          placeholder="Search the series"
-          onKeyUp={handleInputChange}
-        ></SearchInput>
-        <SearchButton type="submit" onClick={handleSubmit}>
-          Search
-        </SearchButton>
-      </form>
-    </div>
+    <SearchBarContainer>
+      <SearchInput
+        type="text"
+        placeholder="Search the series"
+        onKeyUp={handleInputChange}
+      ></SearchInput>
+      <TextButton
+        color="primary"
+        isTransparent={false}
+        width="fit"
+        onClick={handleSubmit}
+      >
+        Search
+      </TextButton>
+    </SearchBarContainer>
   );
 }

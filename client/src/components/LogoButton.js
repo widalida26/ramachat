@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import img from '../assets/llama.jpeg';
+import img from '../assets/llama-logo.png';
+import { colors } from '../styles/Colors';
 
 const StyledButton = styled.button`
   /* 공통 스타일 */
@@ -7,30 +8,34 @@ const StyledButton = styled.button`
   align-items: center;
   outline: none;
   border: none;
-  border-radius: 4px;
-  color: white;
-  font-weight: bold;
+  background: none;
   cursor: pointer;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding: 0.5rem 1rem;
 
   /* 크기 */
-  height: 2.25rem;
-  width: 2.25rem;
-  /* font-size: 1rem; */
+  font-size: 1.5rem;
 
   /* 색상 */
-  background: url(${img}) no-repeat 0 0;
-  background-size: 100%;
+  color: ${colors.white};
 
-  /* 기타 */
-  &:not(:first-child) {
-    margin-left: 1rem;
+  img {
+    height: 2rem;
+    margin-right: 0.5rem;
+  }
+
+  &:hover {
+    opacity: 0.75;
   }
 `;
 
 function LogoButton() {
-  return <StyledButton />;
+  // return <StyledButton>{/* <img src={img} /> */}Ramachat</StyledButton>;
+  return (
+    <StyledButton>
+      <img src={img} />
+      <span>RamaChat</span>
+    </StyledButton>
+  );
 }
 
 export default LogoButton;
