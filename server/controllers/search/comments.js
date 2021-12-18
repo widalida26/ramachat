@@ -1,5 +1,7 @@
 module.exports = (req, res) => {
-  console.log(req);
+  const episodeId = req.query['episode-id'];
+  console.log(episodeId);
+
   res.end();
 };
 

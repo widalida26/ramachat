@@ -45,8 +45,6 @@ module.exports = (req, res) => {
         })
         // 에피소드 정보 삽입 실패
         .catch((err) => {
-          console.log('episode information insertion failed');
-          console.log(err);
           res.status(500).send('err');
         });
       // 첫 댓글이 아닐 때
