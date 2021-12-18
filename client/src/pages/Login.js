@@ -95,6 +95,7 @@ function Login({ handleResponseSuccess }) {
           <InputForm
             target="password"
             label="Password"
+            type="password"
             handleInputValue={handleInputValue}
           ></InputForm>
           {errorMessage ? <AlertBox>{errorMessage}</AlertBox> : ''}
