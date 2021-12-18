@@ -21,10 +21,16 @@ app.use(cookieParser());
 
 app.post('/login', controllers.login);
 app.post('/signup', controllers.signup);
-app.get('/auth', controllers.auth);
 app.post('/logout', controllers.logout);
+
 app.get('/userInfo', controllers.userInfo);
 app.get('/episode-infos', controllers.drama);
+app.get('/auth', controllers.auth);
+
+app.put('/modify', controllers.modify);
+
+// 댓글 작성
+app.post('/comments/add', controllers.add);
 
 const HTTPS_PORT = process.env.HTTPS_PORT || 8000;
 

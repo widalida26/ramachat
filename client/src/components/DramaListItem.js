@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { colors } from '../styles/Colors';
+import { useNavigate } from 'react-router-dom';
 
 const Item = styled.li`
   list-style: none;
@@ -37,18 +38,18 @@ const Item = styled.li`
   }
 `;
 
-//www.themoviedb.org/t/p/w1280
-
-export default function DramaListItem({ name, poster_path }) {
-  console.log(poster_path);
+export default function DramaListItem({ name, poster_path, id }) {
+  let navigate = useNavigate();
+  const handleClick = () => {
+    navigate(`/drama?drama-id=${id}`);
+  };
   const url =
     poster_path === null
       ? 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/624px-No-Image-Placeholder.svg.png'
       : 'https://www.themoviedb.org/t/p/w1280' + poster_path;
 
   return (
-    <Item poster={url}>
-      {/* <img src={poster}></img> */}
+    <Item poster={url} onClick={handleClick}>
       <div className="poster"></div>
       <h3>{name}</h3>
     </Item>

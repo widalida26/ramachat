@@ -1,19 +1,40 @@
 const { Users } = require('../../models');
+const { isAuthorized } = require('../tokenFunctions');
+const { decrypt, encrypt } = require('../users/crypto');
 
-module.exports = (req, res) => {
-  // TODO: 로그인 정보를 통해 사용자 인증 후 토큰 전달
+module.exports = async (req, res) => {
+  const accessTokenData = isAuthorized(req.cookies);
 
-  let user_id = req.query['user-id'];
+  if (accessTokenData === null) {
+    res.status(401).send({ data: null, message: 'not authorized' });
+  }
+
+  const { userId, email } = accessTokenData;
+  const { password } = req.body;
+
+  const dbpw = encrypt(password);
 
   Users.findOne({
     where: {
-      user_id,
+      userId,
     },
   }).then((data) => {
-    if (!data) {
-      res.status(404).send('not found user');
+    console.log(777, data.password);
+    if (data.password === dbpw) {
+      return res.status(404).send('same as previous password');
     } else {
-      return res.status(200).send('ok');
+      Users.update(
+        {
+          password: dbpw,
+        },
+        {
+          where: {
+            userId,
+            email: email,
+          },
+        }
+      );
+      return res.status(201).send('password changed');
     }
   });
 };

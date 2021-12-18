@@ -2,23 +2,42 @@ import { useState, useCallback } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
+import { colors } from '../styles/Colors';
+import { device } from '../styles/Breakpoints';
 import TextButton from '../components/TextButton';
 import Modal from '../components/Modal';
+import InputForm from '../components/InputForm';
 
 axios.defaults.withCredentials = true;
 
+const Main = styled.main`
+  width: 100%;
+  @media ${device.tablet} {
+    background-color: ${colors.primaryL};
+    height: calc(100vh - 80px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+`;
+
 const LoginContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 100vh;
-  width: 40vh;
-  background-color: #dae266;
-  padding: 20px;
-  border-radius: 10px;
-  opacity: 0.8;
-  font-weight: 900;
-  font-size: 1rem;
+  width: 100%;
+  background-color: ${colors.white};
+  padding: 1rem;
+
+  @media ${device.tablet} {
+    width: 400px;
+    padding: 2rem;
+  }
+
+  form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: center;
+  }
 `;
 
 const InputField = styled.div`
@@ -28,21 +47,19 @@ const InputField = styled.div`
   width: 80%;
 `;
 
-const LoginHeader = styled.div`
-  font-weight: 900;
-  font-size: 2rem;
-  margin: 10px;
+const AlertBox = styled.div`
+  width: 100%;
+  text-align: center;
+  color: ${colors.warning};
+  background-color: ${colors.warningL};
+  padding: 0.75rem 1.25rem;
 `;
 
-const AlertBox = styled.div`
-  color: #721c24;
-  background-color: #f8d7da;
-  border-color: #f5c6cb;
-  position: relative;
-  padding: 0.75rem 1.25rem;
-  margin-bottom: 1rem;
-  border: 1px solid transparent;
-  border-radius: 0.25rem;
+const LinkSpan = styled.span`
+  font-weight: bold;
+  &:hover {
+    color: ${colors.secondary};
+  }
 `;
 
 export default function Signup() {
@@ -99,6 +116,7 @@ export default function Signup() {
       setEmail(emailCurrent);
 
       if (!emailRegex.test(emailCurrent)) {
+        console.log('이메일 형식이 틀렸어요! 다시 확인해주세요!');
         setEmailMessage('이메일 형식이 틀렸어요! 다시 확인해주세요!');
         setIsUserId(false);
       } else {
@@ -171,84 +189,71 @@ export default function Signup() {
   };
 
   return (
-    <>
-      <form onSubmit={(e) => e.preventDefault()}>
-        <LoginContainer>
-          <LoginHeader>Sign Up</LoginHeader>
+    <Main>
+      <LoginContainer>
+        <form onSubmit={(e) => e.preventDefault()}>
+          <h1>Sign Up</h1>
           <p>모든 항목은 필수입니다.</p>
-          <InputField>
-            <p>E-mail</p>
-            <input
-              name="email"
-              type="email"
-              placeholder="Type user E-mail here"
-              onChange={(e) => {
-                onChangeEmail(e);
-              }}
-            />
-            {email.length > 0 && <span>{emailMessage}</span>}
-          </InputField>
-          <InputField>
-            <p>User ID</p>
-            <input
-              name="userId"
-              type="text"
-              placeholder="Type Password here"
-              onChange={(e) => {
-                onChangeUserId(e);
-              }}
-            />
-            {userId.length > 0 && <span>{userIdMessage}</span>}
-          </InputField>
-          <InputField>
-            <p>Password</p>
-            <input
-              name="password"
-              type="password"
-              placeholder="Type password here"
-              onChange={(e) => {
-                onChangePassword(e);
-              }}
-            />
-            {password.length > 0 && <span>{passwordMessage}</span>}
-          </InputField>
-          <InputField>
-            <p>Password Confirmation</p>
-            <input
-              name="passwordConfirmation"
-              type="password"
-              placeholder="Type the password again"
-              onChange={(e) => {
-                onChangePasswordConfirm(e);
-              }}
-            />
-            {passwordConfirmMessage.length > 0 && <span>{passwordConfirmMessage}</span>}
-          </InputField>
-          <br />
-          <div
-            type="submit"
+          <InputForm
+            target="email"
+            label="Email"
+            type="email"
+            handleInputValue={(target) => (e) => {
+              onChangeEmail(e);
+            }}
+          ></InputForm>
+          {email.length > 0 && <span>{emailMessage}</span>}
+          <InputForm
+            target="userId"
+            label="User ID"
+            handleInputValue={(target) => (e) => {
+              onChangeUserId(e);
+            }}
+          ></InputForm>
+          {userId.length > 0 && <span>{userIdMessage}</span>}
+          <InputForm
+            target="password"
+            label="Password"
+            type="password"
+            handleInputValue={(target) => (e) => {
+              onChangePassword(e);
+            }}
+          ></InputForm>
+          {password.length > 0 && <span>{passwordMessage}</span>}
+          <InputForm
+            target="passwordConfirmation"
+            label="Password Confirmation"
+            type="password"
+            handleInputValue={(target) => (e) => {
+              onChangePasswordConfirm(e);
+            }}
+          ></InputForm>
+          {passwordConfirm.length > 0 && <span>{passwordConfirmMessage}</span>}
+          <TextButton
+            color="secondary"
+            isTransparent={false}
+            width="full"
             onClick={() =>
               !(isEmail && isUserId && isPassword && isPasswordConfirm)
                 ? setErrorMessage('유효하지 않은 입력이 있어요')
                 : handleSignup()
             }
           >
-            <TextButton>Sign Up</TextButton>
-          </div>
+            Sign Up
+          </TextButton>
           {errorMessage ? <AlertBox>{errorMessage}</AlertBox> : ''}
-          <br />
           <Link to="/login">
-            <TextButton>Back To Log In</TextButton>
+            <LinkSpan>Back To Log In</LinkSpan>
           </Link>
-        </LoginContainer>
-        <Modal
-          isOpen={isOpen}
-          openModalHandler={openModalHandler}
-          noticeMessage={'회원가입이 완료되었습니다!'}
-          buttonMessage={'login'}
-          endPoint={'/login'}
-        />
-      </form>
-    </>
+          <Modal
+            isOpen={isOpen}
+            openModalHandler={openModalHandler}
+            noticeMessage={'회원가입이 완료되었습니다!'}
+            buttonMessage={'login'}
+            endPoint={'/login'}
+          />
+        </form>
+      </LoginContainer>
+    </Main>
   );
 }

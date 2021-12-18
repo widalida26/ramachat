@@ -4,6 +4,7 @@ import axios from 'axios';
 import './App.css';
 import Home from './pages/Home';
 import Search from './pages/Search';
+import Drama from './pages/Drama';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Navbar from './components/Navbar';
@@ -54,6 +55,7 @@ function App() {
         <Route exact path="/signup" element={<Signup />} />
         <Route exact path="/" element={<Home />} />
         <Route path="/search" element={<Search />} />
+        <Route path="/drama" element={<Drama />} />
       </Routes>
     </>
   );

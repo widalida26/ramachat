@@ -1,6 +1,6 @@
 export const colors = {
   primary: '#FF826C',
-  primaryL: '#FFBDB1',
+  primaryL: '#FCDDD7',
   primaryD: '#E65C44',
   secondary: '#53D2DC',
   secondaryL: '#A5EEF4',
@@ -8,4 +8,8 @@ export const colors = {
   grey: 'grey',
   greyL: 'lightgrey',
   greyD: 'darkgrey',
+  white: 'white',
+  black: 'black',
+  warning: '#CB4335',
+  warningL: '#FADBD8',
 };

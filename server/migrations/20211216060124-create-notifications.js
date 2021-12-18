@@ -9,6 +9,7 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       userId: {
+        allowNull: false,
         type: Sequelize.INTEGER,
         onDelete: 'cascade',
         references: {
@@ -16,7 +17,8 @@ module.exports = {
           key: 'id',
         },
       },
-      comment_id: {
+      commentId: {
+        allowNull: false,
         type: Sequelize.INTEGER,
         onDelete: 'cascade',
         references: {
