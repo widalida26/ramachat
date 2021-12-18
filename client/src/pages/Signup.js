@@ -75,7 +75,7 @@ function Signup() {
     axios
       .post('http://localhost:8000/signup', {
         email: userInfo.email,
-        user_id: userInfo.user_id,
+        userid: userInfo.user_id,
         password: userInfo.password,
       })
       .then(() => navigate('/'))
