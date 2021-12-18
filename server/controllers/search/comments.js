@@ -1,3 +1,8 @@
+module.exports = (req, res) => {
+  console.log(req);
+  res.end();
+};
+
 // Episode_infos.findAll({
 //     where: {
 //       id: episodeId,

@@ -1,4 +1,3 @@
-//const { getDrama } = require('../../../client/src/api/DramaDataAPI');
 const { Episode_infos } = require('../../models');
 const axios = require('axios');
 

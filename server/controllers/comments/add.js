@@ -1,5 +1,3 @@
-// const axios = require('axios');
-// const { Comments } = require('../../models');
 const { Episode_infos } = require('../../models');
 const { addNewComment } = require('./commentFunctions');
 const { isAuthorized } = require('../tokenFunctions');

@@ -24,11 +24,14 @@ app.post('/signup', controllers.signup);
 app.post('/logout', controllers.logout);
 
 app.get('/userInfo', controllers.userInfo);
-app.get('/episode-infos', controllers.drama);
 app.get('/auth', controllers.auth);
 
 app.put('/modify', controllers.modify);
 
+// 에피소드 정보 조회
+app.get('/episode-infos', controllers.episodeInfos);
+// 댓글 정보 조회
+app.get('/comments', controllers.comments);
 // 댓글 작성
 app.post('/comments/add', controllers.add);
 
