@@ -6,6 +6,8 @@ module.exports = async (req, res) => {
     const episodeId = req.query['episode-id'];
 
     let commentArr = [];
+    let replyNums = {};
+
     // 댓글 정보 검색
     const searchedComments = await Comments.findAll({ where: { episodeId } });
 
@@ -18,7 +20,6 @@ module.exports = async (req, res) => {
       const likeNum = await Likes.count({ where: { targetId: id, userId } });
 
       // 답글일 때
-      let replyNums = {};
       if (parentCommentId !== null) {
         // 답글 개수 계산
         if (!replyNums[parentCommentId]) {
@@ -26,6 +27,7 @@ module.exports = async (req, res) => {
         } else {
           replyNums[parentCommentId]++;
         }
+        continue;
       }
 
       commentArr.push({
@@ -35,13 +37,19 @@ module.exports = async (req, res) => {
         content: content,
         parentCommentId,
         likeNum,
-        replyNum: replyNums[i],
+        replyNum: 0,
         createdAt,
         updatedAt,
       });
     }
+    //console.log(commentArr);
+    for (const key in replyNums) {
+      commentArr[key - 1].replyNum = replyNums[key];
+    }
+
     res.status(200).json({ comments: commentArr });
   } catch (err) {
+    console.log(err);
     res.status(500).send(err);
   }
 };

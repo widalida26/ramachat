@@ -1,7 +1,6 @@
 const { Comments } = require('../../models');
 const { EpisodeInfos } = require('../../models');
 const { Notifications } = require('../../models');
-const { addNewComment } = require('./commentFunctions');
 const { isAuthorized } = require('../tokenFunctions');
 
 module.exports = async (req, res) => {
