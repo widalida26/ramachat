@@ -29,6 +29,9 @@ app.get('/auth', controllers.auth);
 
 app.put('/modify', controllers.modify);
 
+// 댓글 작성
+app.post('/comments/add', controllers.add);
+
 const HTTPS_PORT = process.env.HTTPS_PORT || 8000;
 
 let server;

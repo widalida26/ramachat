@@ -8,20 +8,21 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      dramaid: {
+      dramaId: {
+        allowNull: false,
         type: Sequelize.INTEGER,
       },
-      dramaname: {
+      dramaName: {
         allowNull: false,
         type: Sequelize.STRING,
       },
-      seasonindex: {
+      seasonIndex: {
         type: Sequelize.INTEGER,
       },
-      episodeindex: {
+      episodeIndex: {
         type: Sequelize.INTEGER,
       },
-      commentnum: {
+      commentNum: {
         type: Sequelize.INTEGER,
         defaultValue: 0,
       },
