@@ -2,11 +2,11 @@ const { Comments } = require('../../models');
 const { Likes } = require('../../models');
 
 module.exports = async (req, res) => {
-  const episodeId = req.query['episode-id'];
-
-  let commentArr = [];
-  // 댓글 정보 검색
   try {
+    const episodeId = req.query['episode-id'];
+
+    let commentArr = [];
+    // 댓글 정보 검색
     const searchedComments = await Comments.findAll({ where: { episodeId } });
 
     // 응답 객체 세팅 => 댓글 정보

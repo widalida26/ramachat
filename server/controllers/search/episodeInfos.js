@@ -3,10 +3,11 @@ const { Comments } = require('../../models');
 const axios = require('axios');
 
 module.exports = async (req, res) => {
-  let dramaId = req.query['drama-id'];
-  let seasonIndex = req.query['season-index'];
-  const episodeInfos = [];
   try {
+    let dramaId = req.query['drama-id'];
+    let seasonIndex = req.query['season-index'];
+
+    const episodeInfos = [];
     const storedEpisodes = await EpisodeInfos.findAll({
       where: { dramaId, seasonIndex },
     });
