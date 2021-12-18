@@ -9,7 +9,10 @@ module.exports = async (req, res) => {
     let replyNums = {};
 
     // 댓글 정보 검색
-    const searchedComments = await Comments.findAll({ where: { episodeId } });
+    const searchedComments = await Comments.findAll({
+      where: { episodeId },
+      order: [['createdAt', 'DESC']],
+    });
 
     // 응답 객체 세팅 => 댓글 정보
     for (let i = 0; i < searchedComments.length; i++) {
@@ -42,7 +45,7 @@ module.exports = async (req, res) => {
         updatedAt,
       });
     }
-    //console.log(commentArr);
+
     for (const key in replyNums) {
       commentArr[key - 1].replyNum = replyNums[key];
     }
