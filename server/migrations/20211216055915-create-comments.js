@@ -29,10 +29,6 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
       },
-      likes: {
-        type: Sequelize.INTEGER,
-        defaultValue: 0,
-      },
       parentCommentId: {
         type: Sequelize.INTEGER,
       },

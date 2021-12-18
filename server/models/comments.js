@@ -29,10 +29,6 @@ module.exports = (sequelize, DataTypes) => {
       episodeId: DataTypes.INTEGER,
       userId: DataTypes.INTEGER,
       content: DataTypes.STRING,
-      likes: {
-        type: DataTypes.INTEGER,
-        defaultValue: 0,
-      },
       parentCommentId: DataTypes.INTEGER,
     },
     {

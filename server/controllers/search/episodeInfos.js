@@ -1,12 +1,17 @@
-const { Episode_infos } = require('../../models');
+const { EpisodeInfos } = require('../../models');
+
 const axios = require('axios');
 
-module.exports = (req, res) => {
+module.exports = async (req, res) => {
   let dramaId = req.query['drama-id'];
   let seasonIndex = req.query['season-index'];
   const episodeInfos = [];
 
-  Episode_infos.findAll({
+  // const searchedEpisodes = await EpisodeInfos.findAll({ where: dramaId, seasonIndex });
+  //   //for (let i = )
+  // }
+
+  EpisodeInfos.findAll({
     where: {
       dramaId,
       seasonIndex,
