@@ -13,7 +13,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         onDelete: 'cascade',
         references: {
-          model: 'Episode_infos',
+          model: 'EpisodeInfos',
           key: 'id',
         },
       },
@@ -28,10 +28,6 @@ module.exports = {
       content: {
         allowNull: false,
         type: Sequelize.STRING,
-      },
-      likes: {
-        type: Sequelize.INTEGER,
-        defaultValue: 0,
       },
       parentCommentId: {
         type: Sequelize.INTEGER,
