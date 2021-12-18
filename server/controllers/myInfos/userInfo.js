@@ -1,7 +1,31 @@
 const { Users } = require('../../models');
+const { isAuthorized } = require('../tokenFunctions');
+const { decrypt } = require('../users/crypto');
 
 module.exports = (req, res) => {
-  // TODO: 로그인 정보를 통해 사용자 인증 후 토큰 전달
-
   const accessTokenData = isAuthorized(req.cookies);
+
+  const userId = accessTokenData.userId;
+  if (accessTokenData === null) {
+    res.status(401).send({ data: null, message: 'not authorized' });
+  }
+  Users.findOne({
+    where: {
+      userId,
+    },
+  }).then((data) => {
+    const dbpw = decrypt(data.password);
+    const dbem = decrypt(data.email);
+    delete data.dataValues.password;
+    const userInfo = {
+      userId: data.dataValues.userId,
+      email: dbem,
+    };
+
+    if (!data) {
+      return res.status(404).send('not found user');
+    } else {
+      return res.status(200).json({ data: { userInfo: userInfo }, message: 'ok' });
+    }
+  });
 };
