@@ -21,10 +21,13 @@ app.use(cookieParser());
 
 app.post('/login', controllers.login);
 app.post('/signup', controllers.signup);
-app.post('/auth', controllers.auth);
 app.post('/logout', controllers.logout);
+
 app.get('/userInfo', controllers.userInfo);
 app.get('/episode-infos', controllers.drama);
+app.get('/auth', controllers.auth);
+
+app.put('/modify', controllers.modify);
 
 // 댓글 작성
 app.post('/comments/add', controllers.add);

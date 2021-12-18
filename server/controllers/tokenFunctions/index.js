@@ -15,8 +15,9 @@ module.exports = {
       })
       .json({ data: { data: accessToken }, message: 'ok' });
   },
-  isAuthorized: (cookies) => {
-    const authorization = cookies.jwt;
+  isAuthorized: (req) => {
+    console.log(222, req);
+    const authorization = req.jwt;
     if (!authorization) {
       return null;
     }

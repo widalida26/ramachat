@@ -26,14 +26,14 @@ module.exports = (sequelize, DataTypes) => {
   }
   Comments.init(
     {
-      episode_id: DataTypes.INTEGER,
+      episodeid: DataTypes.INTEGER,
       userId: DataTypes.INTEGER,
       content: DataTypes.STRING,
       likes: {
         type: DataTypes.INTEGER,
         defaultValue: 0,
       },
-      parent_comment_id: DataTypes.INTEGER,
+      parentcomment_id: DataTypes.INTEGER,
     },
     {
       sequelize,

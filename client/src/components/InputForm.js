@@ -27,13 +27,13 @@ const InputField = styled.div`
   }
 `;
 
-export default function InputForm({ label, target, handleInputValue }) {
+export default function InputForm({ label, target, handleInputValue, type = 'text' }) {
   return (
     <InputField>
       <label>{label}</label>
       <input
         name={label}
-        type="text"
+        type={type}
         placeholder={label}
         onChange={handleInputValue(target)}
       />

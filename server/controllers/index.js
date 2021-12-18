@@ -6,4 +6,5 @@ module.exports = {
   add: require('./comments/add'),
   userInfo: require('./myInfos/userInfo'),
   logout: require('./users/logout'),
+  modify: require('./myInfos/modify'),
 };
