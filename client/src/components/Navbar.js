@@ -45,15 +45,19 @@ function Navbar({ isLogin, handleLogout }) {
           </Link>
           {isLogin ? (
             <ButtonGroup>
-              {/* mypage 생성시 Link 컴포넌트 추가 */}
-              <div onClick={openModalHandler}>
-                <TextButton color="white" isTransparent={true} width="fit">
-                  LOG OUT
-                </TextButton>
-              </div>
-              <TextButton color="secondary" isTransparent={false} width="fit">
-                MY PAGE
+              <TextButton
+                color="white"
+                isTransparent={true}
+                width="fit"
+                onClick={openModalHandler}
+              >
+                LOG OUT
               </TextButton>
+              <Link to="/mypage/personal-information">
+                <TextButton color="secondary" isTransparent={false} width="fit">
+                  MY PAGE
+                </TextButton>
+              </Link>
             </ButtonGroup>
           ) : (
             <ButtonGroup>
