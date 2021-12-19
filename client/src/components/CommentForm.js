@@ -3,9 +3,8 @@ import TextButton from './TextButton';
 import { colors } from '../styles/Colors';
 import { device } from '../styles/Breakpoints';
 import { postComment } from '../api/CommentsDataAPI';
-import { useImperativeHandle, useState } from 'react';
+import { useState } from 'react';
 import Modal from './Modal';
-import { useSearchParams } from 'react-router-dom';
 
 const Input = styled.textarea`
   width: 100%;
@@ -24,6 +23,16 @@ const FormContainer = styled.div`
   @media ${device.tablet} {
     position: relative;
     border: 1px solid ${colors.primary};
+  }
+
+  form {
+    display: flex;
+    gap: 0.5rem;
+
+    @media ${device.tablet} {
+      flex-direction: column;
+      align-items: flex-end;
+    }
   }
 `;
 
