@@ -11,29 +11,43 @@ module.exports = async (req, res) => {
 
   const { userId, email } = accessTokenData;
   const { password } = req.body;
+  const { newPassword } = req.body;
 
   const dbpw = encrypt(password);
+  const dbnpw = encrypt(newPassword);
+
+  console.log(333, userId);
+  console.log(111, dbpw);
+  console.log(222, dbnpw);
 
   Users.findOne({
     where: {
       userId,
     },
-  }).then((data) => {
-    if (data.password === dbpw) {
-      return res.status(204).send('same as previous password');
-    } else {
-      Users.update(
-        {
-          password: dbpw,
-        },
-        {
-          where: {
-            userId,
-            email: email,
+  })
+    .then((data) => {
+      if (data.password !== dbpw) {
+        const dbpw1 = decrypt(data.password);
+        console.log(dbpw1);
+        return res.status(400).send('BadParameterException');
+      }
+      if (data.password === dbnpw) {
+        return res.status(422).send('same as previous password');
+      } else {
+        Users.update(
+          {
+            password: dbnpw,
           },
-        }
-      );
-      return res.status(201).send('password changed');
-    }
-  });
+          {
+            where: {
+              userId,
+            },
+          }
+        );
+        return res.status(201).send('password changed');
+      }
+    })
+    .catch((err) => {
+      return res.status(500).send('err');
+    });
 };

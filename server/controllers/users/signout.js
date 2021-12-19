@@ -7,7 +7,6 @@ module.exports = (req, res) => {
 
   const userId = accessTokenData.userId;
 
-  console.log(111, userId);
   if (accessTokenData === null) {
     res.status(401).send({ data: null, message: 'not authorized' });
   }
