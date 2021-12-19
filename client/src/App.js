@@ -23,7 +23,7 @@ function App() {
       })
       .then((res) => {
         setIsLogin(true);
-        setUserInfo(res.data.data);
+        setUserInfo(res.data.data.userInfo);
         navigate('/');
       })
       .catch();

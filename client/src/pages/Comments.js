@@ -57,30 +57,30 @@ const CommentsList = styled.ul`
   }
 `;
 
-export default function Comments({ userInfo = {} }) {
-  const comments = [
-    {
-      id: 123,
-      episodeId: 1020,
-      userId: 'alexJ',
-      content:
-        'I’ve been looking forward to the new season for such a long time! Finally,Sherlock and Watson are back!',
-      likeNum: 10,
-      replyNum: 2,
-      createdAt: '2021-12-12',
-      modifiedAt: '2021-12-13',
-    },
-    {
-      id: 124,
-      episodeId: 1020,
-      userId: 'lewis',
-      content: 'It was bit disappointing.',
-      likeNum: 2,
-      replyNum: 0,
-      createdAt: '2021-12-14',
-      modifiedAt: '2021-12-15',
-    },
-  ];
+export default function Comments({ userInfo }) {
+  // const comments = [
+  //   {
+  //     id: 123,
+  //     episodeId: 1020,
+  //     userId: 'alexJ',
+  //     content:
+  //       'I’ve been looking forward to the new season for such a long time! Finally,Sherlock and Watson are back!',
+  //     likeNum: 10,
+  //     replyNum: 2,
+  //     createdAt: '2021-12-12',
+  //     modifiedAt: '2021-12-13',
+  //   },
+  //   {
+  //     id: 124,
+  //     episodeId: 1020,
+  //     userId: 'lewis',
+  //     content: 'It was bit disappointing.',
+  //     likeNum: 2,
+  //     replyNum: 0,
+  //     createdAt: '2021-12-14',
+  //     modifiedAt: '2021-12-15',
+  //   },
+  // ];
 
   const [drama, setDrama] = useState({});
   const dramaId = useParams().id;
@@ -107,18 +107,18 @@ export default function Comments({ userInfo = {} }) {
     sendAPICall();
   }, [dramaId, seasonNum, episodeNum]);
 
-  // const [comments, setComments] = useState([]);
+  const [comments, setComments] = useState([]);
 
-  // useEffect(() => {
-  //   setComments([]);
-  //   const sendAPICall = async () => {
-  //     const data = await getEpisodeComments(episode.id);
-  //     setComments(data);
-  //   };
-  //   sendAPICall();
-  // }, [episode]);
+  useEffect(() => {
+    setComments([]);
+    const sendAPICall = async () => {
+      const data = await getEpisodeComments(episode.id);
+      setComments(data);
+    };
+    sendAPICall();
+  }, [episode]);
 
-  const userId = userInfo ? userInfo.userId : undefined;
+  const userId = userInfo ? userInfo.id : undefined;
 
   const url =
     episode.still_path === null

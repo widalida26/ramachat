@@ -18,7 +18,7 @@ export function getEpisodeComments(episodeId) {
   return axios
     .get(`http://localhost:8000/comments?episode-id=${episodeId}`)
     .then((result) => {
-      return result.comments;
+      return result.data.comments;
     });
 }
 
@@ -34,17 +34,28 @@ export function postComment(
   parentCommentId
 ) {
   console.log('sending new comment');
+  console.log(
+    userId,
+    content,
+    dramaId,
+    dramaName,
+    seasonIndex,
+    episodeIndex,
+    episodeId,
+    commentNum,
+    parentCommentId
+  );
   return axios
-    .post(`http://localhost:8000/comments`, {
-      userId,
-      content,
-      dramaId,
-      dramaName,
-      seasonIndex,
-      episodeIndex,
-      episodeId,
-      commentNum,
-      parentCommentId,
+    .post(`http://localhost:8000/comments/add`, {
+      userId: userId,
+      content: content,
+      dramaId: dramaId,
+      dramaName: dramaName,
+      seasonIndex: seasonIndex,
+      episodeIndex: episodeIndex,
+      episodeId: episodeId,
+      commentNum: commentNum,
+      parentCommentId: parentCommentId,
     })
     .then((result) => result);
 }
