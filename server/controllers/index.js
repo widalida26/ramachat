@@ -9,4 +9,6 @@ module.exports = {
   comments: require('./search/comments'),
   add: require('./comments/add'),
   delete: require('./comments/delete'),
+  signout: require('./users/signout'),
+  activity: require('./myInfos/activity'),
 };
