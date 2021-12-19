@@ -5,14 +5,18 @@ const { isAuthorized } = require('../tokenFunctions');
 
 module.exports = async (req, res) => {
   try {
-    const commentId = req;
-    console.log(commentId);
+    const { commentId } = req.params;
     const accessTokenData = isAuthorized(req.cookies);
     // 인증 실패
     if (accessTokenData === null) {
       res.status(401).send('unauthorized user');
       // 인증 성공
     } else {
+      //const episdoeId =
+      // 댓글 삭제
+      const deletedComment = await Comments.destroy({ where: { id: commentId } });
+      console.log(deletedComment);
+      const restCnt = EpisodeInfos.count({ where: {} });
     }
     res.end();
   } catch (err) {

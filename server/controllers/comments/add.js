@@ -14,12 +14,11 @@ module.exports = async (req, res) => {
     // 인증 실패
     if (accessTokenData === null) {
       res.status(401).send('unauthorized user');
-      console.log(accessTokenData);
       // 인증 성공
     } else {
+      const userId = accessTokenData.id;
       // body에서 필요한 값 받기
       const {
-        userId,
         content,
         dramaId,
         dramaName,
