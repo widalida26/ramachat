@@ -14,14 +14,13 @@ module.exports = async (req, res) => {
       // 인증 성공
     } else {
       // 삭제할 댓글의 에피소드 아이디 조회
-      let episodeId = -1;
       const commentToDelete = await Comments.findOne({ where: { id: commentId } });
 
       // 삭제할 댓글이 없는 경우
       if (commentToDelete === null) {
         res.status(204).send('nothing to delete');
       } else {
-        episodeId = commentToDelete.dataValues.episodeId;
+        const { userId, episodeId } = commentToDelete.dataValues;
         // 댓글 삭제
         await Comments.destroy({ where: { id: commentId } });
 
@@ -30,7 +29,10 @@ module.exports = async (req, res) => {
         if (restCnt === 0) {
           await EpisodeInfos.destroy({ where: { id: episodeId } });
         }
-        //
+
+        // 해당 댓글의 알림 정보 삭제
+        await Notifications.destroy({ where: { userId, commentId } });
+
         res.status(200).send('comment delete success');
       }
     }
