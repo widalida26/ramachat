@@ -4,15 +4,20 @@ const { Notifications } = require('../../models');
 const { isAuthorized } = require('../tokenFunctions');
 
 module.exports = async (req, res) => {
-  const commentId = req;
-  console.log(commentId);
-  const accessTokenData = isAuthorized(req.cookies);
-  // 인증 실패
-  if (accessTokenData === null) {
-    res.status(401).send('unauthorized user');
-    // 인증 성공
+  try {
+    const commentId = req;
+    console.log(commentId);
+    const accessTokenData = isAuthorized(req.cookies);
+    // 인증 실패
+    if (accessTokenData === null) {
+      res.status(401).send('unauthorized user');
+      // 인증 성공
+    } else {
+    }
+    res.end();
+  } catch (err) {
+    res.status(500).send(err);
   }
-  res.end();
   //   try {
   //     const accessTokenData = isAuthorized(req.cookies);
   //     // 인증 실패

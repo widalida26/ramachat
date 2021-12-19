@@ -1,33 +1,34 @@
-const { episodeInfos } = require('..');
 const { Comments } = require('../../models');
 const { EpisodeInfos } = require('../../models');
 const { Notifications } = require('../../models');
 const { isAuthorized } = require('../tokenFunctions');
 
 module.exports = async (req, res) => {
-  const accessTokenData = isAuthorized(req.cookies);
-  // 인증 실패
-  if (accessTokenData === null) {
-    res.status(401).send('unauthorized user');
-    // 인증 성공
-  } else {
-    // 작성된 댓글의 아이디
-    let createdCommentId = -1;
-    // EpisodeInfos 테이블에 정보가 삽입되었는지 여부
-    let episodeInfoCreated = false;
-    // body에서 필요한 값 받기
-    const {
-      userId,
-      content,
-      dramaId,
-      dramaName,
-      seasonIndex,
-      episodeIndex,
-      episodeId,
-      parentCommentId,
-    } = req.body;
+  // 작성된 댓글의 아이디
+  let createdCommentId = -1;
+  // EpisodeInfos 테이블에 정보가 삽입되었는지 여부
+  let episodeInfoCreated = false;
 
-    try {
+  try {
+    const accessTokenData = isAuthorized(req.cookies);
+    // 인증 실패
+    if (accessTokenData === null) {
+      res.status(401).send('unauthorized user');
+      console.log(accessTokenData);
+      // 인증 성공
+    } else {
+      // body에서 필요한 값 받기
+      const {
+        userId,
+        content,
+        dramaId,
+        dramaName,
+        seasonIndex,
+        episodeIndex,
+        episodeId,
+        parentCommentId,
+      } = req.body;
+
       // 새 댓글 객체 세팅
       let newComment = { episodeId, userId, content, parentCommentId };
 
@@ -60,17 +61,17 @@ module.exports = async (req, res) => {
         await Notifications.create({ userId, commentId: id });
         res.status(201).json(commentResponse);
       }
-      // 오류 발생 시 추가한 테이블을 제거 시도
-    } catch (err) {
-      if (episodeInfoCreated) {
-        await EpisodeInfos.destory({
-          where: { id: episodeId },
-        });
-        await Comments.destroy({
-          where: { id: createdCommentId },
-        });
-      }
-      await res.status(500).send(err);
     }
+    // 오류 발생 시 추가한 테이블을 제거 시도
+  } catch (err) {
+    if (episodeInfoCreated) {
+      await EpisodeInfos.destory({
+        where: { id: episodeId },
+      });
+      await Comments.destroy({
+        where: { id: createdCommentId },
+      });
+    }
+    await res.status(500).send(err);
   }
 };
