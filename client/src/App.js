@@ -8,6 +8,7 @@ import Drama from './pages/Drama';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Navbar from './components/Navbar';
+import Comments from './pages/Comments';
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
@@ -55,7 +56,11 @@ function App() {
         <Route exact path="/signup" element={<Signup />} />
         <Route exact path="/" element={<Home />} />
         <Route path="/search" element={<Search />} />
-        <Route path="/drama" element={<Drama />} />
+        <Route path="/drama/:id" element={<Drama />} />
+        <Route
+          path="/drama/:id/comments/season/:season/episode/:episode"
+          element={<Comments userInfo={userInfo} />}
+        />
       </Routes>
     </>
   );

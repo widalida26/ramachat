@@ -38,3 +38,16 @@ export function getEpisodes(dramaId, seasonIdx) {
       return result.data.episodes;
     });
 }
+
+export function getEpisode(dramaId, seasonIdx, episodeIdx) {
+  return axios
+    .get(
+      `https://api.themoviedb.org/3/tv/${dramaId}/season/${seasonIdx}/episode/${episodeIdx}?api_key=${process.env.REACT_APP_API_KEY}`,
+      {
+        withCredentials: false,
+      }
+    )
+    .then((result) => {
+      return result.data;
+    });
+}
