@@ -8,4 +8,5 @@ module.exports = {
   episodeInfos: require('./search/episodeInfos'),
   comments: require('./search/comments'),
   add: require('./comments/add'),
+  delete: require('./comments/delete'),
 };
