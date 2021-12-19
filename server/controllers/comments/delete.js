@@ -30,7 +30,7 @@ module.exports = async (req, res) => {
         if (restCnt === 0) {
           await EpisodeInfos.destroy({ where: { id: episodeId } });
         }
-
+        //
         res.status(200).send('comment delete success');
       }
     }
