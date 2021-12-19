@@ -1,7 +1,6 @@
 const sequelize = require('../../models').sequelize;
 const Op = require('sequelize').Op;
 const { Comments } = require('../../models');
-const { Likes } = require('../../models');
 
 module.exports = async (req, res) => {
   try {
