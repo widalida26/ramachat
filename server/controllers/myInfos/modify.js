@@ -20,7 +20,7 @@ module.exports = async (req, res) => {
     },
   }).then((data) => {
     if (data.password === dbpw) {
-      return res.status(404).send('same as previous password');
+      return res.status(204).send('same as previous password');
     } else {
       Users.update(
         {

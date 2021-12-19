@@ -15,7 +15,7 @@ module.exports = (req, res) => {
       const depw = decrypt(dbpw);
 
       if (!data) {
-        return res.status(401).send('invalid user or wrong password');
+        return res.status(401).send('invalid user');
       }
       if (depw !== password) {
         console.log();
