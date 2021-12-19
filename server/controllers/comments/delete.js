@@ -4,8 +4,14 @@ const { Notifications } = require('../../models');
 const { isAuthorized } = require('../tokenFunctions');
 
 module.exports = async (req, res) => {
-  const commentId = req.query;
+  const commentId = req;
   console.log(commentId);
+  const accessTokenData = isAuthorized(req.cookies);
+  // 인증 실패
+  if (accessTokenData === null) {
+    res.status(401).send('unauthorized user');
+    // 인증 성공
+  }
   res.end();
   //   try {
   //     const accessTokenData = isAuthorized(req.cookies);
