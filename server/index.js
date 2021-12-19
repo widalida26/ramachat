@@ -19,6 +19,10 @@ app.use(
 );
 app.use(cookieParser());
 
+app.get('/', (req, res) => {
+  res.status(200).send('Hello World!');
+});
+
 app.post('/login', controllers.login);
 app.post('/signup', controllers.signup);
 app.post('/logout', controllers.logout);
