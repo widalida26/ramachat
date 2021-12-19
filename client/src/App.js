@@ -9,6 +9,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Navbar from './components/Navbar';
 import Comments from './pages/Comments';
+import MyPageTemp from './pages/MyPageTemp';
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
@@ -61,6 +62,7 @@ function App() {
           path="/drama/:id/comments/season/:season/episode/:episode"
           element={<Comments userInfo={userInfo} />}
         />
+        <Route path="/mypage/personal-information" element={<MyPageTemp />} />
       </Routes>
     </>
   );
