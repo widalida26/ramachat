@@ -11,6 +11,8 @@ module.exports = async (req, res) => {
     res.status(401).send('unauthorized user');
     // 인증 성공
   } else {
+    // 작성된 댓글의 아이디
+    let createdCommentId = -1;
     // EpisodeInfos 테이블에 정보가 삽입되었는지 여부
     let episodeInfoCreated = false;
     // body에서 필요한 값 받기
@@ -44,6 +46,7 @@ module.exports = async (req, res) => {
       // 댓글을 Comments 테이블에 삽입
       const createdComment = await Comments.create(newComment);
       const { id, updatedAt, createdAt } = createdComment.dataValues;
+      createdCommentId = id;
       // 응답 객체 세팅 => 댓를 정보
       const commentResponse = { id, updatedAt, createdAt };
 
@@ -61,14 +64,10 @@ module.exports = async (req, res) => {
     } catch (err) {
       if (episodeInfoCreated) {
         await EpisodeInfos.destory({
-          where: {
-            id: episodeId,
-          },
+          where: { id: episodeId },
         });
         await Comments.destroy({
-          where: {
-            id: id,
-          },
+          where: { id: createdCommentId },
         });
       }
       await res.status(500).send(err);
