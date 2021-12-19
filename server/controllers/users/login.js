@@ -3,8 +3,6 @@ const { generateAccessToken, sendAccessToken } = require('../tokenFunctions');
 const { encrypt, decrypt } = require('./crypto');
 
 module.exports = (req, res) => {
-  // TODO: 로그인 정보를 통해 사용자 인증 후 토큰 전달
-
   const { userId, password } = req.body;
 
   Users.findOne({

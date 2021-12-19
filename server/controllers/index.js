@@ -8,4 +8,6 @@ module.exports = {
   episodeInfos: require('./search/episodeInfos'),
   comments: require('./search/comments'),
   add: require('./comments/add'),
+  signout: require('./users/signout'),
+  activity: require('./myInfos/activity'),
 };

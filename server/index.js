@@ -14,26 +14,32 @@ app.use(
   cors({
     origin: [`http://localhost:3000`],
     credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'OPTIONS'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   })
 );
 app.use(cookieParser());
 
+//POST
 app.post('/login', controllers.login);
 app.post('/signup', controllers.signup);
 app.post('/logout', controllers.logout);
+// 댓글 작성
+app.post('/comments/add', controllers.add);
 
+//GET
+app.get('/activity', controllers.activity);
 app.get('/userInfo', controllers.userInfo);
 app.get('/auth', controllers.auth);
-
-app.put('/modify', controllers.modify);
-
 // 에피소드 정보 조회
 app.get('/episode-infos', controllers.episodeInfos);
 // 댓글 정보 조회
 app.get('/comments', controllers.comments);
-// 댓글 작성
-app.post('/comments/add', controllers.add);
+
+//PUT
+app.put('/modify', controllers.modify);
+
+//DELETE
+app.delete('/signout', controllers.signout);
 
 const HTTPS_PORT = process.env.HTTPS_PORT || 8000;
 

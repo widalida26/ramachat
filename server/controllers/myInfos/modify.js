@@ -19,7 +19,6 @@ module.exports = async (req, res) => {
       userId,
     },
   }).then((data) => {
-    console.log(777, data.password);
     if (data.password === dbpw) {
       return res.status(404).send('same as previous password');
     } else {
