@@ -25,12 +25,10 @@ const LoginContainer = styled.div`
   width: 100%;
   background-color: ${colors.white};
   padding: 1rem;
-
   @media ${device.tablet} {
     width: 400px;
     padding: 2rem;
   }
-
   form {
     width: 100%;
     display: flex;
