@@ -8,6 +8,7 @@ import Drama from './pages/Drama';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Navbar from './components/Navbar';
+import MyPageTemp from './pages/MyPageTemp';
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
@@ -56,6 +57,7 @@ function App() {
         <Route exact path="/" element={<Home />} />
         <Route path="/search" element={<Search />} />
         <Route path="/drama" element={<Drama />} />
+        <Route path="/mypage/personal-information" element={<MyPageTemp />} />
       </Routes>
     </>
   );
