@@ -12,28 +12,24 @@ module.exports = (sequelize, DataTypes) => {
       models.Comments.hasOne(models.Users, {
         foreignKey: 'id',
       });
-      models.Comments.belongsTo(models.Episode_infos, {
+      models.Comments.belongsTo(models.EpisodeInfos, {
         onDelete: 'cascade',
         foreignKey: 'id',
       });
       models.Comments.hasMany(models.Notifications, {
-        foreignKey: 'comment_id',
+        foreignKey: 'commentId',
       });
       models.Comments.hasMany(models.Likes, {
-        foreignKey: 'target_id',
+        foreignKey: 'targetId',
       });
     }
   }
   Comments.init(
     {
-      episodeid: DataTypes.INTEGER,
+      episodeId: DataTypes.INTEGER,
       userId: DataTypes.INTEGER,
       content: DataTypes.STRING,
-      likes: {
-        type: DataTypes.INTEGER,
-        defaultValue: 0,
-      },
-      parentcomment_id: DataTypes.INTEGER,
+      parentCommentId: DataTypes.INTEGER,
     },
     {
       sequelize,
