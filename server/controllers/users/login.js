@@ -31,7 +31,7 @@ module.exports = (req, res) => {
 
       res
         .cookie('jwt', accessToken, {
-          httpOnly: true,
+          //httpOnly: true,
         })
         .status(200)
         .json({ data: { accessToken: accessToken }, message: 'ok' });

@@ -10,12 +10,12 @@ module.exports = async (req, res) => {
     // 인증 실패
     if (accessTokenData === null) {
       res.status(401).send('unauthorized user');
+      return;
       // 인증 성공
-    } else {
-      const userId = accessTokenData.id;
-      const { targetId } = req.body;
-      const liked = await Likes.create({ userId, targetId });
     }
+    const userId = accessTokenData.id;
+    const { targetId } = req.body;
+    const liked = await Likes.create({ userId, targetId });
   } catch {}
   res.end();
   //   // 작성된 댓글의 아이디
