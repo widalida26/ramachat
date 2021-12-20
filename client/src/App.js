@@ -18,7 +18,8 @@ function App() {
 
   const isAuthenticated = () => {
     axios
-      .get(`${process.env.REACT_APP_SERVER_URL}/auth`, {
+      // .get(`${process.env.REACT_APP_SERVER_URL}/auth`, {
+      .get(`http://localhost:8000/auth`, {
         withCredentials: true,
       })
       .then((res) => {
@@ -34,7 +35,8 @@ function App() {
   };
 
   const handleLogout = () => {
-    axios.post(`${process.env.REACT_APP_SERVER_URL}/logout`).then((res) => {
+    // axios.post(`${process.env.REACT_APP_SERVER_URL}/logout`).then((res) => {
+    axios.post(`http://localhost:8000/logout`).then((res) => {
       setUserInfo(null);
       setIsLogin(false);
       // navigate('/');
