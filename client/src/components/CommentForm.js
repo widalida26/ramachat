@@ -43,7 +43,7 @@ export default function CommentForm({
   seasonIndex,
   episodeIndex,
   episodeId,
-  commentNum,
+  // commentNum,
 }) {
   const [content, setContent] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -67,8 +67,8 @@ export default function CommentForm({
         dramaName,
         seasonIndex,
         episodeIndex,
-        episodeId,
-        commentNum
+        episodeId
+        // commentNum
       ).then((result) => {
         console.log(result);
       });

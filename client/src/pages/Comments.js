@@ -151,7 +151,7 @@ export default function Comments({ userInfo }) {
           seasonIndex={episode.season_number}
           episodeIndex={episode.episode_number}
           episodeId={episode.id}
-          commentNum={comments.length}
+          // commentNum={comments.length}
         />
       </CommentsContainer>
     </Main>
