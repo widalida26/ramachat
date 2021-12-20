@@ -8,6 +8,15 @@ import TextButton from '../components/TextButton';
 import Modal from '../components/Modal';
 import InputForm from '../components/InputForm';
 
+// import dotenv from 'dotenv';
+// dotenv.config();
+// const API_KEY = process.env.REACT_APP_SERVER_URL;
+// const API_KEY2 = process.env.REACT_APP_API_KEY;
+// console.log(`${process.env.REACT_APP_SERVER_URL}`);
+// console.log(`${process.env.REACT_APP_SERVER_URL}/comments?episode-id=`);
+// console.log(API_KEY);
+// console.log(API_KEY2);
+
 axios.defaults.withCredentials = true;
 
 const Main = styled.main`
@@ -72,7 +81,8 @@ export default function Signup() {
 
   const handleSignup = () => {
     axios
-      .post('http://localhost:8000/signup', {
+      // .post(`${process.env.REACT_APP_SERVER_URL}/signup`, {
+      .post(`http://localhost:8000/signup`, {
         email: userInfo.email,
         userId: userInfo.userId,
         password: userInfo.password,
