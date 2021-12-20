@@ -1,7 +1,6 @@
 const sequelize = require('../../models').sequelize;
 const Op = require('sequelize').Op;
 const { Comments } = require('../../models');
-const { Likes } = require('../../models');
 
 module.exports = async (req, res) => {
   try {
@@ -44,7 +43,6 @@ module.exports = async (req, res) => {
     });
 
     // 응답 객체 세팅 => 댓글 정보
-    //let replyNums = new Array(searchedComments.length).fill(0);
     let commentArr = searchedComments.map((comment) => {
       let commentResponse = ({
         id,

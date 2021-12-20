@@ -5,9 +5,11 @@ module.exports = {
   userInfo: require('./myInfos/userInfo'),
   logout: require('./users/logout'),
   modify: require('./myInfos/modify'),
+  signout: require('./users/signout'),
+  activity: require('./myInfos/activity'),
   episodeInfos: require('./search/episodeInfos'),
   comments: require('./search/comments'),
   add: require('./comments/add'),
-  signout: require('./users/signout'),
-  activity: require('./myInfos/activity'),
+  delete: require('./comments/delete'),
+  like: require('./comments/like'),
 };
