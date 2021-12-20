@@ -12,9 +12,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(
   cors({
-    orogin: [`*`],
+    origin: true,
+    //orogin: [`*`],
     //origin: [`http://localhost:3000`],
-    //credentials: true,
+    credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   })
 );
