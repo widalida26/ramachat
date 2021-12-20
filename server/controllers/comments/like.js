@@ -1,6 +1,7 @@
 const { Comments } = require('../../models');
 const { EpisodeInfos } = require('../../models');
 const { Notifications } = require('../../models');
+const { Likes } = require('../../models');
 const { isAuthorized } = require('../tokenFunctions');
 
 module.exports = async (req, res) => {
@@ -11,8 +12,9 @@ module.exports = async (req, res) => {
       res.status(401).send('unauthorized user');
       // 인증 성공
     } else {
+      const userId = accessTokenData.id;
       const { targetId } = req.body;
-      //const liked = await Comments.create(newComment);
+      const liked = await Likes.create({ userId, targetId });
     }
   } catch {}
   res.end();
