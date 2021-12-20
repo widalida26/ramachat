@@ -12,9 +12,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(
   cors({
-    origin: ['https://localhost:3000'],
+    origin: true,
+    //orogin: [`*`],
+    //origin: [`http://localhost:3000`],
     credentials: true,
-    methods: ['GET', 'POST', 'OPTIONS']
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   })
 );
 app.use(cookieParser());
@@ -23,7 +25,29 @@ app.get('/', (req, res) => {
   res.status(200).send('Hello World!');
 });
 
-const HTTPS_PORT = process.env.HTTPS_PORT || 4000;
+app.post('/login', controllers.login);
+app.post('/signup', controllers.signup);
+app.post('/logout', controllers.logout);
+
+//GET
+app.get('/activity', controllers.activity);
+app.get('/userInfo', controllers.userInfo);
+app.get('/auth', controllers.auth);
+
+app.get('/episode-infos', controllers.episodeInfos); // 에피소드 정보 조회
+app.get('/comments', controllers.comments); // 댓글 정보 조회
+app.post('/comments/add', controllers.add); // 댓글 작성
+app.delete('/comments/:commentId', controllers.delete); // 댓글 삭제
+app.post('/comments/likes', controllers.like); // 좋아요
+//app.put('/modify', controllers.modify);
+
+//PUT
+app.put('/modify', controllers.modify);
+
+//DELETE
+app.delete('/signout', controllers.signout);
+
+const HTTPS_PORT = process.env.HTTPS_PORT || 80;
 
 let server;
 if (fs.existsSync('./key.pem') && fs.existsSync('./cert.pem')) {
@@ -32,8 +56,12 @@ if (fs.existsSync('./key.pem') && fs.existsSync('./cert.pem')) {
   const credentials = { key: privateKey, cert: certificate };
 
   server = https.createServer(credentials, app);
-  server.listen(HTTPS_PORT, () => console.log('https server runnning'));
+  server.listen(HTTPS_PORT, () =>
+    console.log('https server runnning', `\nport number is ${HTTPS_PORT}`)
+  );
 } else {
-  server = app.listen(HTTPS_PORT, () => console.log('http server runnning'));
+  server = app.listen(HTTPS_PORT, () =>
+    console.log('http server runnning', `\nport number is ${HTTPS_PORT}`)
+  );
 }
 module.exports = server;
