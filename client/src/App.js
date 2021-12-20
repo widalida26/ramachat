@@ -8,6 +8,7 @@ import Drama from './pages/Drama';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Navbar from './components/Navbar';
+import Comments from './pages/Comments';
 import MyPageTemp from './pages/MyPageTemp';
 
 function App() {
@@ -17,12 +18,12 @@ function App() {
 
   const isAuthenticated = () => {
     axios
-      .get('http://localhost:8000/auth', {
+      .get('http://ec2-3-37-218-56.ap-northeast-2.compute.amazonaws.com/auth', {
         withCredentials: true,
       })
       .then((res) => {
         setIsLogin(true);
-        setUserInfo(res.data.data);
+        setUserInfo(res.data.data.userInfo);
         navigate('/');
       })
       .catch();
@@ -33,11 +34,13 @@ function App() {
   };
 
   const handleLogout = () => {
-    axios.post('http://localhost:8000/logout').then((res) => {
-      setUserInfo(null);
-      setIsLogin(false);
-      // navigate('/');
-    });
+    axios
+      .post('http://ec2-3-37-218-56.ap-northeast-2.compute.amazonaws.com/logout')
+      .then((res) => {
+        setUserInfo(null);
+        setIsLogin(false);
+        // navigate('/');
+      });
   };
 
   useEffect(() => {
@@ -56,7 +59,11 @@ function App() {
         <Route exact path="/signup" element={<Signup />} />
         <Route exact path="/" element={<Home />} />
         <Route path="/search" element={<Search />} />
-        <Route path="/drama" element={<Drama />} />
+        <Route path="/drama/:id" element={<Drama />} />
+        <Route
+          path="/drama/:id/comments/season/:season/episode/:episode"
+          element={<Comments userInfo={userInfo} />}
+        />
         <Route path="/mypage/personal-information" element={<MyPageTemp />} />
       </Routes>
     </>
