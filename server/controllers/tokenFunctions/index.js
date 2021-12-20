@@ -13,7 +13,8 @@ module.exports = {
     });
   },
   isAuthorized: (req) => {
-    const authorization = req.jwt;
+    const authorization = req.headers.authorization;
+    console.log(authorization);
     if (!authorization) {
       return null;
     }
