@@ -6,7 +6,7 @@ export function getEpisodeInfos(dramaId, seasonNumber) {
   console.log('api call made');
   return axios
     .get(
-      `http://ec2-3-37-218-56.ap-northeast-2.compute.amazonaws.com/episode-infos?drama-id=${dramaId}&season-index=${seasonNumber}`
+      `${process.env.REACT_APP_SERVER_URL}/episode-infos?drama-id=${dramaId}&season-index=${seasonNumber}`
     )
     .then((result) => {
       return result.data;
@@ -16,9 +16,7 @@ export function getEpisodeInfos(dramaId, seasonNumber) {
 export function getEpisodeComments(episodeId) {
   console.log('getting comments', episodeId);
   return axios
-    .get(
-      `http://ec2-3-37-218-56.ap-northeast-2.compute.amazonaws.com/comments?episode-id=${episodeId}`
-    )
+    .get(`${process.env.REACT_APP_SERVER_URL}/comments?episode-id=${episodeId}`)
     .then((result) => {
       return result.data.comments;
     });
@@ -48,7 +46,7 @@ export function postComment(
     parentCommentId
   );
   return axios
-    .post(`http://ec2-3-37-218-56.ap-northeast-2.compute.amazonaws.com/comments/add`, {
+    .post(`${process.env.REACT_APP_SERVER_URL}/comments/add`, {
       userId: userId,
       content: content,
       dramaId: dramaId,
