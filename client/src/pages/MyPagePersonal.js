@@ -32,15 +32,28 @@ export default function MyPagePersonal() {
   const userId = myPageInfo ? myPageInfo.userId : '';
   const email = myPageInfo ? myPageInfo.email : '';
 
+  // const [nowPassword, setNowPassword] = useState('');
+  // const [newPassword, setNewPassword] = useState('');
+  // const [newPasswordConfirm, setNewPasswordConfirm] = useState('');
+
+  // 비밀번호 변경
+  // ! 유효성 검사 추가?
+  // ! 비밀번호 확인
+  const [passwordInfo, setPasswordInfo] = useState({
+    nowPassword: '',
+    newPassword: '',
+    newPasswordConfirm: '',
+  });
+
   // console.log(isChange);
-  console.log(myPageInfo);
+  console.log(passwordInfo);
 
   const openChangePassword = () => {
     setIsChange(!isChange);
   };
 
   const handleInputValue = (target) => (e) => {
-    // setLoginInfo({ ...loginInfo, [target]: e.target.value });
+    setPasswordInfo({ ...passwordInfo, [target]: e.target.value });
     // console.log(loginInfo);
   };
 
@@ -50,11 +63,30 @@ export default function MyPagePersonal() {
       .then((res) => {
         setMyPageInfo(res.data.data.userInfo);
       })
-      .catch(() => console.log('에러다'));
+      .catch(() => console.log('getMyPage 에러'));
   };
 
   const changePassword = () => {
-    console.log('변경');
+    // 비밀번호 변경 성공 모달띄우기...
+    axios
+      .put('http://localhost:8000/modify', {
+        password: passwordInfo.nowPassword,
+        newPassword: passwordInfo.newPassword,
+      })
+      .then((data) => {
+        console.log(data);
+      })
+      .catch(() => console.log('changePassword 에러'));
+  };
+
+  const signOut = () => {
+    // 회원탈퇴 성공 모달띄우기...
+    axios
+      .delete('http://localhost:8000/signout')
+      .then((data) => {
+        console.log(data);
+      })
+      .catch(() => console.log('signOut 에러'));
   };
 
   useEffect(() => {
@@ -73,19 +105,19 @@ export default function MyPagePersonal() {
             <>
               <p>Now Password</p>
               <InputForm
-                target="password"
+                target="nowPassword"
                 type="password"
                 handleInputValue={handleInputValue}
               ></InputForm>
               <p>New Password</p>
               <InputForm
-                target="password"
+                target="newPassword"
                 type="password"
                 handleInputValue={handleInputValue}
               ></InputForm>
               <p>New Password Confirmation</p>
               <InputForm
-                target="password"
+                target="newPasswordConfirm"
                 type="password"
                 handleInputValue={handleInputValue}
               ></InputForm>
@@ -113,7 +145,7 @@ export default function MyPagePersonal() {
                 color="secondary"
                 isTransparent={true}
                 width="fit"
-                // onClick={handleClick}
+                onClick={signOut}
               >
                 Sign out
               </TextButton>
