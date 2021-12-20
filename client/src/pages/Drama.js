@@ -4,7 +4,7 @@ import { device } from '../styles/Breakpoints';
 import { getDrama, getEpisodes } from '../api/DramaDataAPI';
 import { getEpisodeInfos } from '../api/CommentsDataAPI';
 import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import SeasonSelect from '../components/SeasonSelect';
 import EpisodeListItem from '../components/EpisodeListItem';
 
@@ -62,7 +62,9 @@ const EpisodeList = styled.article`
 export default function Drama() {
   console.log('drama comp');
   const [drama, setDrama] = useState({});
-  const dramaId = new URLSearchParams(useLocation().search).get('drama-id');
+  // const dramaId = new URLSearchParams(useLocation().search).get('drama-id');
+  const dramaId = useParams().id;
+  console.log(dramaId);
 
   useEffect(() => {
     setDrama({});

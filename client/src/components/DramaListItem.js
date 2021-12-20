@@ -41,7 +41,13 @@ const Item = styled.li`
 export default function DramaListItem({ name, poster_path, id }) {
   let navigate = useNavigate();
   const handleClick = () => {
-    navigate(`/drama?drama-id=${id}`);
+    // navigate(`/drama?drama-id=${id}`);
+    // const nameString = name
+    //   .toLowerCase()
+    //   .split(' ')
+    //   .join('-')
+    //   .replace(/[^A-Za-z0-9-]/g, '');
+    navigate(`/drama/${id}`);
   };
   const url =
     poster_path === null
