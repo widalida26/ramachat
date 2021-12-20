@@ -22,9 +22,13 @@ function App() {
     axios
       // .get(`${process.env.REACT_APP_SERVER_URL}/auth`, {
       .get(`http://localhost:8000/auth`, {
-        authorization: tokenState,
+        headers: {
+          'Content-Type': `application/json`,
+          authorization: tokenState,
+        },
         withCredentials: true,
       })
+
       .then((res) => {
         setIsLogin(true);
         setUserInfo(res.data.data.userInfo);
@@ -41,12 +45,20 @@ function App() {
 
   const handleLogout = () => {
     // axios.post(`${process.env.REACT_APP_SERVER_URL}/logout`).then((res) => {
-    axios.post(`http://localhost:8000/logout`).then((res) => {
-      setUserInfo(null);
-      setIsLogin(false);
-      setTokenState(null);
-      // navigate('/');
-    });
+    axios
+      .post(`http://localhost:8000/logout`, {
+        headers: {
+          'Content-Type': `application/json`,
+          authorization: tokenState,
+        },
+        withCredentials: true,
+      })
+      .then((res) => {
+        setUserInfo(null);
+        setIsLogin(false);
+        setTokenState(null);
+        // navigate('/');
+      });
   };
 
   const checkButton = () => {
