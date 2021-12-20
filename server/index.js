@@ -49,7 +49,7 @@ app.put('/modify', controllers.modify);
 //DELETE
 app.delete('/signout', controllers.signout);
 
-const HTTPS_PORT = process.env.HTTPS_PORT || 80;
+const HTTPS_PORT = process.env.HTTPS_PORT || 8080;
 
 let server;
 if (fs.existsSync('./key.pem') && fs.existsSync('./cert.pem')) {
