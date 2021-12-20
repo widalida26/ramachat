@@ -12,7 +12,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(
   cors({
-    origin: [`http://localhost:3000`],
+    orogin: [`http://ramachat-client-bucket-1.s3-website.us-east-2.amazonaws.com/`]
+    //origin: [`http://localhost:3000`],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   })
