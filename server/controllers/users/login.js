@@ -30,10 +30,11 @@ module.exports = (req, res) => {
       // sendAccessToken(res, accessToken);
 
       res
+        .status(200)
         .cookie('jwt', accessToken, {
+          expires: new Date(Date.now() + 1000 * 60 * 60 * 48),
           //httpOnly: true,
         })
-        .status(200)
         .json({ data: { accessToken: accessToken }, message: 'ok' });
     })
     .catch((err) => {
