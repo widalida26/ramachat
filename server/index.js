@@ -12,28 +12,34 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(
   cors({
-    origin: [`http://localhost:3000`],
+    origin: true,
+    //orogin: [`*`],
+    //origin: [`http://localhost:3000`],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   })
 );
 app.use(cookieParser());
 
-//POST
+app.get('/', (req, res) => {
+  res.status(200).send('Hello World!');
+});
+
 app.post('/login', controllers.login);
 app.post('/signup', controllers.signup);
 app.post('/logout', controllers.logout);
-// 댓글 작성
-app.post('/comments/add', controllers.add);
 
 //GET
 app.get('/activity', controllers.activity);
 app.get('/userInfo', controllers.userInfo);
 app.get('/auth', controllers.auth);
-// 에피소드 정보 조회
-app.get('/episode-infos', controllers.episodeInfos);
-// 댓글 정보 조회
-app.get('/comments', controllers.comments);
+
+app.get('/episode-infos', controllers.episodeInfos); // 에피소드 정보 조회
+app.get('/comments', controllers.comments); // 댓글 정보 조회
+app.post('/comments/add', controllers.add); // 댓글 작성
+app.delete('/comments/:commentId', controllers.delete); // 댓글 삭제
+app.post('/comments/likes', controllers.like); // 좋아요
+//app.put('/modify', controllers.modify);
 
 //PUT
 app.put('/modify', controllers.modify);
@@ -41,7 +47,7 @@ app.put('/modify', controllers.modify);
 //DELETE
 app.delete('/signout', controllers.signout);
 
-const HTTPS_PORT = process.env.HTTPS_PORT || 8000;
+const HTTPS_PORT = process.env.HTTPS_PORT || 80;
 
 let server;
 if (fs.existsSync('./key.pem') && fs.existsSync('./cert.pem')) {
