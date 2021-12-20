@@ -2,6 +2,7 @@ const { Comments } = require('../../models');
 const { isAuthorized } = require('../tokenFunctions');
 const { decrypt, encrypt } = require('../users/crypto');
 const { Like } = require('../../models');
+const { CommentsFindAll } = require('../dbfunction/index');
 
 module.exports = async (req, res) => {
   const accessTokenData = isAuthorized(req.cookies);
@@ -10,21 +11,8 @@ module.exports = async (req, res) => {
     res.status(401).send({ data: null, message: 'not authorized' });
   }
 
-  const { id } = accessTokenData;
+  const CommentsFind = CommentsFindAll(accessTokenData);
+  console.log(111, CommentsFind);
 
-  Comments.findAll({
-    where: {
-      userId: id,
-    },
-  }).then((data) => {
-    if (!data) {
-      return res.status(404).send('not found contents');
-    }
-    like.count({
-      where: {
-        user,
-      },
-    });
-    res.status(200).json({ data: { data: data }, message: 'ok' });
-  });
+  res.status(200).json({ data: { data: data }, message: 'ok' });
 };

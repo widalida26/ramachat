@@ -20,8 +20,6 @@ module.exports = (req, res) => {
         const pw = encrypt(password);
         const em = encrypt(email);
 
-        console.log(444, pw);
-
         Users.create({
           userId: userId,
           password: pw,
