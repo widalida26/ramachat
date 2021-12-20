@@ -49,10 +49,10 @@ app.put('/modify', controllers.modify);
 //DELETE
 app.delete('/signout', controllers.signout);
 
-const HTTPS_PORT = process.env.HTTPS_PORT || 8080;
+const HTTPS_PORT = process.env.HTTPS_PORT || 8000;
 
 let server;
-if (fs.existsSync('./key.pem') && fs.existsSync('./cert.pem')) {
+if (fs.existsSync('./key.pem') && fs.existsçSync('./cert.pem')) {
   const privateKey = fs.readFileSync(__dirname + '/key.pem', 'utf8');
   const certificate = fs.readFileSync(__dirname + '/cert.pem', 'utf8');
   const credentials = { key: privateKey, cert: certificate };
