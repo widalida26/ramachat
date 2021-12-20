@@ -15,6 +15,8 @@ app.use(
     origin: true,
     //orogin: [`*`],
     //origin: [`http://localhost:3000`],
+    allowedHeaders: ['Authorization'],
+    exposedHeaders: ['Authorization'],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   })
