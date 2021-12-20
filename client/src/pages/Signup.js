@@ -81,8 +81,7 @@ export default function Signup() {
 
   const handleSignup = () => {
     axios
-      // .post(`${process.env.REACT_APP_SERVER_URL}/signup`, {
-      .post(`http://localhost:8000/signup`, {
+      .post(`${process.env.REACT_APP_SERVER_URL}/signup`, {
         email: userInfo.email,
         userId: userInfo.userId,
         password: userInfo.password,

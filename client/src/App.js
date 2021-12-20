@@ -21,7 +21,7 @@ function App() {
   const isAuthenticated = (data) => {
     axios
       // .get(`${process.env.REACT_APP_SERVER_URL}/auth`, {
-      .get(`http://localhost:8000/auth`, {
+      .get(`${process.env.REACT_APP_SERVER_URL}/auth`, {
         headers: {
           'Content-Type': `application/json`,
           authorization: tokenState,
@@ -46,7 +46,7 @@ function App() {
   const handleLogout = () => {
     // axios.post(`${process.env.REACT_APP_SERVER_URL}/logout`).then((res) => {
     axios
-      .post(`http://localhost:8000/logout`, {
+      .post(`${process.env.REACT_APP_SERVER_URL}/logout`, {
         headers: {
           'Content-Type': `application/json`,
           authorization: tokenState,

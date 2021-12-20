@@ -73,7 +73,7 @@ export default function Login({ handleResponseSuccess }) {
     } else {
       axios
         // .post(`${process.env.REACT_APP_SERVER_URL}/login`, {
-        .post(`http://localhost:8000/login`, {
+        .post(`${process.env.REACT_APP_SERVER_URL}/login`, {
           userId: loginInfo.userId,
           password: loginInfo.password,
         })
