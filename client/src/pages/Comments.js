@@ -110,12 +110,15 @@ export default function Comments({ userInfo }) {
   const [comments, setComments] = useState([]);
 
   useEffect(() => {
-    setComments([]);
-    const sendAPICall = async () => {
-      const data = await getEpisodeComments(episode.id);
-      setComments(data);
-    };
-    sendAPICall();
+    // setComments([]);
+    if (episode.id) {
+      const sendAPICall = async () => {
+        const data = await getEpisodeComments(episode.id);
+        // setComments([...data]);
+        setComments(data);
+      };
+      sendAPICall();
+    }
   }, [episode]);
 
   const userId = userInfo ? userInfo.id : undefined;
@@ -124,6 +127,8 @@ export default function Comments({ userInfo }) {
     episode.still_path === null
       ? 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/624px-No-Image-Placeholder.svg.png'
       : 'https://www.themoviedb.org/t/p/w1280' + episode.still_path;
+
+  console.log(comments);
 
   return (
     <Main>
@@ -141,7 +146,7 @@ export default function Comments({ userInfo }) {
         <CommentsList>
           {/* Comments */}
           {comments.map((comment) => (
-            <Comment comment={comment} />
+            <Comment comment={comment} userId={userId} />
           ))}
         </CommentsList>
         <CommentForm

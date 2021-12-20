@@ -72,8 +72,7 @@ export default function Login({ handleResponseSuccess }) {
       setErrorMessage('아이디와 비밀번호를 입력하세요');
     } else {
       axios
-        // .post('http://ec2-3-37-218-56.ap-northeast-2.compute.amazonaws.com/login'
-        .post('http://localhost:8000/login', {
+        .post(`${process.env.REACT_APP_SERVER_URL}/login`, {
           userId: loginInfo.userId,
           password: loginInfo.password,
         })

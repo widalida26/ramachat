@@ -27,7 +27,8 @@ const CommentInfoContainer = styled.div`
   }
 `;
 
-export default function Comment({ comment }) {
+export default function Comment({ comment, userId }) {
+  console.log(comment, userId);
   return (
     <CommentContainer>
       <CommentInfoContainer>
@@ -44,14 +45,16 @@ export default function Comment({ comment }) {
             <i class="fas fa-comment-alt"></i> Reply {comment.replyNum}
           </IconButton>
         </div>
-        <div>
-          <IconButton color="grey">
-            <i class="far fa-edit"></i>
-          </IconButton>
-          <IconButton color="grey">
-            <i class="far fa-trash-alt"></i>
-          </IconButton>
-        </div>
+        {comment.userId === userId ? (
+          <div className="edit-comment">
+            <IconButton color="grey">
+              <i class="far fa-edit"></i>
+            </IconButton>
+            <IconButton color="grey">
+              <i class="far fa-trash-alt"></i>
+            </IconButton>
+          </div>
+        ) : null}
       </ButtonContainer>
     </CommentContainer>
   );

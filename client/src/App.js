@@ -18,8 +18,7 @@ function App() {
 
   const isAuthenticated = () => {
     axios
-      // .get('http://ec2-3-37-218-56.ap-northeast-2.compute.amazonaws.com/auth'
-      .get('http://localhost:8000/auth', {
+      .get(`${process.env.REACT_APP_SERVER_URL}/auth`, {
         withCredentials: true,
       })
       .then((res) => {
@@ -35,14 +34,11 @@ function App() {
   };
 
   const handleLogout = () => {
-    axios
-      // .post('http://ec2-3-37-218-56.ap-northeast-2.compute.amazonaws.com/logout')
-      .post('http://localhost:8000/logout')
-      .then((res) => {
-        setUserInfo(null);
-        setIsLogin(false);
-        // navigate('/');
-      });
+    axios.post(`${process.env.REACT_APP_SERVER_URL}/logout`).then((res) => {
+      setUserInfo(null);
+      setIsLogin(false);
+      // navigate('/');
+    });
   };
 
   useEffect(() => {
