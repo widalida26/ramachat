@@ -6,7 +6,6 @@ const { isAuthorized } = require('../tokenFunctions');
 module.exports = async (req, res) => {
   try {
     const { commentId } = req.params;
-    console.log(req.cookies);
     const accessTokenData = isAuthorized(req.cookies);
 
     // 인증 실패
