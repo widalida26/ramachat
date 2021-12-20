@@ -77,8 +77,8 @@ export default function Login({ handleResponseSuccess }) {
           userId: loginInfo.userId,
           password: loginInfo.password,
         })
-        .then(() => {
-          handleResponseSuccess();
+        .then((data) => {
+          handleResponseSuccess(data.data.data);
         })
         .catch(() => setErrorMessage('유효하지 않은 아이디와 비밀번호 입니다'));
     }

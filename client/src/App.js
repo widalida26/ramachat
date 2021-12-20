@@ -14,12 +14,15 @@ import MyPagePersonal from './pages/MyPagePersonal';
 function App() {
   const [isLogin, setIsLogin] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
+  const [tokenState, setTokenState] = useState(null);
+
   const navigate = useNavigate();
 
-  const isAuthenticated = () => {
+  const isAuthenticated = (data) => {
     axios
       // .get(`${process.env.REACT_APP_SERVER_URL}/auth`, {
       .get(`http://localhost:8000/auth`, {
+        authorization: tokenState,
         withCredentials: true,
       })
       .then((res) => {
@@ -30,7 +33,9 @@ function App() {
       .catch();
   };
 
-  const handleResponseSuccess = () => {
+  const handleResponseSuccess = (data) => {
+    console.log(data);
+    setTokenState(data);
     isAuthenticated();
   };
 
@@ -39,8 +44,13 @@ function App() {
     axios.post(`http://localhost:8000/logout`).then((res) => {
       setUserInfo(null);
       setIsLogin(false);
+      setTokenState(null);
       // navigate('/');
     });
+  };
+
+  const checkButton = () => {
+    console.log(tokenState);
   };
 
   useEffect(() => {
@@ -49,6 +59,7 @@ function App() {
 
   return (
     <>
+      <button onClick={checkButton}>checktokenstate</button>
       <Navbar isLogin={isLogin} handleLogout={handleLogout} />
       <Routes>
         <Route
