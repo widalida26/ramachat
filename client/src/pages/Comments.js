@@ -109,6 +109,21 @@ export default function Comments({ userInfo }) {
 
   const [comments, setComments] = useState([]);
 
+  const addNewComment = (content, createdAt, episodeId, id, userId) => {
+    const newComment = {
+      content,
+      createdAt,
+      episodeId,
+      id,
+      likeNum: 0,
+      parentCommentId: null,
+      replyNum: 0,
+      updatedAt: createdAt,
+      userId,
+    };
+    setComments([newComment, ...comments]);
+  };
+
   useEffect(() => {
     // setComments([]);
     if (episode.id) {
@@ -157,6 +172,7 @@ export default function Comments({ userInfo }) {
           episodeIndex={episode.episode_number}
           episodeId={episode.id}
           // commentNum={comments.length}
+          addNewComment={addNewComment}
         />
       </CommentsContainer>
     </Main>

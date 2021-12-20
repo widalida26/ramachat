@@ -44,6 +44,7 @@ export default function CommentForm({
   episodeIndex,
   episodeId,
   // commentNum,
+  addNewComment,
 }) {
   const [content, setContent] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -70,7 +71,7 @@ export default function CommentForm({
         episodeId
         // commentNum
       ).then((result) => {
-        console.log(result);
+        addNewComment(content, result.data.createdAt, episodeId, result.data.id, userId);
       });
     }
   };
