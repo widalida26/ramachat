@@ -18,7 +18,7 @@ function App() {
 
   const isAuthenticated = () => {
     axios
-      .get('http://localhost:8000/auth', {
+      .get('http://ec2-3-37-218-56.ap-northeast-2.compute.amazonaws.com/auth', {
         withCredentials: true,
       })
       .then((res) => {
@@ -34,11 +34,13 @@ function App() {
   };
 
   const handleLogout = () => {
-    axios.post('http://localhost:8000/logout').then((res) => {
-      setUserInfo(null);
-      setIsLogin(false);
-      // navigate('/');
-    });
+    axios
+      .post('http://ec2-3-37-218-56.ap-northeast-2.compute.amazonaws.com/logout')
+      .then((res) => {
+        setUserInfo(null);
+        setIsLogin(false);
+        // navigate('/');
+      });
   };
 
   useEffect(() => {

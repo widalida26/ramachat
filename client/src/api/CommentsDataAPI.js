@@ -6,7 +6,7 @@ export function getEpisodeInfos(dramaId, seasonNumber) {
   console.log('api call made');
   return axios
     .get(
-      `http://localhost:8000/episode-infos?drama-id=${dramaId}&season-index=${seasonNumber}`
+      `http://ec2-3-37-218-56.ap-northeast-2.compute.amazonaws.com/episode-infos?drama-id=${dramaId}&season-index=${seasonNumber}`
     )
     .then((result) => {
       return result.data;
@@ -14,9 +14,11 @@ export function getEpisodeInfos(dramaId, seasonNumber) {
 }
 
 export function getEpisodeComments(episodeId) {
-  console.log('getting comments');
+  console.log('getting comments', episodeId);
   return axios
-    .get(`http://localhost:8000/comments?episode-id=${episodeId}`)
+    .get(
+      `http://ec2-3-37-218-56.ap-northeast-2.compute.amazonaws.com/comments?episode-id=${episodeId}`
+    )
     .then((result) => {
       return result.data.comments;
     });
@@ -30,7 +32,7 @@ export function postComment(
   seasonIndex,
   episodeIndex,
   episodeId,
-  commentNum,
+  // commentNum,
   parentCommentId
 ) {
   console.log('sending new comment');
@@ -42,11 +44,11 @@ export function postComment(
     seasonIndex,
     episodeIndex,
     episodeId,
-    commentNum,
+    // commentNum,
     parentCommentId
   );
   return axios
-    .post(`http://localhost:8000/comments/add`, {
+    .post(`http://ec2-3-37-218-56.ap-northeast-2.compute.amazonaws.com/comments/add`, {
       userId: userId,
       content: content,
       dramaId: dramaId,
@@ -54,7 +56,7 @@ export function postComment(
       seasonIndex: seasonIndex,
       episodeIndex: episodeIndex,
       episodeId: episodeId,
-      commentNum: commentNum,
+      // commentNum: commentNum,
       parentCommentId: parentCommentId,
     })
     .then((result) => result);

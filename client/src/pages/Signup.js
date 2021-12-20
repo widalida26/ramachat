@@ -74,7 +74,7 @@ export default function Signup() {
 
   const handleSignup = () => {
     axios
-      .post('http://localhost:8000/signup', {
+      .post('http://ec2-3-37-218-56.ap-northeast-2.compute.amazonaws.com/signup', {
         email: userInfo.email,
         userId: userInfo.userId,
         password: userInfo.password,
