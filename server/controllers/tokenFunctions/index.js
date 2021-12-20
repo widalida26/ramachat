@@ -6,14 +6,11 @@ module.exports = {
     return sign(data, process.env.ACCESS_SECRET, { expiresIn: '6h' });
   },
   sendAccessToken: (res, accessToken) => {
-    return res
-      .status(200)
-      .cookie('jwt', accessToken, {
-        httpOnly: true,
-        sameSite: 'none',
-        secure: true,
-      })
-      .json({ data: { data: accessToken }, message: 'ok' });
+    return res.status(200).cookie('jwt', accessToken, {
+      httpOnly: true,
+      sameSite: 'none',
+      secure: true,
+    });
   },
   isAuthorized: (req) => {
     const authorization = req.jwt;

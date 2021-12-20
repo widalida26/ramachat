@@ -25,7 +25,16 @@ module.exports = (req, res) => {
       // delete data.dataValues.password;
       const accessToken = generateAccessToken(data.dataValues);
 
-      sendAccessToken(res, accessToken);
+      console.log(111, accessToken);
+
+      // sendAccessToken(res, accessToken);
+
+      res
+        .cookie('jwt', accessToken, {
+          httpOnly: true,
+        })
+        .status(200)
+        .json({ data: { accessToken: accessToken }, message: 'ok' });
     })
     .catch((err) => {
       return res.status(500).send('err');
