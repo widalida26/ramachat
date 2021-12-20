@@ -9,16 +9,12 @@ module.exports = async (req, res) => {
     res.status(401).send({ data: null, message: 'not authorized' });
   }
 
-  const { userId, email } = accessTokenData;
+  const { userId } = accessTokenData;
   const { password } = req.body;
   const { newPassword } = req.body;
 
   const dbpw = encrypt(password);
   const dbnpw = encrypt(newPassword);
-
-  console.log(333, userId);
-  console.log(111, dbpw);
-  console.log(222, dbnpw);
 
   Users.findOne({
     where: {
