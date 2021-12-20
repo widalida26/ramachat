@@ -5,7 +5,7 @@ module.exports = (req, res) => {
   const accessTokenData = isAuthorized(req.cookies);
 
   if (accessTokenData === null) {
-    res.status(401).send({ data: null, message: 'not authorized' });
+    return res.status(401).send({ data: null, message: 'not authorized' });
   }
   const { userId } = accessTokenData;
   Users.findOne({

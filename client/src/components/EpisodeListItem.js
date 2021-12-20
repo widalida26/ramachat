@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { colors } from '../styles/Colors';
+import { useNavigate } from 'react-router-dom';
 
 const Item = styled.li`
   list-style: none;
@@ -9,6 +10,7 @@ const Item = styled.li`
   padding: 1rem;
   align-items: center;
   border-top: 1px solid ${colors.primary};
+  cursor: pointer;
   &:hover {
     background-color: ${colors.primaryL};
   }
@@ -45,8 +47,16 @@ export default function EpisodeListItem({ episode, episodeInfos }) {
     (ep) => ep.episodeIndex == episode.episode_number
   );
   const commentNum = filteredInfos.length !== 0 ? filteredInfos[0].commentNum : '0';
+
+  let navigate = useNavigate();
+  const handleClick = () => {
+    navigate(
+      `./comments/season/${episode.season_number}/episode/${episode.episode_number}/`
+    );
+  };
+
   return (
-    <Item still={url}>
+    <Item still={url} onClick={handleClick}>
       <div className="still"></div>
       <h4>
         {episode.episode_number}. {episode.name}
