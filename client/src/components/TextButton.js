@@ -3,7 +3,7 @@ import { colors } from '../styles/Colors';
 
 const SolidButton = styled.button`
   /* 공통 스타일 */
-  /* display: inline-flex; */
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   outline: none;
@@ -30,6 +30,7 @@ const TransparentButton = styled.button`
   /* 공통 스타일 */
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   outline: none;
   border: none;
   background: none;
@@ -38,6 +39,7 @@ const TransparentButton = styled.button`
 
   /* 크기 */
   font-size: 1rem;
+  width: ${(props) => (props.width === 'fit' ? 'fit-content' : '100%')};
 
   /* 색상 */
   color: ${(props) => colors[props.color]};
