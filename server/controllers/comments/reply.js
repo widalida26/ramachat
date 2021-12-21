@@ -19,8 +19,7 @@ module.exports = async (req, res) => {
               `(SELECT COUNT(*)
                         FROM Likes
                         WHERE
-                        Comments.id = Likes.targetId && 
-                        Comments.userId=Likes.userId)`
+                        Comments.id = Likes.targetId)`
             ),
             'likeNum',
           ],
