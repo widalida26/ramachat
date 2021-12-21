@@ -25,7 +25,7 @@ function App() {
       .get(`${process.env.REACT_APP_SERVER_URL}/auth`, {
         headers: {
           'Content-Type': `application/json`,
-          authorization: 'Bearer ' + tokenState,
+          authorization: 'Bearer ' + sessionStorage.getItem('token'),
         },
         withCredentials: true,
       })
@@ -43,6 +43,7 @@ function App() {
 
   const handleResponseSuccess = (data) => {
     console.log(data.accessToken);
+    sessionStorage.setItem('token', data.accessToken);
     setTokenState(data.accessToken);
     // isAuthenticated();
   };
@@ -60,6 +61,7 @@ function App() {
         setUserInfo(null);
         setIsLogin(false);
         setTokenState(null);
+        sessionStorage.removeItem('token');
         // navigate('/');
       });
   };
@@ -72,16 +74,6 @@ function App() {
     isAuthenticated();
     console.log('token updated');
   }, [tokenState]);
-
-  // useEffect(() => {
-  //   isAuthenticated();
-  // }, []);
-
-  // sessionStorage
-  const saveData = () => {
-    // const userObj = { name: userName };
-    // window.sessionStorage.setItem('userName', JSON.stringify(userObj));
-  };
 
   return (
     <>
