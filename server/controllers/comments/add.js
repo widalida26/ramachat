@@ -1,3 +1,4 @@
+const { escapeId } = require('mysql');
 const { Comments } = require('../../models');
 const { EpisodeInfos } = require('../../models');
 const { Notifications } = require('../../models');
@@ -31,8 +32,10 @@ module.exports = async (req, res) => {
     } = req.body;
 
     // 새 댓글 객체 세팅
-    let newComment = { episodeId, userId, content, parentCommentId };
-
+    const newComment = { episodeId, userId, content, parentCommentId };
+    console.log(newComment);
+    console.log('episode create');
+    console.log(episodeId);
     // EpisodeInfos 테이블에 해당 에피소드 아이디를 가진 값이 없을 때  => 첫 댓글
     episodeInfoCreated = await EpisodeInfos.findOrCreate({
       where: { id: episodeId },
@@ -43,7 +46,7 @@ module.exports = async (req, res) => {
         seasonIndex,
         episodeIndex,
       },
-    })[1];
+    }).then((result) => result[1]);
 
     // 댓글을 Comments 테이블에 삽입
     const createdComment = await Comments.create(newComment);
@@ -65,14 +68,15 @@ module.exports = async (req, res) => {
 
     // 오류 발생 시 추가한 테이블을 제거 시도
   } catch (err) {
+    console.log(err);
     if (episodeInfoCreated) {
       await EpisodeInfos.destory({
         where: { id: episodeId },
       });
-      await Comments.destroy({
-        where: { id: createdCommentId },
-      });
     }
+    await Comments.destroy({
+      where: { id: createdCommentId },
+    });
     await res.status(500).send(err);
   }
 };

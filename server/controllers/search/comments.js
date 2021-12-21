@@ -2,6 +2,10 @@ const sequelize = require('../../models').sequelize;
 const Op = require('sequelize').Op;
 const { Comments } = require('../../models');
 
+//
+// 1. 댓글 정보에 접속된 유저가 어떤 댓글에 좋아요를 눌렀는지
+// 2.
+
 module.exports = async (req, res) => {
   try {
     let episodeId = req.query['episode-id'];
@@ -42,6 +46,8 @@ module.exports = async (req, res) => {
       return cnt;
     });
 
+    //
+
     // 응답 객체 세팅 => 댓글 정보
     let commentArr = searchedComments.map((comment) => {
       let commentResponse = ({
@@ -53,10 +59,13 @@ module.exports = async (req, res) => {
         likeNum,
         createdAt,
         updatedAt,
+        // 지금 유저가 좋아요한 댓글인지? =>
       } = comment.dataValues);
       commentResponse.replyNum = replyNums[id] === undefined ? 0 : replyNums[id];
       return commentResponse;
     });
+    //
+    // likes : [commentId, commentId, ...]
 
     res.status(200).json({ comments: commentArr });
   } catch (err) {
