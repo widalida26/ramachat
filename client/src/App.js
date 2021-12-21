@@ -21,12 +21,12 @@ function App() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const isAuthenticated = (data) => {
+  const isAuthenticated = () => {
     axios
       .get(`${process.env.REACT_APP_SERVER_URL}/auth`, {
         headers: {
           'Content-Type': `application/json`,
-          authorization: tokenState,
+          authorization: 'Bearer ' + tokenState,
         },
         withCredentials: true,
       })
@@ -43,8 +43,9 @@ function App() {
   };
 
   const handleResponseSuccess = (data) => {
-    setTokenState(data);
-    isAuthenticated();
+    console.log(data.accessToken);
+    setTokenState(data.accessToken);
+    // isAuthenticated();
   };
 
   const handleLogout = () => {
@@ -69,11 +70,21 @@ function App() {
   };
 
   useEffect(() => {
+<<<<<<< HEAD
+    isAuthenticated();
+    console.log('token updated');
+  }, [tokenState]);
+
+  // useEffect(() => {
+  //   isAuthenticated();
+  // }, []);
+=======
     if (tokenState) {
       // ! 새로고침하면 로그인이 풀림
       isAuthenticated();
     }
   }, []);
+>>>>>>> 73368c5f2549272edc42ab17c31be0733d4cf6a7
 
   return (
     <>
