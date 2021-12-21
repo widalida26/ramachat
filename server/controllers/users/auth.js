@@ -6,8 +6,9 @@ module.exports = (req, res) => {
   console.log('headers', req.headers);
   console.log('authorization', req.headers.authorization);
   const accessTokenData = isAuthorized(req.headers.authorization);
-  //console.log(5555, req.cookies.jwt);
-  console.log('accessTokenData', accessTokenData);
+  console.log('get right header?');
+  console.log('HEADER', req.headers.authorization);
+
   if (accessTokenData === null) {
     return res.status(401).send({ data: null, message: 'not authorized' });
   }

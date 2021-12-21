@@ -1,4 +1,3 @@
-const { escapeId } = require('mysql');
 const { Comments } = require('../../models');
 const { EpisodeInfos } = require('../../models');
 const { Notifications } = require('../../models');

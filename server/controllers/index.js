@@ -4,7 +4,7 @@ module.exports = {
   auth: require('./users/auth'),
   userInfo: require('./myInfos/userInfo'),
   logout: require('./users/logout'),
-  //modify: require('./myInfos/modify'),
+  passwordModify: require('./myInfos/modify'),
   signout: require('./users/signout'),
   activity: require('./myInfos/activity'),
   episodeInfos: require('./search/episodeInfos'),
@@ -13,4 +13,5 @@ module.exports = {
   delete: require('./comments/delete'),
   modify: require('./comments/modify'),
   like: require('./comments/like'),
+  notification: require('./myInfos/notification'),
 };
