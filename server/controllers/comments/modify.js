@@ -20,31 +20,29 @@ module.exports = async (req, res) => {
     return;
   }
 
-  try {
-    // 댓글 정보 수정
-    const updatedComment = await Comments.update(
-      { content: newContent },
-      { where: { id: commentId } }
-    )[0];
-    // 수정할 댓글이 없는 경우
-    if (!updatedComment) {
-      res.status(404).send('nothing to modify');
-      return;
-    }
-  } catch (err) {
-    res.status(500).send(err);
-    return;
-  }
+  // 댓글 정보 수정
+  await Comments.update({ content: newContent }, { where: { id: commentId } })
+    .then((result) => {
+      // 수정할 댓글이 없는 경우
+      if (result[0] === 0) {
+        res.status(404).send('nothing to modify');
+      }
+    })
+    .catch((err) => {
+      res.status(500).send(err);
+    });
 
   // 댓글이 수정되었을 때
-  try {
-    // 필요한 정보를 찾음
-    commentResponse = await Comments.findOne({
-      attributes: ['id', 'updatedAt'],
-      where: { id: commentId },
+
+  // 필요한 정보를 찾음
+  await Comments.findOne({
+    attributes: ['id', 'updatedAt'],
+    where: { id: commentId },
+  })
+    .then((result) => {
+      res.status(201).json(result);
+    })
+    .catch((err) => {
+      res.status(500).send(err);
     });
-    res.status(201).json(commentResponse);
-  } catch (err) {
-    res.status(500).send(err);
-  }
 };
