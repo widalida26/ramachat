@@ -13,6 +13,7 @@ module.exports = async (req, res) => {
       res.status(401).send('unauthorized user');
       return;
     }
+
     // 인증 성공
     // 삭제할 댓글의 에피소드 아이디 조회
     const commentToDelete = await Comments.findOne({ where: { id: commentId } });

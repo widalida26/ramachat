@@ -33,10 +33,10 @@ module.exports = async (req, res) => {
 
     res.status(201).json({ liked });
   } catch (err) {
+    // 에러 발생 시 반영된 좋아요를 취소
+    // findOrCreate의 결과가 반환되지 않을 때(liked === false)는 기존에 좋아요가 있는지 없는지 알 수 없음 => 결과 취소 어려움
     if (liked) {
       await Likes.destroy({ where: newLike });
-    } else {
-      await Likes.create(newLike);
     }
     await res.status(500).send(err);
   }
