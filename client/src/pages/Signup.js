@@ -8,15 +8,6 @@ import TextButton from '../components/TextButton';
 import Modal from '../components/Modal';
 import InputForm from '../components/InputForm';
 
-// import dotenv from 'dotenv';
-// dotenv.config();
-// const API_KEY = process.env.REACT_APP_SERVER_URL;
-// const API_KEY2 = process.env.REACT_APP_API_KEY;
-// console.log(`${process.env.REACT_APP_SERVER_URL}`);
-// console.log(`${process.env.REACT_APP_SERVER_URL}/comments?episode-id=`);
-// console.log(API_KEY);
-// console.log(API_KEY2);
-
 axios.defaults.withCredentials = true;
 
 const Main = styled.main`
@@ -87,7 +78,6 @@ export default function Signup() {
         password: userInfo.password,
       })
       .then(() => setIsOpen(!isOpen)) // 회원가입 버튼 클릭시 모달 열기
-      // .then(() => navigate('/'))
       .catch(() => {
         setErrorMessage('이미 존재하는 회원입니다');
         console.log('axios 에러');
