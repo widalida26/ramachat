@@ -17,7 +17,6 @@ function App() {
   const [isLogin, setIsLogin] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
   const [tokenState, setTokenState] = useState(null);
-
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -77,6 +76,12 @@ function App() {
   // useEffect(() => {
   //   isAuthenticated();
   // }, []);
+
+  // sessionStorage
+  const saveData = () => {
+    // const userObj = { name: userName };
+    // window.sessionStorage.setItem('userName', JSON.stringify(userObj));
+  };
 
   return (
     <>

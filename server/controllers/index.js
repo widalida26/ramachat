@@ -13,5 +13,6 @@ module.exports = {
   delete: require('./comments/delete'),
   modify: require('./comments/modify'),
   like: require('./comments/like'),
+  reply: require('./comments/reply'),
   notification: require('./myInfos/notification'),
 };

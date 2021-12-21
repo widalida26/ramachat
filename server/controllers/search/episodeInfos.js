@@ -41,7 +41,7 @@ module.exports = async (req, res) => {
   try {
     if (storedEpisodes.length === 0) {
       const searched = await axios.get(
-        `https://api.themoviedb.org/3/tv/${dramaId}/season/${seasonIndex}?api_key=${process.env.TMDB_API_KEY}&language=en-US`,
+        `https://api.themoviedb.org/3/tv/${dramaId}/season/${seasonIndex}?api_key=${process.env.TMDB_API_KEY}&language=ko-KR`,
         {
           withCredentials: false,
         }
