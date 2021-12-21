@@ -3,18 +3,22 @@ const { isAuthorized } = require('../tokenFunctions');
 const sequelize = require('../../models').sequelize;
 
 module.exports = (req, res) => {
-  const accessTokenData = isAuthorized(req.cookies);
+  const accessTokenData = isAuthorized(req);
 
   if (accessTokenData === null) {
     res.status(401).send({ data: null, message: 'not authorized' });
   }
 
+  console.log();
+
   const userId = accessTokenData.userId;
+
+  console.log(userId);
 
   console.log('hi');
   sequelize
     .query(
-      `select * from Notifications as n join Comments as c on n.commentId = c.id join Users as u on u.id = n.userId`
+      `select * from Notifications as n join Comments as c on n.commentId = c.id join Users as u on u.id = n.userId where u.userId = ${userId}`
     )
     .then((data) => {
       console.log(data);
