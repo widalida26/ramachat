@@ -40,7 +40,7 @@ function App() {
   const handleResponseSuccess = (data) => {
     console.log(data);
     setTokenState(data);
-    isAuthenticated();
+    // isAuthenticated();
   };
 
   const handleLogout = () => {
@@ -67,7 +67,7 @@ function App() {
 
   useEffect(() => {
     isAuthenticated();
-  }, []);
+  }, [tokenState]);
 
   return (
     <>
