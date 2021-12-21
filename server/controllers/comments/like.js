@@ -1,8 +1,3 @@
-const sequelize = require('sequelize');
-const { like } = require('sequelize/dist/lib/operators');
-const { Comments } = require('../../models');
-const { EpisodeInfos } = require('../../models');
-const { Notifications } = require('../../models');
 const { Likes } = require('../../models');
 const { isAuthorized } = require('../tokenFunctions');
 
