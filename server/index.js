@@ -33,6 +33,7 @@ app.post('/logout', controllers.logout);
 app.get('/activity', controllers.activity);
 app.get('/userInfo', controllers.userInfo);
 app.get('/auth', controllers.auth);
+app.get('/notification', controllers.notification);
 
 app.get('/episode-infos', controllers.episodeInfos); // 에피소드 정보 조회
 app.get('/comments', controllers.comments); // 댓글 정보 조회
@@ -42,7 +43,7 @@ app.post('/comments/likes/:commentId', controllers.like); // 좋아요
 //app.put('/modify', controllers.modify);
 
 //PUT
-app.put('/modify', controllers.modify);
+app.put('/passwordModify', controllers.passwordModify);
 
 //DELETE
 app.delete('/signout', controllers.signout);
