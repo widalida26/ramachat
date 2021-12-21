@@ -69,10 +69,10 @@ module.exports = async (req, res) => {
       await EpisodeInfos.destory({
         where: { id: episodeId },
       });
-      await Comments.destroy({
-        where: { id: createdCommentId },
-      });
     }
+    await Comments.destroy({
+      where: { id: createdCommentId },
+    });
     await res.status(500).send(err);
   }
 };
