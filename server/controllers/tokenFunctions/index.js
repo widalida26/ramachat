@@ -18,7 +18,6 @@ module.exports = {
       return null;
     }
     const token = authorization.split(' ')[1];
-    console.log('token in token functions', token);
     try {
       return verify(token, process.env.ACCESS_SECRET);
     } catch (err) {

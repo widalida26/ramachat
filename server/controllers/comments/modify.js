@@ -1,47 +1,50 @@
-const { Likes } = require('../../models');
+const { Comments } = require('../../models');
 const { isAuthorized } = require('../tokenFunctions');
 
 module.exports = async (req, res) => {
+  const accessTokenData = isAuthorized(req);
+  // 인증 실패
+  if (accessTokenData === null) {
+    res.status(401).send('unauthorized user');
+    return;
+  }
+
+  // 인증 성공
+  const { commentId } = req.params;
+  let newContent = '';
   try {
-    const accessTokenData = isAuthorized(req);
-    // 인증 실패
-    if (accessTokenData === null) {
-      res.status(401).send('unauthorized user');
+    newContent = req.body.newContent;
+    // request body에 newContent 값이 없는 경우
+  } catch {
+    res.status(400).send('content to modify is not included in request body');
+    return;
+  }
+
+  try {
+    // 댓글 정보 수정
+    const updatedComment = await Comments.update(
+      { content: newContent },
+      { where: { id: commentId } }
+    )[0];
+    // 수정할 댓글이 없는 경우
+    if (!updatedComment) {
+      res.status(404).send('nothing to modify');
       return;
     }
-    // 인증 성공
-  } catch {
-    console.log('qq');
-    await res.status(500).send(err);
+  } catch (err) {
+    res.status(500).send(err);
+    return;
   }
-  res.end();
+
+  // 댓글이 수정되었을 때
+  try {
+    // 필요한 정보를 찾음
+    commentResponse = await Comments.findOne({
+      attributes: ['id', 'updatedAt'],
+      where: { id: commentId },
+    });
+    res.status(201).json(commentResponse);
+  } catch (err) {
+    res.status(500).send(err);
+  }
 };
-
-// 인증 성공
-// 좋아요 객체 세팅
-//     userId = accessTokenData.id;
-//     targetId = req.params.commentId;
-//     newLike = { userId, targetId };
-
-//     // 좋아요 정보 삽입
-//     liked = await Likes.findOrCreate({
-//       where: newLike,
-//       defaults: newLike,
-//     }).then((result) => {
-//       // isNewRecord?
-//       if (!result[1]) {
-//         Likes.destroy({ where: { id: result[0].dataValues.id } }); // 좋아요가 있을 경우 취소
-//         return false;
-//       } else return true;
-//     });
-
-//     res.status(201).json({ liked });
-//   } catch (err) {
-//     // 에러 발생 시 반영된 좋아요를 취소
-//     // findOrCreate의 결과가 반환되지 않을 때(liked === false)는 기존에 좋아요가 있는지 없는지 알 수 없음
-//     // ㅣiked === fasle일 때(sequelize error or 좋아요 취소 요청)는 작업 취소가 어려움
-//     if (liked) {
-//       await Likes.destroy({ where: newLike });
-//     }
-//     await res.status(500).send(err);
-//   }

@@ -20,7 +20,7 @@ module.exports = async (req, res) => {
 
     // 삭제할 댓글이 없는 경우
     if (commentToDelete === null) {
-      res.status(204).send('nothing to delete');
+      res.status(404).send('nothing to delete');
       return;
     }
 
