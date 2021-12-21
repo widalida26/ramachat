@@ -72,7 +72,7 @@ const CommentFormContainer = styled.div`
   }
 `;
 
-export default function Comments({ userInfo }) {
+export default function Comments({ tokenState, userInfo }) {
   // const comments = [
   //   {
   //     id: 123,
@@ -175,6 +175,7 @@ export default function Comments({ userInfo }) {
       <CommentsContainer>
         <CommentFormContainer>
           <CommentForm
+            tokenState={tokenState}
             userId={userId}
             dramaId={drama.id}
             dramaName={drama.name}

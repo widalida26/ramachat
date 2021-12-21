@@ -22,6 +22,7 @@ const Form = styled.form`
 `;
 
 export default function CommentForm({
+  tokenState,
   userId,
   dramaId,
   dramaName,
@@ -48,6 +49,7 @@ export default function CommentForm({
       setIsModalOpen(true);
     } else {
       postComment(
+        tokenState,
         userId,
         content,
         dramaId,
