@@ -16,6 +16,7 @@ const TabContainer = styled.div`
 
   @media ${device.tablet} {
     background-color: ${colors.primaryL};
+    // ! 반응형 수정
     height: calc(100vh - 80px);
     display: flex;
     justify-content: left;

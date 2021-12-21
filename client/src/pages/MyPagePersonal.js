@@ -5,6 +5,7 @@ import { colors } from '../styles/Colors';
 import { device } from '../styles/Breakpoints';
 import TextButton from '../components/TextButton';
 import InputForm from '../components/InputForm';
+import Modal from '../components/Modal';
 import { useEffect, useState } from 'react';
 
 const Main = styled.main`
@@ -64,9 +65,7 @@ export default function MyPagePersonal() {
         password: passwordInfo.nowPassword,
         newPassword: passwordInfo.newPassword,
       })
-      .then((data) => {
-        console.log('비밀번호 수정 완료', data);
-      })
+      .then(() => setIsOpen(!isOpen)) // 비밀번호 변경 버튼 클릭시 모달 열기
       .catch(() => console.log('changePassword 에러'));
   };
 
@@ -74,10 +73,16 @@ export default function MyPagePersonal() {
     // 회원탈퇴 성공 모달띄우기...
     axios
       .delete(`${process.env.REACT_APP_SERVER_URL}/signout`)
-      .then((data) => {
-        console.log('회원탈퇴 완료', data);
-      })
+      .then(() => setIsOpen(!isOpen)) // 회원탈퇴 버튼 클릭시 모달 열기
       .catch(() => console.log('signOut 에러'));
+  };
+
+  // 모달 코드
+  const [isOpen, setIsOpen] = useState(false);
+
+  const openModalHandler = () => {
+    setIsOpen(!isOpen);
+    console.log(isOpen);
   };
 
   useEffect(() => {
@@ -120,6 +125,13 @@ export default function MyPagePersonal() {
               >
                 Change
               </TextButton>
+              <Modal
+                isOpen={isOpen}
+                openModalHandler={openModalHandler}
+                noticeMessage={'비밀번호 변경이 완료되었습니다!'}
+                buttonMessage={'확인'}
+                endPoint={'/mypage/personal-information'}
+              />
             </>
           ) : (
             <>
@@ -140,6 +152,13 @@ export default function MyPagePersonal() {
               >
                 Sign out
               </TextButton>
+              <Modal
+                isOpen={isOpen}
+                openModalHandler={openModalHandler}
+                noticeMessage={'회원 탈퇴가 완료되었습니다!'}
+                buttonMessage={'홈으로 가기'}
+                endPoint={'/'}
+              />
             </>
           )}
         </section>
