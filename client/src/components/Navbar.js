@@ -31,8 +31,12 @@ function Navbar({ isLogin, handleLogout }) {
   // 모달 코드
   const [isOpen, setIsOpen] = useState(false);
 
-  const openModalHandler = () => {
+  const handleLogoutButton = () => {
     handleLogout();
+    setIsOpen(!isOpen);
+  };
+
+  const openModalHandler = () => {
     setIsOpen(!isOpen);
   };
 
@@ -49,7 +53,7 @@ function Navbar({ isLogin, handleLogout }) {
                 color="white"
                 isTransparent={true}
                 width="fit"
-                onClick={openModalHandler}
+                onClick={handleLogoutButton}
               >
                 LOG OUT
               </TextButton>

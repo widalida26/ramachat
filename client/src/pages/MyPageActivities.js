@@ -22,8 +22,7 @@ export default function MyPageTemp() {
     <>
       <Main>
         <Tabbar></Tabbar>
-        <span>hi</span>
-        <span>main 안 span에 css 주기 span {}</span>
+        <span>여기는 내 활동기록</span>
       </Main>
     </>
   );

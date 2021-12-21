@@ -1,9 +1,6 @@
-// import { useState } from 'react';
-// import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { colors } from '../styles/Colors';
 import { device } from '../styles/Breakpoints';
-// import TextButton from './TextButton';
 
 const InputField = styled.div`
   display: flex;

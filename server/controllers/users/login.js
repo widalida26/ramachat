@@ -28,11 +28,21 @@ module.exports = (req, res) => {
       // sendAccessToken(res, accessToken);
 
       res
+        .status(200)
         .cookie('jwt', accessToken, {
-          httpOnly: true,
+          // domain: DOMAIN,
+          // path: '/',
+          // secure: true,
+          // httpOnly: true,
+          // sameSite: 'none',
+          expires: new Date(Date.now() + 1000 * 60 * 60 * 48),
         })
+<<<<<<< HEAD
         .status(200)
         .json({ data: { data: accessToken }, message: 'ok' });
+=======
+        .json({ data: { accessToken: accessToken }, message: 'ok' });
+>>>>>>> 013b24a36e487bdc4f38dd63d8e0f13cb78a6b04
     })
     .catch((err) => {
       console.log(err);

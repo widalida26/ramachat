@@ -11,28 +11,13 @@ const Input = styled.textarea`
   padding: 0.5rem;
 `;
 
-const FormContainer = styled.div`
-  background-color: ${colors.white};
-  border-top: 1px solid ${colors.primary};
-  padding: 0.5em;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
+const Form = styled.form`
+  display: flex;
+  gap: 0.5rem;
 
   @media ${device.tablet} {
-    position: relative;
-    border: 1px solid ${colors.primary};
-  }
-
-  form {
-    display: flex;
-    gap: 0.5rem;
-
-    @media ${device.tablet} {
-      flex-direction: column;
-      align-items: flex-end;
-    }
+    flex-direction: column;
+    align-items: flex-end;
   }
 `;
 
@@ -44,6 +29,8 @@ export default function CommentForm({
   episodeIndex,
   episodeId,
   // commentNum,
+  addNewComment,
+  parentCommentId,
 }) {
   const [content, setContent] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -67,17 +54,27 @@ export default function CommentForm({
         dramaName,
         seasonIndex,
         episodeIndex,
-        episodeId
+        episodeId,
         // commentNum
+        parentCommentId
       ).then((result) => {
-        console.log(result);
+        addNewComment(
+          content,
+          result.data.createdAt,
+          episodeId,
+          result.data.id,
+          userId,
+          parentCommentId
+        );
+        setContent('');
+        console.log('comment made');
       });
     }
   };
 
   return (
-    <FormContainer>
-      <form>
+    <>
+      <Form>
         <Input
           type="text"
           placeholder="메시지를 입력하세요"
@@ -92,14 +89,14 @@ export default function CommentForm({
         >
           Send
         </TextButton>
-      </form>
+      </Form>
       <Modal
         isOpen={isModalOpen}
-        noticeMessage={'login required'}
+        noticeMessage={'로그인이 필요합니다.'}
         buttonMessage={'login'}
         endPoint={'/login'}
         openModalHandler={openModalHandler}
       />
-    </FormContainer>
+    </>
   );
 }
