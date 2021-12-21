@@ -1,18 +1,42 @@
-const { Comments } = require('../../models');
+const { Comments, Like } = require('../../models');
 const { isAuthorized } = require('../tokenFunctions');
-const { decrypt, encrypt } = require('../users/crypto');
-const { Like } = require('../../models');
-const { CommentsFindAll } = require('../dbfunction/index');
+const sequelize = require('../../models').sequelize;
 
-module.exports = async (req, res) => {
+module.exports = (req, res) => {
+  let ary = [];
   const accessTokenData = isAuthorized(req.cookies);
 
   if (accessTokenData === null) {
     res.status(401).send({ data: null, message: 'not authorized' });
   }
 
-  const CommentsFind = CommentsFindAll(accessTokenData);
-  console.log(111, CommentsFind);
+  const id = accessTokenData.id;
+  console.log(333, accessTokenData);
 
-  res.status(200).json({ data: { data: data }, message: 'ok' });
+  Comments.findAll({
+    attributes: {
+      include: [
+        [
+          sequelize.literal(
+            `(SELECT COUNT(*)
+            FROM Likes
+            WHERE
+            Likes.targetId = Comments.id)`
+          ),
+          'likesNum',
+        ],
+      ],
+    },
+    where: { userId: id },
+  }).then((data) => {
+    if (!data) {
+      return res.status(401).send('not found Comments');
+    }
+    data.forEach((result) => {
+      const { dataValues } = result;
+      ary.push(dataValues);
+    });
+    const userComments = { ...ary };
+    return res.status(200).json({ data: userComments });
+  });
 };
