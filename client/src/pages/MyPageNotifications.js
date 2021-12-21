@@ -17,7 +17,7 @@ const Main = styled.main`
   }
 `;
 
-export default function MyPageTemp() {
+export default function MyPageNotifications() {
   return (
     <>
       <Main>
