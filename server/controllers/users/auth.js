@@ -2,11 +2,12 @@ const { Users } = require('../../models');
 const { isAuthorized } = require('../tokenFunctions');
 
 module.exports = (req, res) => {
+  console.log(req);
+  console.log('headers', req.headers);
+  console.log('authorization', req.headers.authorization);
   const accessTokenData = isAuthorized(req.headers.authorization);
   console.log('get right header?');
   console.log('HEADER', req.headers.authorization);
-
-  console.log(5555, req.cookies.jwt);
 
   if (accessTokenData === null) {
     return res.status(401).send({ data: null, message: 'not authorized' });
