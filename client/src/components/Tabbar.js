@@ -2,8 +2,7 @@ import styled from 'styled-components';
 import { colors } from '../styles/Colors';
 import { device } from '../styles/Breakpoints';
 import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faCommentDots, faBell } from '@fortawesome/free-regular-svg-icons';
+import IconButton from '../components/IconButton';
 
 const TabContainer = styled.div`
   display: flex;
@@ -12,14 +11,12 @@ const TabContainer = styled.div`
   justify-content: left;
   align-items: center;
 
-  /* 아이콘 스타일 */
-  font-size: 2rem;
-  /* color: ${colors.white}; */
   padding: 1.3rem;
   cursor: pointer;
 
   @media ${device.tablet} {
     background-color: ${colors.primaryL};
+    // ! 반응형 수정
     height: calc(100vh - 80px);
     display: flex;
     justify-content: left;
@@ -27,26 +24,25 @@ const TabContainer = styled.div`
   }
 `;
 
-const primaryL = colors.primaryL;
-console.log(`${primaryL}`);
-
 export default function Tabbar() {
   return (
     <TabContainer>
       <Link to="/mypage/personal-information">
-        <FontAwesomeIcon
-          icon={faUser}
-          style={{ color: `${primaryL}`, marginBottom: '20px' }}
-        />
+        <IconButton color="primary" fontSize="2rem">
+          <i class="far fa-user"></i>
+        </IconButton>
       </Link>
+      <br />
       <Link to="/mypage/my-activities">
-        <FontAwesomeIcon
-          icon={faCommentDots}
-          style={{ color: '#FFF', marginBottom: '20px' }}
-        />
+        <IconButton color="primary" fontSize="2rem">
+          <i class="far fa-comment-dots"></i>
+        </IconButton>
       </Link>
+      <br />
       <Link to="/mypage/notifications">
-        <FontAwesomeIcon icon={faBell} />
+        <IconButton color="primary" fontSize="2rem">
+          <i class="far fa-bell"></i>
+        </IconButton>
       </Link>
     </TabContainer>
   );

@@ -59,3 +59,12 @@ export function postComment(
     })
     .then((result) => result);
 }
+
+export function deleteComment(commentId) {
+  return axios
+    .delete(`${process.env.REACT_APP_SERVER_URL}/comments/${commentId}`)
+    .then((result) => {
+      console.log(result);
+      return result;
+    });
+}

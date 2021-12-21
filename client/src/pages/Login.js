@@ -67,13 +67,11 @@ export default function Login({ handleResponseSuccess }) {
   };
 
   const handleLogin = () => {
-    // console.log('작동?');
     if (!loginInfo.userId || !loginInfo.password) {
       setErrorMessage('아이디와 비밀번호를 입력하세요');
     } else {
       axios
-        // .post(`${process.env.REACT_APP_SERVER_URL}/login`, {
-        .post(`http://localhost:8000/login`, {
+        .post(`${process.env.REACT_APP_SERVER_URL}/login`, {
           userId: loginInfo.userId,
           password: loginInfo.password,
         })
