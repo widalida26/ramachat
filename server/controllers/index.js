@@ -11,6 +11,7 @@ module.exports = {
   comments: require('./search/comments'),
   add: require('./comments/add'),
   delete: require('./comments/delete'),
+  modify: require('./comments/modify'),
   like: require('./comments/like'),
   notification: require('./myInfos/notification'),
 };
