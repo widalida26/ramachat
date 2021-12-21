@@ -39,7 +39,7 @@ export default function Reply({ reply, userId }) {
       <p>{reply.content}</p>
       <ButtonContainer>
         <div>
-          <IconButton color="primary">
+          <IconButton color="grey">
             <i class="fas fa-heart"></i> Like {reply.likeNum}
           </IconButton>
         </div>
