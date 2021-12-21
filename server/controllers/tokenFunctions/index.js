@@ -14,6 +14,7 @@ module.exports = {
   },
   isAuthorized: (req) => {
     const authorization = req.jwt;
+
     if (!authorization) {
       return null;
     }

@@ -25,8 +25,6 @@ module.exports = (req, res) => {
       // delete data.dataValues.password;
       const accessToken = generateAccessToken(data.dataValues);
 
-      console.log(111, accessToken);
-
       // sendAccessToken(res, accessToken);
 
       res
@@ -34,7 +32,7 @@ module.exports = (req, res) => {
           httpOnly: true,
         })
         .status(200)
-        .json({ data: { accessToken: accessToken }, message: 'ok' });
+        .json({ data: { data: accessToken }, message: 'ok' });
     })
     .catch((err) => {
       console.log(err);
