@@ -57,6 +57,21 @@ const CommentsList = styled.ul`
   }
 `;
 
+const CommentFormContainer = styled.div`
+  background-color: ${colors.white};
+  border-top: 1px solid ${colors.primary};
+  padding: 0.5em;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  @media ${device.tablet} {
+    position: relative;
+    border: 1px solid ${colors.primary};
+  }
+`;
+
 export default function Comments({ userInfo }) {
   // const comments = [
   //   {
@@ -158,22 +173,24 @@ export default function Comments({ userInfo }) {
         <p>{episode.overview}</p>
       </EpisodeInfo>
       <CommentsContainer>
+        <CommentFormContainer>
+          <CommentForm
+            userId={userId}
+            dramaId={drama.id}
+            dramaName={drama.name}
+            seasonIndex={episode.season_number}
+            episodeIndex={episode.episode_number}
+            episodeId={episode.id}
+            // commentNum={comments.length}
+            addNewComment={addNewComment}
+          />
+        </CommentFormContainer>
         <CommentsList>
           {/* Comments */}
           {comments.map((comment) => (
-            <Comment comment={comment} userId={userId} />
+            <Comment drama={drama} episode={episode} comment={comment} userId={userId} />
           ))}
         </CommentsList>
-        <CommentForm
-          userId={userId}
-          dramaId={drama.id}
-          dramaName={drama.name}
-          seasonIndex={episode.season_number}
-          episodeIndex={episode.episode_number}
-          episodeId={episode.id}
-          // commentNum={comments.length}
-          addNewComment={addNewComment}
-        />
       </CommentsContainer>
     </Main>
   );

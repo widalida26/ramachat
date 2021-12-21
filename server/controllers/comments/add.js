@@ -33,9 +33,7 @@ module.exports = async (req, res) => {
 
     // 새 댓글 객체 세팅
     const newComment = { episodeId, userId, content, parentCommentId };
-    console.log(newComment);
-    console.log('episode create');
-    console.log(episodeId);
+
     // EpisodeInfos 테이블에 해당 에피소드 아이디를 가진 값이 없을 때  => 첫 댓글
     episodeInfoCreated = await EpisodeInfos.findOrCreate({
       where: { id: episodeId },
@@ -52,6 +50,7 @@ module.exports = async (req, res) => {
     const createdComment = await Comments.create(newComment);
     const { id, updatedAt, createdAt } = createdComment.dataValues;
     createdCommentId = id;
+
     // 응답 객체 세팅 => 댓를 정보
     const commentResponse = { id, updatedAt, createdAt };
 

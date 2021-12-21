@@ -6,7 +6,7 @@ export const colors = {
   secondaryL: '#A5EEF4',
   secondaryD: '#14B4C0',
   grey: 'grey',
-  greyL: 'lightgrey',
+  greyL: '#EEEEEE',
   greyD: 'darkgrey',
   white: 'white',
   black: 'black',
