@@ -33,7 +33,6 @@ module.exports = async (req, res) => {
     });
 
   // 댓글이 수정되었을 때
-
   // 필요한 정보를 찾음
   await Comments.findOne({
     attributes: ['id', 'updatedAt'],
