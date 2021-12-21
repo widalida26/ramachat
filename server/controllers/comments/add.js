@@ -5,37 +5,40 @@ const { Notifications } = require('../../models');
 const { isAuthorized } = require('../tokenFunctions');
 
 module.exports = async (req, res) => {
-  // 작성된 댓글의 아이디
-  let createdCommentId = -1;
-  // EpisodeInfos 테이블에 정보가 삽입되었는지 여부
-  let episodeInfoCreated = false;
+  let createdCommentId = -1; // 작성된 댓글의 아이디
+  let episodeInfoCreated = false; // EpisodeInfos 테이블에 정보가 삽입되었는지 여부
+
+  const accessTokenData = isAuthorized(req);
+  // 인증 실패
+  if (accessTokenData === null) {
+    res.status(401).send('unauthorized user');
+    return;
+  }
 
   try {
-    const accessTokenData = isAuthorized(req.cookies);
-    // 인증 실패
-    if (accessTokenData === null) {
-      res.status(401).send('unauthorized user');
-      return;
-    }
-
     // 인증 성공
     const userId = accessTokenData.id;
-    // body에서 필요한 값 받기
     const {
       content,
+      episodeId,
       dramaId,
       dramaName,
       seasonIndex,
       episodeIndex,
-      episodeId,
       parentCommentId,
-    } = req.body;
+    } = req.body; // body에서 필요한 값 받기 => 오류 발생 시 catch
 
     // 새 댓글 객체 세팅
-    const newComment = { episodeId, userId, content, parentCommentId };
+    const newComment = {
+      episodeId,
+      userId,
+      content,
+      parentCommentId,
+    };
 
+    console.log(episodeId);
     // EpisodeInfos 테이블에 해당 에피소드 아이디를 가진 값이 없을 때  => 첫 댓글
-    episodeInfoCreated = await EpisodeInfos.findOrCreate({
+    const episodeInfo = await EpisodeInfos.findOrCreate({
       where: { id: episodeId },
       defaults: {
         id: episodeId,
@@ -45,37 +48,52 @@ module.exports = async (req, res) => {
         episodeIndex,
       },
     }).then((result) => result[1]);
+    console.log(episodeInfo);
+    // 에피소드 정보를 찾거나 만드는데 실패했을 경우
+    // if (!info) {
+    //   res.status(500).send('err');
+    //   return;
+    // }
 
+    let commentResponse;
     // 댓글을 Comments 테이블에 삽입
-    const createdComment = await Comments.create(newComment);
-    const { id, updatedAt, createdAt } = createdComment.dataValues;
-    createdCommentId = id;
+    // const createdComment = await Comments.create(newComment).catch((err) => {
+    //   res.status(500).send(err);
+    //   return;
+    // });
 
-    // 응답 객체 세팅 => 댓를 정보
-    const commentResponse = { id, updatedAt, createdAt };
+    // const { id, updatedAt, createdAt } = createdComment.dataValues;
+    // commentResponse = { id, updatedAt, createdAt }; // 응답 세팅
+    // // 댓글 삽입에 실패할 때
 
-    // 답글이 아닐 때
-    if (!parentCommentId) {
-      commentResponse.parentCommentId = null;
-      res.status(201).json(commentResponse);
-      // 답글일 때
-      // 알림 테이블에 추가
-    } else {
-      await Notifications.create({ userId, commentId: id });
-      res.status(201).json(commentResponse);
-    }
+    // // 답글이 아닐 때
+    // if (!parentCommentId) {
+    //   commentResponse.parentCommentId = null;
+    //   res.status(201).json(commentResponse);
+    //   return;
+    // }
 
+    // 답글일 때
+    // 알림 테이블에 추가
+    //await Notifications.create({ userId, commentId: id }).catch((err) => {
+    //   if (created) {
+    //     EpisodeInfos.destory({
+    //       where: { id: episodeId },
+    //     });
+    //   }
+    //   Comments.destroy({
+    //     where: { id: createdCommentId },
+    //   });
+    //   res.status(500).send(err);
+    //   return;
+    // });
+    // res.status(201).json(commentResponse);
+    return;
     // 오류 발생 시 추가한 테이블을 제거 시도
+    // reauest body에서 필요한 값을 읽어오지 못할 때
   } catch (err) {
     console.log(err);
-    if (episodeInfoCreated) {
-      await EpisodeInfos.destory({
-        where: { id: episodeId },
-      });
-    }
-    await Comments.destroy({
-      where: { id: createdCommentId },
-    });
-    await res.status(500).send(err);
+    res.status(400).send('Please provide all necessary information');
+    return;
   }
 };
