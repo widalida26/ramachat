@@ -189,7 +189,13 @@ export default function Comments({ tokenState, userInfo }) {
         <CommentsList>
           {/* Comments */}
           {comments.map((comment) => (
-            <Comment drama={drama} episode={episode} comment={comment} userId={userId} />
+            <Comment
+              tokenState={tokenState}
+              drama={drama}
+              episode={episode}
+              comment={comment}
+              userId={userId}
+            />
           ))}
         </CommentsList>
       </CommentsContainer>

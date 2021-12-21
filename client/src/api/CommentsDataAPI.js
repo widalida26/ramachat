@@ -71,9 +71,13 @@ export function postComment(
     .then((result) => result);
 }
 
-export function deleteComment(commentId) {
+export function deleteComment(tokenState, commentId) {
   return axios
-    .delete(`${process.env.REACT_APP_SERVER_URL}/comments/${commentId}`)
+    .delete(`${process.env.REACT_APP_SERVER_URL}/comments/${commentId}`, {
+      headers: {
+        authorization: 'Bearer ' + tokenState,
+      },
+    })
     .then((result) => {
       console.log(result);
       return result;
