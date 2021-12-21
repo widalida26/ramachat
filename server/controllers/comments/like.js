@@ -1,83 +1,44 @@
-const { Comments } = require('../../models');
-const { EpisodeInfos } = require('../../models');
-const { Notifications } = require('../../models');
+const { Likes } = require('../../models');
 const { isAuthorized } = require('../tokenFunctions');
 
 module.exports = async (req, res) => {
+  let liked = false; // Likes 테이블에 정보가 삽입되었는지 여부
+  let newLike = {}; // 좋아요 객체
+
   try {
     const accessTokenData = isAuthorized(req.cookies);
     // 인증 실패
     if (accessTokenData === null) {
       res.status(401).send('unauthorized user');
-      // 인증 성공
-    } else {
-      const { targetId } = req.body;
-      //const liked = await Comments.create(newComment);
+      return;
     }
-  } catch {}
+
+    // 인증 성공
+    // 좋아요 객체 세팅
+    userId = accessTokenData.id;
+    targetId = req.params.commentId;
+    newLike = { userId, targetId };
+
+    // 좋아요 정보 삽입
+    liked = await Likes.findOrCreate({
+      where: newLike,
+      defaults: newLike,
+    }).then((result) => {
+      // isNewRecord?
+      if (!result[1]) {
+        Likes.destroy({ where: { id: result[0].dataValues.id } }); // 좋아요가 있을 경우 취소
+        return false;
+      } else return true;
+    });
+
+    res.status(201).json({ liked });
+  } catch (err) {
+    if (liked) {
+      await Likes.destroy({ where: newLike });
+    } else {
+      await Likes.create(newLike);
+    }
+    await res.status(500).send(err);
+  }
   res.end();
-  //   // 작성된 댓글의 아이디
-  //   let createdCommentId = -1;
-  //   // EpisodeInfos 테이블에 정보가 삽입되었는지 여부
-  //   let episodeInfoCreated = false;
-  //   try {
-  //     const accessTokenData = isAuthorized(req.cookies);
-  //     // 인증 실패
-  //     if (accessTokenData === null) {
-  //       res.status(401).send('unauthorized user');
-  //       // 인증 성공
-  //     } else {
-  //       const userId = accessTokenData.id;
-  //       // body에서 필요한 값 받기
-  //       const {
-  //         content,
-  //         dramaId,
-  //         dramaName,
-  //         seasonIndex,
-  //         episodeIndex,
-  //         episodeId,
-  //         parentCommentId,
-  //       } = req.body;
-  //       // 새 댓글 객체 세팅
-  //       let newComment = { episodeId, userId, content, parentCommentId };
-  //       // EpisodeInfos 테이블에 해당 에피소드 아이디를 가진 값이 없을 때  => 첫 댓글
-  //       episodeInfoCreated = await EpisodeInfos.findOrCreate({
-  //         where: { id: episodeId },
-  //         defaults: {
-  //           id: episodeId,
-  //           dramaId,
-  //           dramaName,
-  //           seasonIndex,
-  //           episodeIndex,
-  //         },
-  //       })[1];
-  //       // 댓글을 Comments 테이블에 삽입
-  //       const createdComment = await Comments.create(newComment);
-  //       const { id, updatedAt, createdAt } = createdComment.dataValues;
-  //       createdCommentId = id;
-  //       // 응답 객체 세팅 => 댓를 정보
-  //       const commentResponse = { id, updatedAt, createdAt };
-  //       // 답글이 아닐 때
-  //       if (!parentCommentId) {
-  //         commentResponse.parentCommentId = null;
-  //         res.status(201).json(commentResponse);
-  //         // 답글일 때
-  //         // 알림 테이블에 추가
-  //       } else {
-  //         await Notifications.create({ userId, commentId: id });
-  //         res.status(201).json(commentResponse);
-  //       }
-  //     }
-  //     // 오류 발생 시 추가한 테이블을 제거 시도
-  //   } catch (err) {
-  //     if (episodeInfoCreated) {
-  //       await EpisodeInfos.destory({
-  //         where: { id: episodeId },
-  //       });
-  //       await Comments.destroy({
-  //         where: { id: createdCommentId },
-  //       });
-  //     }
-  //     await res.status(500).send(err);
-  //   }
 };
