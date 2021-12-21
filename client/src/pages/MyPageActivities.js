@@ -3,6 +3,7 @@ import axios from 'axios';
 import styled from 'styled-components';
 import { colors } from '../styles/Colors';
 import { device } from '../styles/Breakpoints';
+import { useEffect } from 'react';
 
 axios.defaults.withCredentials = true;
 
@@ -17,7 +18,20 @@ const Main = styled.main`
   }
 `;
 
-export default function MyPageTemp() {
+export default function MyPageActivities() {
+  const getMyComment = () => {
+    axios
+      .get(`${process.env.REACT_APP_SERVER_URL}/activity`)
+      .then((data) => {
+        console.log(data);
+      })
+      .catch(() => console.log('getMyComment 에러'));
+  };
+
+  useEffect(() => {
+    getMyComment();
+  }, []);
+
   return (
     <>
       <Main>
