@@ -43,14 +43,9 @@ function App() {
   };
 
   const handleResponseSuccess = (data) => {
-<<<<<<< HEAD
     console.log(data.accessToken);
     setTokenState(data.accessToken);
     // isAuthenticated();
-=======
-    setTokenState(data);
-    isAuthenticated();
->>>>>>> 73368c5f2549272edc42ab17c31be0733d4cf6a7
   };
 
   const handleLogout = () => {
