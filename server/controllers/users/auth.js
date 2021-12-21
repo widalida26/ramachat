@@ -2,9 +2,8 @@ const { Users } = require('../../models');
 const { isAuthorized } = require('../tokenFunctions');
 
 module.exports = (req, res) => {
+  console.log(555, req);
   const accessTokenData = isAuthorized(req.headers.authorization);
-  console.log('get right header?');
-  console.log('HEADER', req.headers.authorization);
 
   if (accessTokenData === null) {
     return res.status(401).send({ data: null, message: 'not authorized' });

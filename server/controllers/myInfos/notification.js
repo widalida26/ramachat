@@ -3,7 +3,9 @@ const { isAuthorized } = require('../tokenFunctions');
 const sequelize = require('../../models').sequelize;
 
 module.exports = (req, res) => {
-  const accessTokenData = isAuthorized(req);
+  const dataResult = [];
+
+  const accessTokenData = isAuthorized(req.headers.authorization);
 
   if (accessTokenData === null) {
     res.status(401).send({ data: null, message: 'not authorized' });
@@ -11,20 +13,19 @@ module.exports = (req, res) => {
 
   console.log();
 
-  const userId = accessTokenData.userId;
+  const id = accessTokenData.id;
 
-  console.log(userId);
-
+  console.log(id);
+  const sql = `select n.id,n.userId,n.commentId,c.content,c.parentCommentId from Notifications as n join Comments as c on n.commentId = c.id where  n.userId= ${id}`;
   console.log('hi');
-  sequelize
-    .query(
-      `select * from Notifications as n join Comments as c on n.commentId = c.id join Users as u on u.id = n.userId where u.userId = ${userId}`
-    )
-    .then((data) => {
-      console.log(data);
+  sequelize.query(sql, { type: sequelize.QueryTypes.SELECT }).then((data) => {
+    data.forEach((ele) => {
+      if (ele.parentCommentId !== null) {
+        const result = ele;
+        console.log(result);
+      }
+      console.log(555, dataResult);
     });
+    return res.status(200).json({ data: data });
+  });
 };
-
-// SELECT *
-// FROM 테이블_1
-// JOIN 테이블_2 ON 테이블_1.특성_A = 테이블_2.특성_B
