@@ -72,13 +72,12 @@ export default function Signup() {
 
   const handleSignup = () => {
     axios
-      .post('http://localhost:8000/signup', {
+      .post(`${process.env.REACT_APP_SERVER_URL}/signup`, {
         email: userInfo.email,
         userId: userInfo.userId,
         password: userInfo.password,
       })
       .then(() => setIsOpen(!isOpen)) // 회원가입 버튼 클릭시 모달 열기
-      // .then(() => navigate('/'))
       .catch(() => {
         setErrorMessage('이미 존재하는 회원입니다');
         console.log('axios 에러');

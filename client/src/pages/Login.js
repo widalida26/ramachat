@@ -67,7 +67,6 @@ export default function Login({ handleResponseSuccess }) {
   };
 
   const handleLogin = () => {
-    // console.log('작동?');
     if (!loginInfo.userId || !loginInfo.password) {
       setErrorMessage('아이디와 비밀번호를 입력하세요');
     } else {
@@ -76,8 +75,8 @@ export default function Login({ handleResponseSuccess }) {
           userId: loginInfo.userId,
           password: loginInfo.password,
         })
-        .then(() => {
-          handleResponseSuccess();
+        .then((data) => {
+          handleResponseSuccess(data.data.data);
         })
         .catch(() => setErrorMessage('유효하지 않은 아이디와 비밀번호 입니다'));
     }
