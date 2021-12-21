@@ -39,7 +39,7 @@ const ReplyFormContainer = styled.div`
   background-color: ${colors.greyL};
 `;
 
-export default function Comment({ drama, episode, comment, userId }) {
+export default function Comment({ tokenState, drama, episode, comment, userId }) {
   const [replies, setReplies] = useState([
     {
       id: 125,
@@ -110,7 +110,8 @@ export default function Comment({ drama, episode, comment, userId }) {
   };
 
   const handleDelete = () => {
-    deleteComment(comment.id).then((result) => {
+    deleteComment(tokenState, comment.id).then((result) => {
+      console.log('delete response', result);
       if (result.status === 200) {
         setHasdeleted(true);
         openModalHandler();

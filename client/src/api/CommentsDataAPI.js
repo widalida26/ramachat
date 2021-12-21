@@ -23,6 +23,7 @@ export function getEpisodeComments(episodeId) {
 }
 
 export function postComment(
+  tokenState,
   userId,
   content,
   dramaId,
@@ -35,6 +36,7 @@ export function postComment(
 ) {
   console.log('sending new comment');
   console.log(
+    tokenState,
     userId,
     content,
     dramaId,
@@ -46,23 +48,36 @@ export function postComment(
     parentCommentId
   );
   return axios
-    .post(`${process.env.REACT_APP_SERVER_URL}/comments/add`, {
-      userId: userId,
-      content: content,
-      dramaId: dramaId,
-      dramaName: dramaName,
-      seasonIndex: seasonIndex,
-      episodeIndex: episodeIndex,
-      episodeId: episodeId,
-      // commentNum: commentNum,
-      parentCommentId: parentCommentId,
-    })
+    .post(
+      `${process.env.REACT_APP_SERVER_URL}/comments/add`,
+      {
+        userId: userId,
+        content: content,
+        dramaId: dramaId,
+        dramaName: dramaName,
+        seasonIndex: seasonIndex,
+        episodeIndex: episodeIndex,
+        episodeId: episodeId,
+        // commentNum: commentNum,
+        parentCommentId: parentCommentId,
+      },
+      {
+        headers: {
+          'Content-Type': `application/json`,
+          authorization: 'Bearer ' + tokenState,
+        },
+      }
+    )
     .then((result) => result);
 }
 
-export function deleteComment(commentId) {
+export function deleteComment(tokenState, commentId) {
   return axios
-    .delete(`${process.env.REACT_APP_SERVER_URL}/comments/${commentId}`)
+    .delete(`${process.env.REACT_APP_SERVER_URL}/comments/${commentId}`, {
+      headers: {
+        authorization: 'Bearer ' + tokenState,
+      },
+    })
     .then((result) => {
       console.log(result);
       return result;
