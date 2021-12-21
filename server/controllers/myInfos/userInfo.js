@@ -3,7 +3,7 @@ const { isAuthorized } = require('../tokenFunctions');
 const { decrypt } = require('../users/crypto');
 
 module.exports = (req, res) => {
-  const accessTokenData = isAuthorized(req.cookies);
+  const accessTokenData = isAuthorized(req.headers.authorization);
 
   const userId = accessTokenData.userId;
   if (accessTokenData === null) {

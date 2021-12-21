@@ -245,6 +245,7 @@ export default function Signup() {
           <Modal
             isOpen={isOpen}
             openModalHandler={openModalHandler}
+            modalActionlHandler={openModalHandler}
             noticeMessage={'회원가입이 완료되었습니다!'}
             buttonMessage={'login'}
             endPoint={'/login'}

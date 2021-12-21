@@ -13,7 +13,7 @@ module.exports = {
     });
   },
   isAuthorized: (req) => {
-    const authorization = req.headers.authorization;
+    const authorization = req;
     if (!authorization) {
       return null;
     }

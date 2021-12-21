@@ -81,6 +81,7 @@ function Navbar({ isLogin, handleLogout }) {
         <Modal
           isOpen={isOpen}
           openModalHandler={openModalHandler}
+          modalActionlHandler={openModalHandler}
           noticeMessage={'정상적으로 로그아웃이 완료되었습니다!'}
           buttonMessage={'홈으로 가기'}
           endPoint={'/'}
