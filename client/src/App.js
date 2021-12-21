@@ -70,7 +70,6 @@ function App() {
   };
 
   useEffect(() => {
-<<<<<<< HEAD
     isAuthenticated();
     console.log('token updated');
   }, [tokenState]);
@@ -78,13 +77,6 @@ function App() {
   // useEffect(() => {
   //   isAuthenticated();
   // }, []);
-=======
-    if (tokenState) {
-      // ! 새로고침하면 로그인이 풀림
-      isAuthenticated();
-    }
-  }, []);
->>>>>>> 73368c5f2549272edc42ab17c31be0733d4cf6a7
 
   return (
     <>
