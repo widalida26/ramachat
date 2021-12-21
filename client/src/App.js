@@ -18,13 +18,13 @@ function App() {
 
   const navigate = useNavigate();
 
-  const isAuthenticated = (data) => {
+  const isAuthenticated = () => {
     axios
       // .get(`${process.env.REACT_APP_SERVER_URL}/auth`, {
       .get(`${process.env.REACT_APP_SERVER_URL}/auth`, {
         headers: {
           'Content-Type': `application/json`,
-          authorization: tokenState,
+          authorization: 'Bearer ' + tokenState,
         },
         withCredentials: true,
       })
@@ -38,8 +38,8 @@ function App() {
   };
 
   const handleResponseSuccess = (data) => {
-    console.log(data);
-    setTokenState(data);
+    console.log(data.accessToken);
+    setTokenState(data.accessToken);
     // isAuthenticated();
   };
 
@@ -67,7 +67,12 @@ function App() {
 
   useEffect(() => {
     isAuthenticated();
+    console.log('token updated');
   }, [tokenState]);
+
+  // useEffect(() => {
+  //   isAuthenticated();
+  // }, []);
 
   return (
     <>
