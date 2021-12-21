@@ -42,7 +42,7 @@ app.post('/comments/likes/:commentId', controllers.like); // 좋아요
 //app.put('/modify', controllers.modify);
 
 //PUT
-app.put('/modify', controllers.modify);
+//app.put('/modify', controllers.modify);
 
 //DELETE
 app.delete('/signout', controllers.signout);
