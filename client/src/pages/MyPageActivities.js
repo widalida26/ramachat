@@ -18,10 +18,16 @@ const Main = styled.main`
   }
 `;
 
-export default function MyPageActivities() {
+export default function MyPageActivities({ tokenState }) {
   const getMyComment = () => {
     axios
-      .get(`${process.env.REACT_APP_SERVER_URL}/activity`)
+      .get(`${process.env.REACT_APP_SERVER_URL}/activity`, {
+        headers: {
+          'Content-Type': `application/json`,
+          authorization: 'Bearer ' + tokenState,
+        },
+        withCredentials: true,
+      })
       .then((data) => {
         console.log(data);
       })
