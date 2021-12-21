@@ -7,8 +7,9 @@ const { Comments } = require('../../models');
 // 2.
 
 module.exports = async (req, res) => {
+  let episodeId = -1;
   try {
-    let episodeId = req.query['episode-id'];
+    episodeId = req.query['episode-id'];
   } catch (err) {
     res.status(400).send('Please provide all necessary information');
   }
