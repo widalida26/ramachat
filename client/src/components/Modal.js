@@ -55,7 +55,14 @@ const ClickButton = styled.button`
   background: #eee;
 `;
 
-function Modal({ isOpen, openModalHandler, noticeMessage, buttonMessage, endPoint }) {
+function Modal({
+  isOpen,
+  openModalHandler,
+  modalActionlHandler,
+  noticeMessage,
+  buttonMessage,
+  endPoint,
+}) {
   return (
     <>
       <ModalContainer>
@@ -66,9 +73,13 @@ function Modal({ isOpen, openModalHandler, noticeMessage, buttonMessage, endPoin
                 &times;
               </span>
               <p className="desc">{noticeMessage}</p>
-              <Link to={endPoint}>
-                <ClickButton onClick={openModalHandler}>{buttonMessage}</ClickButton>
-              </Link>
+              {endPoint ? (
+                <Link to={endPoint}>
+                  <ClickButton onClick={modalActionlHandler}>{buttonMessage}</ClickButton>
+                </Link>
+              ) : (
+                <ClickButton onClick={modalActionlHandler}>{buttonMessage}</ClickButton>
+              )}
             </ModalView>
           </ModalBackdrop>
         ) : null}
