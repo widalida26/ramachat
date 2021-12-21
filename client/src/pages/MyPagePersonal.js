@@ -27,7 +27,7 @@ const Main = styled.main`
 
 axios.defaults.withCredentials = true;
 
-export default function MyPagePersonal() {
+export default function MyPagePersonal({ tokenState }) {
   const [isChange, setIsChange] = useState(false);
   const [myPageInfo, setMyPageInfo] = useState(null);
   const userId = myPageInfo ? myPageInfo.userId : '';
@@ -51,7 +51,13 @@ export default function MyPagePersonal() {
 
   const getMyPage = () => {
     axios
-      .get(`${process.env.REACT_APP_SERVER_URL}/userInfo`)
+      .get(`${process.env.REACT_APP_SERVER_URL}/userInfo`, {
+        headers: {
+          'Content-Type': `application/json`,
+          authorization: 'Bearer ' + tokenState,
+        },
+        withCredentials: true,
+      })
       .then((res) => {
         setMyPageInfo(res.data.data.userInfo);
       })
@@ -61,10 +67,20 @@ export default function MyPagePersonal() {
   const changePassword = () => {
     // 비밀번호 변경 성공 모달띄우기...
     axios
-      .put(`${process.env.REACT_APP_SERVER_URL}/modify`, {
-        password: passwordInfo.nowPassword,
-        newPassword: passwordInfo.newPassword,
-      })
+      .put(
+        `${process.env.REACT_APP_SERVER_URL}/passwordModify`,
+        {
+          withCredentials: true,
+          password: passwordInfo.nowPassword,
+          newPassword: passwordInfo.newPassword,
+        },
+        {
+          headers: {
+            'Content-Type': `application/json`,
+            authorization: 'Bearer ' + tokenState,
+          },
+        }
+      )
       .then(() => setIsOpen(!isOpen)) // 비밀번호 변경 버튼 클릭시 모달 열기
       .catch(() => console.log('changePassword 에러'));
   };
@@ -72,7 +88,13 @@ export default function MyPagePersonal() {
   const signOut = () => {
     // 회원탈퇴 성공 모달띄우기...
     axios
-      .delete(`${process.env.REACT_APP_SERVER_URL}/signout`)
+      .delete(`${process.env.REACT_APP_SERVER_URL}/signout`, {
+        headers: {
+          'Content-Type': `application/json`,
+          authorization: 'Bearer ' + tokenState,
+        },
+        withCredentials: true,
+      })
       .then(() => setIsOpen(!isOpen)) // 회원탈퇴 버튼 클릭시 모달 열기
       .catch(() => console.log('signOut 에러'));
   };
@@ -128,6 +150,7 @@ export default function MyPagePersonal() {
               <Modal
                 isOpen={isOpen}
                 openModalHandler={openModalHandler}
+                modalActionlHandler={openModalHandler}
                 noticeMessage={'비밀번호 변경이 완료되었습니다!'}
                 buttonMessage={'확인'}
                 endPoint={'/mypage/personal-information'}
@@ -155,6 +178,7 @@ export default function MyPagePersonal() {
               <Modal
                 isOpen={isOpen}
                 openModalHandler={openModalHandler}
+                modalActionlHandler={openModalHandler}
                 noticeMessage={'회원 탈퇴가 완료되었습니다!'}
                 buttonMessage={'홈으로 가기'}
                 endPoint={'/'}

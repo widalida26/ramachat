@@ -2,7 +2,9 @@ const { Users } = require('../../models');
 const { isAuthorized } = require('../tokenFunctions');
 
 module.exports = (req, res) => {
-  console.log(555, req);
+  console.log(req);
+  console.log('headers', req.headers);
+  console.log('authorization', req.headers.authorization);
   const accessTokenData = isAuthorized(req.headers.authorization);
 
   if (accessTokenData === null) {

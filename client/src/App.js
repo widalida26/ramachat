@@ -91,9 +91,18 @@ function App() {
         <Route exact path="/signup" element={<Signup />} />
         <Route exact path="/" element={<Home />} />
         <Route path="/search" element={<Search />} />
-        <Route path="/mypage/personal-information" element={<MyPagePersonal />} />
-        <Route path="/mypage/my-activities" element={<MyPageActivities />} />
-        <Route path="/mypage/notifications" element={<MyPageNotifications />} />
+        <Route
+          path="/mypage/personal-information"
+          element={<MyPagePersonal tokenState={tokenState} />}
+        />
+        <Route
+          path="/mypage/my-activities"
+          element={<MyPageActivities tokenState={tokenState} />}
+        />
+        <Route
+          path="/mypage/notifications"
+          element={<MyPageNotifications tokenState={tokenState} />}
+        />
         <Route path="/drama/:id" element={<Drama />} />
         <Route
           path="/drama/:id/comments/season/:season/episode/:episode"

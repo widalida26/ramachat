@@ -15,6 +15,8 @@ app.use(
     origin: true,
     //orogin: [`*`],
     //origin: [`http://localhost:3000`],
+    allowedHeaders: ['Authorization, Content-Type'],
+    //exposedHeaders: ['Authorization'],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   })
@@ -39,6 +41,7 @@ app.get('/episode-infos', controllers.episodeInfos); // 에피소드 정보 조�
 app.get('/comments', controllers.comments); // 댓글 정보 조회
 app.post('/comments/add', controllers.add); // 댓글 작성
 app.delete('/comments/:commentId', controllers.delete); // 댓글 삭제
+app.patch('/comments/:commentId', controllers.modify); // 댓글 수정
 app.post('/comments/likes/:commentId', controllers.like); // 좋아요
 //app.put('/modify', controllers.modify);
 
@@ -51,7 +54,7 @@ app.delete('/signout', controllers.signout);
 const HTTPS_PORT = process.env.HTTPS_PORT || 8000;
 
 let server;
-if (fs.existsSync('./key.pem') && fs.existsSync('./cert.pem')) {
+if (fs.existsSync('./key.pem') && fs.existsçSync('./cert.pem')) {
   const privateKey = fs.readFileSync(__dirname + '/key.pem', 'utf8');
   const certificate = fs.readFileSync(__dirname + '/cert.pem', 'utf8');
   const credentials = { key: privateKey, cert: certificate };

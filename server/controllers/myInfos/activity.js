@@ -4,7 +4,7 @@ const sequelize = require('../../models').sequelize;
 
 module.exports = (req, res) => {
   let ary = [];
-  const accessTokenData = isAuthorized(req.cookies);
+  const accessTokenData = isAuthorized(req.headers.authorization);
 
   if (accessTokenData === null) {
     res.status(401).send({ data: null, message: 'not authorized' });
