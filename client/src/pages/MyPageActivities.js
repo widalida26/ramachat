@@ -30,22 +30,26 @@ const CommentsList = styled.ul`
 `;
 
 export default function MyPageActivities({ tokenState }) {
+  const token = tokenState ? tokenState : sessionStorage.getItem('token');
   const [myComments, setMyComments] = useState(null);
-  const userId = myComments ? myComments[0].userId : '';
+  const userId = myComments ? myComments : '댓글없다';
+  // ! 댓글 없을 경우 방어코드 작성 => myComments[0].userId 못읽음
+  console.log(userId);
 
   const getMyComment = () => {
     axios
       .get(`${process.env.REACT_APP_SERVER_URL}/activity`, {
         headers: {
           'Content-Type': `application/json`,
-          authorization: 'Bearer ' + tokenState,
+          authorization: 'Bearer ' + token,
         },
         withCredentials: true,
       })
       .then((data) => {
+        console.log(data);
         setMyComments(data.data.data);
-      })
-      .catch(() => console.log('getMyComment 에러'));
+      });
+    // .catch(() => console.log('getMyComment 에러'));
   };
 
   console.log('유저아이디', userId);
@@ -89,7 +93,7 @@ export default function MyPageActivities({ tokenState }) {
         <CommentsList>
           {/* Comments */}
           {/* {myComments.map((comment) => (
-            <Comment drama={drama} episode={episode} comment={comment} userId={userId} />
+            <Comment comment={comment} userId={userId} />
           ))} */}
         </CommentsList>
       </Main>

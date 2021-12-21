@@ -31,6 +31,7 @@ function App() {
       })
 
       .then((res) => {
+        setTokenState(sessionStorage.getItem('token'));
         setIsLogin(true);
         setUserInfo(res.data.data.userInfo);
         if (location.pathname === '/login') {
@@ -42,7 +43,6 @@ function App() {
   };
 
   const handleResponseSuccess = (data) => {
-    console.log(data.accessToken);
     sessionStorage.setItem('token', data.accessToken);
     setTokenState(data.accessToken);
     // isAuthenticated();
@@ -90,7 +90,7 @@ function App() {
         <Route path="/search" element={<Search />} />
         <Route
           path="/mypage/personal-information"
-          element={<MyPagePersonal tokenState={tokenState} />}
+          element={<MyPagePersonal tokenState={tokenState} handleLogout={handleLogout} />}
         />
         <Route
           path="/mypage/my-activities"
