@@ -1,5 +1,6 @@
 const sequelize = require('../../models').sequelize;
 const { Comments } = require('../../models');
+const { isAuthorized } = require('../tokenFunctions');
 
 module.exports = async (req, res) => {
   const accessTokenData = isAuthorized(req.headers.authorization);
@@ -31,10 +32,10 @@ module.exports = async (req, res) => {
       order: [['createdAt', 'DESC']],
     });
 
-    let userId = accessTokenData.id;
+    let userId = accessTokenData.id === undefined ? -1 : accessTokenData.id;
     let likedReplies = await sequelize
       .query(
-        `SELECT c.id FROM Comments AS c JOIN Users AS u ON c.userId = u.id JOIN Likes AS l ON c.id = l.targetId WHERE c.parentCommentId = ${parentCommentId} and u.id = ${userId}`
+        `SELECT c.id FROM Comments AS c JOIN Users AS u ON c.userId = u.id JOIN Likes AS l ON c.id = l.targetId WHERE c.parentCommentId = ${parentCommentId} and l.userId = ${userId}`
       )
       .then((result) => {
         return result[0].map((el) => el.id);
@@ -43,15 +44,16 @@ module.exports = async (req, res) => {
         res.status(500).send(err);
       });
 
-    let repliyResponse = searchedReplies.map((el) => {
+    let replyResponse = searchedReplies.map((el) => {
       let reply = el.dataValues;
-      reply.liked = likedReplies.includes(id);
+      reply.liked = likedReplies.includes(reply.id);
+      return reply;
     });
 
-    res.status(200).json({ comments: repliyResponse });
+    res.status(200).json({ comments: replyResponse });
   } catch (err) {
     {
-      res.status(500).send();
+      res.status(500).send(err);
     }
   }
 };
