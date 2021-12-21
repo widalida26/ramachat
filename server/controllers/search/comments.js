@@ -4,15 +4,9 @@ const { Comments } = require('../../models');
 const { isAuthorized } = require('../tokenFunctions');
 
 module.exports = async (req, res) => {
-  let episodeId = -1;
-
   const accessTokenData = isAuthorized(req.headers.authorization);
-  // 인증 실패
-  if (accessTokenData === null) {
-    res.status(401).send('unauthorized user');
-    return;
-  }
 
+  let episodeId = -1;
   try {
     episodeId = req.query['episode-id'];
   } catch (err) {
@@ -44,8 +38,7 @@ module.exports = async (req, res) => {
   const userId = accessTokenData.id;
   let likedComments = await sequelize
     .query(
-      `SELECT c.id FROM Comments AS c JOIN Users AS u ON c.userId = u.id JOIN Likes AS l ON c.id = l.targetId WHERE c.episodeId = ${episodeId} and u.id = ${userId}
-  `
+      `SELECT c.id FROM Comments AS c JOIN Users AS u ON c.userId = u.id JOIN Likes AS l ON c.id = l.targetId WHERE c.episodeId = ${episodeId} and u.id = ${userId}`
     )
     .then((result) => {
       return result[0].map((el) => el.id);
