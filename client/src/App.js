@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import './App.css';
 import Home from './pages/Home';
@@ -10,6 +10,8 @@ import Signup from './pages/Signup';
 import Navbar from './components/Navbar';
 import Comments from './pages/Comments';
 import MyPagePersonal from './pages/MyPagePersonal';
+import MyPageActivities from './pages/MyPageActivities';
+import MyPageNotifications from './pages/MyPageNotifications';
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
@@ -17,10 +19,10 @@ function App() {
   const [tokenState, setTokenState] = useState(null);
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   const isAuthenticated = () => {
     axios
-      // .get(`${process.env.REACT_APP_SERVER_URL}/auth`, {
       .get(`${process.env.REACT_APP_SERVER_URL}/auth`, {
         headers: {
           'Content-Type': `application/json`,
@@ -32,19 +34,26 @@ function App() {
       .then((res) => {
         setIsLogin(true);
         setUserInfo(res.data.data.userInfo);
-        // navigate('/');
+        if (location.pathname === '/login') {
+          // useLocation으로 로그인 할때만 변경
+          navigate('/');
+        }
       })
       .catch();
   };
 
   const handleResponseSuccess = (data) => {
+<<<<<<< HEAD
     console.log(data.accessToken);
     setTokenState(data.accessToken);
     // isAuthenticated();
+=======
+    setTokenState(data);
+    isAuthenticated();
+>>>>>>> 73368c5f2549272edc42ab17c31be0733d4cf6a7
   };
 
   const handleLogout = () => {
-    // axios.post(`${process.env.REACT_APP_SERVER_URL}/logout`).then((res) => {
     axios
       .post(`${process.env.REACT_APP_SERVER_URL}/logout`, {
         headers: {
@@ -66,6 +75,7 @@ function App() {
   };
 
   useEffect(() => {
+<<<<<<< HEAD
     isAuthenticated();
     console.log('token updated');
   }, [tokenState]);
@@ -73,6 +83,13 @@ function App() {
   // useEffect(() => {
   //   isAuthenticated();
   // }, []);
+=======
+    if (tokenState) {
+      // ! 새로고침하면 로그인이 풀림
+      isAuthenticated();
+    }
+  }, []);
+>>>>>>> 73368c5f2549272edc42ab17c31be0733d4cf6a7
 
   return (
     <>
@@ -88,6 +105,8 @@ function App() {
         <Route exact path="/" element={<Home />} />
         <Route path="/search" element={<Search />} />
         <Route path="/mypage/personal-information" element={<MyPagePersonal />} />
+        <Route path="/mypage/my-activities" element={<MyPageActivities />} />
+        <Route path="/mypage/notifications" element={<MyPageNotifications />} />
         <Route path="/drama/:id" element={<Drama />} />
         <Route
           path="/drama/:id/comments/season/:season/episode/:episode"

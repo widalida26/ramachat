@@ -13,7 +13,7 @@ const StyledButton = styled.button`
   padding: 0.5rem 1rem;
 
   /* 크기 */
-  font-size: 1rem;
+  font-size: ${(props) => (props.fontSize ? props.fontSize : '1rem')};
 
   /* 색상 */
   color: ${(props) => colors[props.color]};
@@ -23,10 +23,10 @@ const StyledButton = styled.button`
   }
 `;
 
-function IconButton({ children, color, onClick }) {
+function IconButton({ children, color, fontSize, onClick }) {
   return (
     <>
-      <StyledButton color={color} onClick={onClick}>
+      <StyledButton color={color} fontSize={fontSize} onClick={onClick}>
         {children}
       </StyledButton>
     </>
