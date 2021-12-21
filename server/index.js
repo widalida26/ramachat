@@ -40,11 +40,8 @@ app.get('/episode-infos', controllers.episodeInfos); // 에피소드 정보 조�
 app.get('/comments', controllers.comments); // 댓글 정보 조회
 app.post('/comments/add', controllers.add); // 댓글 작성
 app.delete('/comments/:commentId', controllers.delete); // 댓글 삭제
+app.pathch('/modify/:commentId', controllers.modify); // 댓글 수정
 app.post('/comments/likes/:commentId', controllers.like); // 좋아요
-//app.put('/modify', controllers.modify);
-
-//PUT
-//app.put('/modify', controllers.modify);
 
 //DELETE
 app.delete('/signout', controllers.signout);

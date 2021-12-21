@@ -2,18 +2,19 @@ const { Likes } = require('../../models');
 const { isAuthorized } = require('../tokenFunctions');
 
 module.exports = async (req, res) => {
-  let liked = false; // Likes 테이블에 정보가 삽입되었는지 여부
-  let newLike = {}; // 좋아요 객체
-
-  //   try {
-  //     const accessTokenData = isAuthorized(req.cookies);
-  //     // 인증 실패
-  //     if (accessTokenData === null) {
-  //       res.status(401).send('unauthorized user');
-  //       return;
-  //     } catch {
-
-  //     }
+  try {
+    const accessTokenData = isAuthorized(req);
+    // 인증 실패
+    if (accessTokenData === null) {
+      res.status(401).send('unauthorized user');
+      return;
+    }
+    // 인증 성공
+  } catch {
+    console.log('qq');
+    await res.status(500).send(err);
+  }
+  res.end();
 };
 
 // 인증 성공
