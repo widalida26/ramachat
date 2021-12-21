@@ -3,7 +3,8 @@ const { isAuthorized } = require('../tokenFunctions');
 
 module.exports = (req, res) => {
   console.log(req);
-  console.log(req.cookies);
+  console.log('headers', req.headers);
+  console.log('authorization', req.headers.authrization);
   const accessTokenData = isAuthorized(req.headers.authrization);
   //console.log(5555, req.cookies.jwt);
   console.log('accessTokenData', accessTokenData);
