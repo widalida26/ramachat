@@ -32,7 +32,7 @@ module.exports = async (req, res) => {
       order: [['createdAt', 'DESC']],
     });
 
-    let userId = accessTokenData.id === undefined ? -1 : accessTokenData.id;
+    let userId = accessTokenData === null ? -1 : accessTokenData.id;
     let likedReplies = await sequelize
       .query(
         `SELECT c.id FROM Comments AS c JOIN Users AS u ON c.userId = u.id JOIN Likes AS l ON c.id = l.targetId WHERE c.parentCommentId = ${parentCommentId} and l.userId = ${userId}`
