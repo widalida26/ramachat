@@ -2,7 +2,9 @@ const { Users } = require('../../models');
 const { isAuthorized } = require('../tokenFunctions');
 
 module.exports = (req, res) => {
-  const accessTokenData = isAuthorized(req.cookies);
+  const accessTokenData = isAuthorized(req.headers.authorization);
+  console.log('get right header?');
+  console.log('HEADER', req.headers.authorization);
 
   console.log(5555, req.cookies.jwt);
 

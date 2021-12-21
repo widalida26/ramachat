@@ -13,11 +13,11 @@ module.exports = {
     });
   },
   isAuthorized: (req) => {
-    const authorization = req.jwt;
+    const authorization = req;
     if (!authorization) {
       return null;
     }
-    const token = authorization.split(' ')[0];
+    const token = authorization.split(' ')[1];
     try {
       return verify(token, process.env.ACCESS_SECRET);
     } catch (err) {
