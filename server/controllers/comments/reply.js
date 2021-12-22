@@ -1,6 +1,6 @@
 const sequelize = require('../../models').sequelize;
 const { Comments } = require('../../models');
-const { isAuthorized } = require('../tokenFunctions');
+const { isAuthorized, checkAuthorization } = require('../tokenFunctions');
 
 module.exports = async (req, res) => {
   // 요청 헤더에 authorization이 없을 경우
