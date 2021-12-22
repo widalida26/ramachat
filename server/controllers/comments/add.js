@@ -55,12 +55,12 @@ module.exports = async (req, res) => {
     const createdComment = await Comments.create(newComment)
       .then((result) => result)
       .catch((err) => {
+        // 댓글 삽입에 실패할 때
         res.status(500).send(err);
         return;
       });
 
     let commentResponse = createdComment.dataValues;
-    // 댓글 삽입에 실패할 때
 
     // 답글이 아닐 때
     if (!parentCommentId) {
@@ -71,7 +71,7 @@ module.exports = async (req, res) => {
 
     // 답글일 때
     // 알림 테이블에 추가
-    await Notifications.create({ userId, commentId: id })
+    await Notifications.create({ userId, commentId: commentResponse.id })
       .then((result) => {
         res.status(201).json(commentResponse);
       })
@@ -89,7 +89,6 @@ module.exports = async (req, res) => {
         }
       });
   } catch (err) {
-    console.log(err);
     res.status(400).send('Please provide all necessary information');
   }
 };

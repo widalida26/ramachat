@@ -27,11 +27,12 @@ const Main = styled.main`
 
 axios.defaults.withCredentials = true;
 
-export default function MyPagePersonal({ tokenState }) {
+export default function MyPagePersonal({ tokenState, handleLogout }) {
   const [isChange, setIsChange] = useState(false);
   const [myPageInfo, setMyPageInfo] = useState(null);
   const userId = myPageInfo ? myPageInfo.userId : '';
   const email = myPageInfo ? myPageInfo.email : '';
+  const token = tokenState ? tokenState : sessionStorage.getItem('token');
 
   // 비밀번호 변경
   // ! 유효성 검사 추가?
@@ -54,7 +55,7 @@ export default function MyPagePersonal({ tokenState }) {
       .get(`${process.env.REACT_APP_SERVER_URL}/userInfo`, {
         headers: {
           'Content-Type': `application/json`,
-          authorization: 'Bearer ' + tokenState,
+          authorization: 'Bearer ' + token,
         },
         withCredentials: true,
       })
@@ -95,7 +96,10 @@ export default function MyPagePersonal({ tokenState }) {
         },
         withCredentials: true,
       })
-      .then(() => setIsOpen(!isOpen)) // 회원탈퇴 버튼 클릭시 모달 열기
+      .then(() => {
+        setIsOpen(!isOpen); // 회원탈퇴 버튼 클릭시 모달 열기
+        handleLogout(); // 로그아웃 처리
+      })
       .catch(() => console.log('signOut 에러'));
   };
 
@@ -104,7 +108,6 @@ export default function MyPagePersonal({ tokenState }) {
 
   const openModalHandler = () => {
     setIsOpen(!isOpen);
-    console.log(isOpen);
   };
 
   useEffect(() => {
