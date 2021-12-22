@@ -37,14 +37,19 @@ module.exports = async (req, res) => {
   let userId = accessTokenData === null ? -1 : accessTokenData.id;
   let likedComments = await sequelize
     .query(
-      `SELECT c.id FROM Comments AS c JOIN Users AS u ON c.userId = u.id JOIN Likes AS l ON c.id = l.targetId WHERE c.episodeId = ${episodeId} and u.id = ${userId}`
+      `SELECT c.id FROM Comments AS c JOIN Likes AS l ON c.id = l.targetId WHERE c.episodeId = ${episodeId} and l.userId = ${userId}`
     )
     .then((result) => {
-      return result[0].map((el) => el.id);
+      return result[0].map((el) => {
+        console.log('id', el.id);
+        return el.id;
+      });
     })
     .catch((err) => {
       res.status(500).send(err);
     });
+
+  //console.log(likedComments);
 
   // 답글 개수 조회
   const replyNums = await Comments.findAll({
@@ -56,7 +61,7 @@ module.exports = async (req, res) => {
     group: ['parentCommentId'],
   })
     .then((result) => {
-      console.log(result);
+      //console.log(result);
       let cnt = {};
       result.forEach((data) => {
         const { parentCommentId, replyNum } = data.dataValues;
@@ -67,7 +72,7 @@ module.exports = async (req, res) => {
     .catch((err) => {
       res.status(500).send(err);
     });
-  console.log(replyNums);
+  //console.log(replyNums);
 
   try {
     // 응답 객체 세팅 => 댓글 정보
