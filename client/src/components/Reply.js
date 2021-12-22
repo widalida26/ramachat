@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import { colors } from '../styles/Colors';
 import IconButton from './IconButton';
-import { modifyComment, deleteComment } from '../api/CommentsDataAPI';
+import { modifyComment, deleteComment, likeComment } from '../api/CommentsDataAPI';
 import Modal from './Modal';
 
 const ReplyContainer = styled.article`
@@ -66,11 +66,25 @@ export default function Reply({
 
   const handleDelete = () => {
     deleteComment(tokenState, reply.id).then((result) => {
-      console.log('delete response', result);
       if (result.status === 200) {
         // setHasdeleted(true);
         openModalHandler();
         deleteReplyHandler(reply.id);
+      }
+    });
+  };
+
+  const [liked, setLiked] = useState(reply.liked);
+  const [likedNum, setLikedNum] = useState(reply.likeNum);
+
+  const handleLike = () => {
+    likeComment(tokenState, reply.id).then((result) => {
+      if (result) {
+        setLiked(true);
+        setLikedNum(likedNum + 1);
+      } else {
+        setLiked(false);
+        setLikedNum(likedNum - 1);
       }
     });
   };
@@ -88,9 +102,15 @@ export default function Reply({
       )}
       <ButtonContainer>
         <div>
-          <IconButton color="grey">
-            <i class="fas fa-heart"></i> Like {reply.likeNum}
-          </IconButton>
+          {liked ? (
+            <IconButton color="primary" onClick={handleLike}>
+              <i class="fas fa-heart"></i> Like {likedNum}
+            </IconButton>
+          ) : (
+            <IconButton color="grey" onClick={handleLike}>
+              <i class="fas fa-heart"></i> Like {likedNum}
+            </IconButton>
+          )}
         </div>
         {reply.userId === userId ? (
           <div>

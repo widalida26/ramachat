@@ -112,7 +112,6 @@ export default function Comment({
 
   const handleDelete = () => {
     deleteComment(tokenState, comment.id).then((result) => {
-      console.log('delete response', result);
       if (result.status === 200) {
         // setHasdeleted(true);
         openModalHandler();
@@ -131,7 +130,7 @@ export default function Comment({
 
   useEffect(() => {
     const sendAPICall = async () => {
-      const data = await getReplies(comment.id);
+      const data = await getReplies(tokenState, comment.id);
       setReplies(data);
     };
     sendAPICall();
@@ -203,8 +202,6 @@ export default function Comment({
       }
     });
   };
-
-  console.log(comment);
 
   return (
     <>
