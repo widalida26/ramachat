@@ -1,6 +1,5 @@
-const { Users } = require('../../models');
+const { Users, Notifications } = require('../../models');
 const { isAuthorized } = require('../tokenFunctions');
-const { decrypt, encrypt } = require('../users/crypto');
 
 module.exports = (req, res) => {
   const accessTokenData = isAuthorized(req.headers.authorization);
@@ -8,4 +7,15 @@ module.exports = (req, res) => {
   if (accessTokenData === null) {
     res.status(401).send({ data: null, message: 'not authorized' });
   }
+
+  notiId = req.params.notiId;
+
+  if (notiId) {
+    return res.status(500).send('err');
+  }
+
+  Notifications.destroy({
+    where: notiId,
+  });
+  return res.status(201).send('delete notification');
 };
