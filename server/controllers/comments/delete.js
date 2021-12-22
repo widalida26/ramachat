@@ -30,7 +30,7 @@ module.exports = async (req, res) => {
       return result;
     })
     .catch((err) => {
-      res.status(500).send(err);
+      res.status(500).send('err');
     });
 
   if (!commentToDelete) {
@@ -41,7 +41,7 @@ module.exports = async (req, res) => {
 
   // 댓글 삭제
   await Comments.destroy({ where: { id: commentId } }).catch((err) => {
-    res.status(500).send(err);
+    res.status(500).send('err');
   });
 
   // 에피소드에 해당하는 댓글이 없으면 해당 에피소드 정보 삭제
@@ -51,12 +51,12 @@ module.exports = async (req, res) => {
       await EpisodeInfos.destroy({ where: { id: episodeId } });
     }
   } catch {
-    res.status(500).send(err);
+    res.status(500).send('err');
   }
 
   // 해당 댓글의 알림 정보 삭제
   await Notifications.destroy({ where: { userId, commentId } }).catch((err) => {
-    res.status(500).send(err);
+    res.status(500).send('err');
   });
   res.status(200).send('comment delete success');
 };

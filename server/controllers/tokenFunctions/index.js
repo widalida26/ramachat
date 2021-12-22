@@ -2,6 +2,21 @@ require('dotenv').config();
 const { sign, verify } = require('jsonwebtoken');
 
 module.exports = {
+  checkAuthorization: (req) => {
+    if (!req.headers.hasOwnProperty('authorization')) {
+      console.log('hasownproperty');
+      return false;
+    }
+    if (!req.headers.authorization) {
+      console.log('null or undefined');
+      return false;
+    }
+    if (req.headers.authorization.includes('null')) {
+      console.log('include null');
+      return false;
+    }
+    return true;
+  },
   generateAccessToken: (data) => {
     return sign(data, process.env.ACCESS_SECRET, { expiresIn: '6h' });
   },

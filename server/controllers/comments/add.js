@@ -1,9 +1,15 @@
 const { Comments } = require('../../models');
 const { EpisodeInfos } = require('../../models');
 const { Notifications } = require('../../models');
-const { isAuthorized } = require('../tokenFunctions');
+const { isAuthorized, checkAuthorization } = require('../tokenFunctions');
 
 module.exports = async (req, res) => {
+  // 요청 헤더에 authorization이 없을 경우
+  if (!checkAuthorization(req)) {
+    res.status(401).send('unauthorized user');
+    return;
+  }
+
   const accessTokenData = isAuthorized(req.headers.authorization);
   // 인증 실패
   if (accessTokenData === null) {
@@ -55,7 +61,7 @@ module.exports = async (req, res) => {
       .then((result) => result)
       .catch((err) => {
         // 댓글 삽입에 실패할 때
-        res.status(500).send(err);
+        res.status(500).send('err');
         return;
       });
 
@@ -84,7 +90,7 @@ module.exports = async (req, res) => {
           Comments.destroy({
             where: { id },
           });
-          res.status(500).send(err);
+          res.status(500).send('err');
         }
       });
   } catch (err) {

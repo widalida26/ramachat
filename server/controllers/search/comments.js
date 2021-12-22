@@ -1,9 +1,15 @@
 const sequelize = require('../../models').sequelize;
 const Op = require('sequelize').Op;
 const { Comments } = require('../../models');
-const { isAuthorized } = require('../tokenFunctions');
+const { isAuthorized, checkAuthorization } = require('../tokenFunctions');
 
 module.exports = async (req, res) => {
+  // 요청 헤더에 authorization이 없을 경우
+  if (!checkAuthorization(req)) {
+    res.status(401).send('unauthorized user');
+    return;
+  }
+
   const accessTokenData = isAuthorized(req.headers.authorization);
 
   let episodeId = -1;
@@ -22,8 +28,7 @@ module.exports = async (req, res) => {
             `(SELECT COUNT(*)
                     FROM Likes
                     WHERE
-                    Comments.id = Likes.targetId && 
-                    Comments.userId=Likes.userId)`
+                    Comments.id = Likes.targetId)`
           ),
           'likeNum',
         ],
@@ -33,19 +38,23 @@ module.exports = async (req, res) => {
     order: [['createdAt', 'DESC']],
   })
     .then((result) => result)
-    .catch((err) => res.status(500).send(err));
+    .catch((err) => res.status(500).send('err'));
 
   let userId = accessTokenData === null ? -1 : accessTokenData.id;
   let likedComments = await sequelize
     .query(
-      `SELECT c.id FROM Comments AS c JOIN Users AS u ON c.userId = u.id JOIN Likes AS l ON c.id = l.targetId WHERE c.episodeId = ${episodeId} and u.id = ${userId}`
+      `SELECT c.id FROM Comments AS c JOIN Likes AS l ON c.id = l.targetId WHERE c.episodeId = ${episodeId} and l.userId = ${userId}`
     )
     .then((result) => {
-      return result[0].map((el) => el.id);
+      return result[0].map((el) => {
+        console.log('id', el.id);
+        return el.id;
+      });
     })
     .catch((err) => {
-      res.status(500).send(err);
+      res.status(500).send('err');
     });
+  console.log('likedComments', likedComments);
 
   // 답글 개수 조회
   const replyNums = await Comments.findAll({
@@ -53,20 +62,18 @@ module.exports = async (req, res) => {
       'parentCommentId',
       [sequelize.fn('COUNT', 'parentCommentId'), 'replyNum'],
     ],
-    where: { parentCommentId: { [Op.ne]: null } },
+    where: { parentCommentId: { [Op.ne]: null }, episodeId },
     group: ['parentCommentId'],
-  })
-    .then((result) => {
-      let cnt = {};
-      result.forEach((data) => {
-        const { parentCommentId, replyNum } = data.dataValues;
-        cnt[parentCommentId] = replyNum;
-      });
-      return cnt;
-    })
-    .catch((err) => {
-      res.status(500).send(err);
+  }).then((result) => {
+    //console.log(result);
+    let cnt = {};
+    result.forEach((data) => {
+      const { parentCommentId, replyNum } = data.dataValues;
+      cnt[parentCommentId] = replyNum;
     });
+    return cnt;
+  });
+  //console.log(replyNums);
 
   try {
     // 응답 객체 세팅 => 댓글 정보
@@ -88,6 +95,6 @@ module.exports = async (req, res) => {
     //
     res.status(200).json({ comments: commentArr });
   } catch (err) {
-    res.status(500).send(err);
+    res.status(500).send('err');
   }
 };

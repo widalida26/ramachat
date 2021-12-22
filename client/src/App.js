@@ -25,12 +25,13 @@ function App() {
       .get(`${process.env.REACT_APP_SERVER_URL}/auth`, {
         headers: {
           'Content-Type': `application/json`,
-          authorization: 'Bearer ' + localStorage.getItem('key'),
+          authorization: 'Bearer ' + sessionStorage.getItem('token'),
         },
         withCredentials: true,
       })
 
       .then((res) => {
+        setTokenState(sessionStorage.getItem('token'));
         setIsLogin(true);
         setUserInfo(res.data.data.userInfo);
         if (location.pathname === '/login') {
@@ -42,8 +43,7 @@ function App() {
   };
 
   const handleResponseSuccess = (data) => {
-    console.log(data.accessToken);
-    localStorage.setItem('key', data.accessToken);
+    sessionStorage.setItem('token', data.accessToken);
     setTokenState(data.accessToken);
     // isAuthenticated();
   };
@@ -61,7 +61,7 @@ function App() {
         setUserInfo(null);
         setIsLogin(false);
         setTokenState(null);
-
+        sessionStorage.removeItem('token');
         // navigate('/');
       });
   };
@@ -74,16 +74,6 @@ function App() {
     isAuthenticated();
     console.log('token updated');
   }, [tokenState]);
-
-  // useEffect(() => {
-  //   isAuthenticated();
-  // }, []);
-
-  // sessionStorage
-  const saveData = () => {
-    // const userObj = { name: userName };
-    // window.sessionStorage.setItem('userName', JSON.stringify(userObj));
-  };
 
   return (
     <>
@@ -100,7 +90,7 @@ function App() {
         <Route path="/search" element={<Search />} />
         <Route
           path="/mypage/personal-information"
-          element={<MyPagePersonal tokenState={tokenState} />}
+          element={<MyPagePersonal tokenState={tokenState} handleLogout={handleLogout} />}
         />
         <Route
           path="/mypage/my-activities"
@@ -113,7 +103,7 @@ function App() {
         <Route path="/drama/:id" element={<Drama />} />
         <Route
           path="/drama/:id/comments/season/:season/episode/:episode"
-          element={<Comments userInfo={userInfo} />}
+          element={<Comments tokenState={tokenState} userInfo={userInfo} />}
         />
       </Routes>
     </>
