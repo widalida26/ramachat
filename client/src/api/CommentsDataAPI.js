@@ -18,6 +18,7 @@ export function getEpisodeComments(episodeId) {
   return axios
     .get(`${process.env.REACT_APP_SERVER_URL}/comments?episode-id=${episodeId}`)
     .then((result) => {
+      console.log('코멘트 데이터', result.data.comments);
       return result.data.comments;
     });
 }
@@ -114,5 +115,22 @@ export function modifyComment(tokenState, commentId, newContent) {
     )
     .then((result) => {
       console.log(result);
+    });
+}
+
+export function likeComment(tokenState, commentId) {
+  return axios
+    .post(
+      `${process.env.REACT_APP_SERVER_URL}/comments/likes/${commentId}`,
+      {},
+      {
+        headers: {
+          authorization: 'Bearer ' + tokenState,
+        },
+      }
+    )
+    .then((result) => {
+      console.log('liked 응답 : ', result);
+      return result.data.liked;
     });
 }

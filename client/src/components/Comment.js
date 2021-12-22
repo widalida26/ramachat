@@ -3,7 +3,12 @@ import { colors } from '../styles/Colors';
 import IconButton from './IconButton';
 import Modal from './Modal';
 import Reply from './Reply';
-import { deleteComment, getReplies, modifyComment } from '../api/CommentsDataAPI';
+import {
+  deleteComment,
+  getReplies,
+  modifyComment,
+  likeComment,
+} from '../api/CommentsDataAPI';
 import { useEffect, useState } from 'react';
 import CommentForm from './CommentForm';
 import TextButton from './TextButton';
@@ -184,6 +189,23 @@ export default function Comment({
     setReplies([...replies.slice(0, idx), ...replies.slice(idx + 1)]);
   };
 
+  const [liked, setLiked] = useState(comment.liked);
+  const [likedNum, setLikedNum] = useState(comment.likeNum);
+
+  const handleLike = () => {
+    likeComment(tokenState, comment.id).then((result) => {
+      if (result) {
+        setLiked(true);
+        setLikedNum(likedNum + 1);
+      } else {
+        setLiked(false);
+        setLikedNum(likedNum - 1);
+      }
+    });
+  };
+
+  console.log(comment);
+
   return (
     <>
       {/* <CommentContainer hasDeleted={hasDeleted}> */}
@@ -199,9 +221,16 @@ export default function Comment({
         )}
         <ButtonContainer>
           <div>
-            <IconButton color="grey">
-              <i class="fas fa-heart"></i> Like {comment.likeNum}
-            </IconButton>
+            {liked ? (
+              <IconButton color="primary" onClick={handleLike}>
+                <i class="fas fa-heart"></i> Like {likedNum}
+              </IconButton>
+            ) : (
+              <IconButton color="grey" onClick={handleLike}>
+                <i class="fas fa-heart"></i> Like {likedNum}
+              </IconButton>
+            )}
+
             <IconButton color="grey" onClick={openReplyHandler}>
               <i class="fas fa-comment-alt"></i> Reply {comment.replyNum}
             </IconButton>
