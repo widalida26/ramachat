@@ -8,7 +8,7 @@ module.exports = (req, res) => {
     res.status(401).send({ data: null, message: 'not authorized' });
   }
 
-  notiId = req.params.notiId;
+  const notiId = req.params.notiId;
 
   if (notiId) {
     return res.status(500).send('err');
@@ -19,3 +19,5 @@ module.exports = (req, res) => {
   });
   return res.status(201).send('delete notification');
 };
+
+//삭제
