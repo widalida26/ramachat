@@ -5,6 +5,7 @@ const { checkAuthorization } = require('../tokenFunctions');
 module.exports = (req, res) => {
   if (!checkAuthorization(req)) {
     res.status(401).send('unauthorized user');
+    console.log('authorization check failed');
     return;
   }
 

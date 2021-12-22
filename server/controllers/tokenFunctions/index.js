@@ -9,7 +9,9 @@ module.exports = {
     if (!req.headers.authorization) {
       return false;
     }
-    return true;
+    if (req.headers.authorization.includes('null')) {
+      return false;
+    }
   },
   generateAccessToken: (data) => {
     return sign(data, process.env.ACCESS_SECRET, { expiresIn: '6h' });
