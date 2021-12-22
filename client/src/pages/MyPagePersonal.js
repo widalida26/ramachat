@@ -42,7 +42,7 @@ export default function MyPagePersonal({ tokenState, handleLogout }) {
   // *비밀번호 유효성 검사 메시지
   const [isPassword, setIsPassword] = useState(false);
   const [isPasswordConfirm, setIsPasswordConfirm] = useState(false);
-  // * 모달 메시지
+  // *모달 메시지
   const [modalMsg, setModalMsg] = useState('');
 
   // 비밀번호 변경
@@ -100,6 +100,8 @@ export default function MyPagePersonal({ tokenState, handleLogout }) {
   };
 
   const changePassword = () => {
+    // *비밀번호가 유효성 검사를 통과하지 못했을 때 요청 X
+    if (!isPassword || !isPasswordConfirm) return;
     // 비밀번호 변경 성공 모달띄우기...
     axios
       .patch(
@@ -163,15 +165,19 @@ export default function MyPagePersonal({ tokenState, handleLogout }) {
     setIsOpen(!isOpen);
   };
 
-  // 패스워드 바뀐 후
   const closeChangeHandler = () => {
+    console.log('closeChangeHandler');
+    // 패스워드 바뀐 후 => 요청 성공
+    if (modalMsg === '비밀번호 변경이 완료되었습니다!') {
+      console.log('성공!!');
+      setIsChange(false);
+      setPasswordInfo({
+        nowPassword: '',
+        newPassword: '',
+        newPasswordConfirm: '',
+      });
+    }
     setIsOpen(!isOpen);
-    setIsChange(false);
-    setPasswordInfo({
-      nowPassword: '',
-      newPassword: '',
-      newPasswordConfirm: '',
-    });
   };
 
   useEffect(() => {
@@ -188,13 +194,13 @@ export default function MyPagePersonal({ tokenState, handleLogout }) {
           <p>E-mail : {email}</p>
           {isChange ? (
             <>
-              <p>Now Password</p>
+              <p>현재 비밀번호</p>
               <InputForm
                 target="nowPassword"
                 type="password"
                 handleInputValue={handleInputValue}
               ></InputForm>
-              <p>New Password</p>
+              <p>새 비밀번호</p>
               <InputForm
                 target="newPassword"
                 type="password"
@@ -202,7 +208,7 @@ export default function MyPagePersonal({ tokenState, handleLogout }) {
               ></InputForm>
               {/* 유효성 검사 결과 메시지 */}
               {passwordInfo.newPassword.length > 0 && <span>{passwordMessage}</span>}
-              <p>New Password Confirmation</p>
+              <p>새 비밀번호 확인</p>
               <InputForm
                 target="newPasswordConfirm"
                 type="password"
