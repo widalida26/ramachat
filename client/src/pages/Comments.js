@@ -152,6 +152,7 @@ export default function Comments({ tokenState, userInfo }) {
   }, [episode]);
 
   const userId = userInfo ? userInfo.id : undefined;
+  const userRole = userInfo ? userInfo.role : undefined;
 
   const url =
     episode.still_path === null
@@ -213,6 +214,7 @@ export default function Comments({ tokenState, userInfo }) {
               episode={episode}
               comment={comment}
               userId={userId}
+              userRole={userRole}
               editHandler={editHandler}
               deleteHandler={deleteHandler}
             />

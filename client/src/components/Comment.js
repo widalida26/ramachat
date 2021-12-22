@@ -46,6 +46,7 @@ export default function Comment({
   episode,
   comment,
   userId,
+  userRole,
   editHandler,
   deleteHandler,
 }) {
@@ -165,6 +166,24 @@ export default function Comment({
       // setContent(editedContent);
     });
   };
+
+  const editReplyHandler = (replyId, newContent) => {
+    const idx = replies.findIndex((rep) => rep.id === replyId);
+    // let obj = comments[idx];
+    // obj.content = newContent;
+    // setComments([obj, ...comments.slice(1, comments.length)]);
+    setReplies([
+      ...replies.slice(0, idx),
+      { ...replies[idx], content: newContent },
+      ...replies.slice(idx + 1),
+    ]);
+  };
+
+  const deleteReplyHandler = (replyId) => {
+    const idx = replies.findIndex((rep) => rep.id === replyId);
+    setReplies([...replies.slice(0, idx), ...replies.slice(idx + 1)]);
+  };
+
   return (
     <>
       {/* <CommentContainer hasDeleted={hasDeleted}> */}
@@ -211,6 +230,11 @@ export default function Comment({
               ) : null}
             </div>
           ) : null}
+          {userRole === 'admin' && comment.userId !== userId ? (
+            <IconButton color="grey" onClick={openModalHandler}>
+              <i class="far fa-trash-alt"></i>
+            </IconButton>
+          ) : null}
         </ButtonContainer>
         <Modal
           isOpen={isModelOpen}
@@ -223,7 +247,16 @@ export default function Comment({
       {isReplyOpen ? (
         <div>
           {replies
-            ? replies.map((reply) => <Reply reply={reply} userId={userId} />)
+            ? replies.map((reply) => (
+                <Reply
+                  tokenState={tokenState}
+                  reply={reply}
+                  userId={userId}
+                  userRole={userRole}
+                  editHandler={editReplyHandler}
+                  deleteReplyHandler={deleteReplyHandler}
+                />
+              ))
             : null}
           <ReplyFormContainer>
             <CommentForm
