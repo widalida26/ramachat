@@ -18,11 +18,12 @@ export function getEpisodeComments(episodeId) {
   return axios
     .get(`${process.env.REACT_APP_SERVER_URL}/comments?episode-id=${episodeId}`)
     .then((result) => {
-      return result.data.comments;
+      return result.data.comments.reverse();
     });
 }
 
 export function postComment(
+  tokenState,
   userId,
   content,
   dramaId,
@@ -35,6 +36,7 @@ export function postComment(
 ) {
   console.log('sending new comment');
   console.log(
+    tokenState,
     userId,
     content,
     dramaId,
@@ -46,25 +48,71 @@ export function postComment(
     parentCommentId
   );
   return axios
-    .post(`${process.env.REACT_APP_SERVER_URL}/comments/add`, {
-      userId: userId,
-      content: content,
-      dramaId: dramaId,
-      dramaName: dramaName,
-      seasonIndex: seasonIndex,
-      episodeIndex: episodeIndex,
-      episodeId: episodeId,
-      // commentNum: commentNum,
-      parentCommentId: parentCommentId,
-    })
-    .then((result) => result);
-}
-
-export function deleteComment(commentId) {
-  return axios
-    .delete(`${process.env.REACT_APP_SERVER_URL}/comments/${commentId}`)
+    .post(
+      `${process.env.REACT_APP_SERVER_URL}/comments/add`,
+      {
+        userId: userId,
+        content: content,
+        dramaId: dramaId,
+        dramaName: dramaName,
+        seasonIndex: seasonIndex,
+        episodeIndex: episodeIndex,
+        episodeId: episodeId,
+        // commentNum: commentNum,
+        parentCommentId: parentCommentId,
+      },
+      {
+        headers: {
+          'Content-Type': `application/json`,
+          authorization: 'Bearer ' + tokenState,
+        },
+      }
+    )
     .then((result) => {
       console.log(result);
       return result;
+    });
+}
+
+export function deleteComment(tokenState, commentId) {
+  return axios
+    .delete(`${process.env.REACT_APP_SERVER_URL}/comments/${commentId}`, {
+      headers: {
+        authorization: 'Bearer ' + tokenState,
+      },
+    })
+    .then((result) => {
+      console.log(result);
+      return result;
+    });
+}
+
+export function getReplies(parentCommentId) {
+  return axios
+    .get(
+      `${process.env.REACT_APP_SERVER_URL}/replies?parent-comment-id=${parentCommentId}`
+    )
+    .then((result) => {
+      console.log('replies: ', result);
+      return result.data.comments.reverse();
+    });
+}
+
+export function modifyComment(tokenState, commentId, newContent) {
+  return axios
+    .patch(
+      `${process.env.REACT_APP_SERVER_URL}/comments/${commentId}`,
+      {
+        newContent: newContent,
+      },
+      {
+        headers: {
+          'Content-Type': `application/json`,
+          authorization: 'Bearer ' + tokenState,
+        },
+      }
+    )
+    .then((result) => {
+      console.log(result);
     });
 }

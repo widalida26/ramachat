@@ -32,7 +32,6 @@ module.exports = async (req, res) => {
       parentCommentId,
     };
 
-    console.log(episodeId);
     // EpisodeInfos 테이블에 해당 에피소드 아이디를 가진 값이 없을 때  => 첫 댓글
     const [info, created] = await EpisodeInfos.findOrCreate({
       where: { id: episodeId },
@@ -43,7 +42,7 @@ module.exports = async (req, res) => {
         seasonIndex,
         episodeIndex,
       },
-    });
+    }).catch((err) => res.send.status(500).send(err));
 
     // 에피소드 정보를 찾거나 만드는데 실패했을 경우
     if (!info) {
@@ -55,12 +54,12 @@ module.exports = async (req, res) => {
     const createdComment = await Comments.create(newComment)
       .then((result) => result)
       .catch((err) => {
+        // 댓글 삽입에 실패할 때
         res.status(500).send(err);
         return;
       });
 
     let commentResponse = createdComment.dataValues;
-    // 댓글 삽입에 실패할 때
 
     // 답글이 아닐 때
     if (!parentCommentId) {
@@ -71,21 +70,24 @@ module.exports = async (req, res) => {
 
     // 답글일 때
     // 알림 테이블에 추가
-    await Notifications.create({ userId, commentId: id }).catch((err) => {
-      // 오류 발생 시 추가한 테이블을 제거 시도
-      // reauest body에서 필요한 값을 읽어오지 못할 때
-      if (created) {
-        EpisodeInfos.destory({
-          where: { id: episodeId },
-        });
-        Comments.destroy({
-          where: { id },
-        });
-        res.status(500).send(err);
-      }
-    });
+    await Notifications.create({ userId, commentId: commentResponse.id })
+      .then((result) => {
+        res.status(201).json(commentResponse);
+      })
+      .catch((err) => {
+        // 오류 발생 시 추가한 테이블을 제거 시도
+        // reauest body에서 필요한 값을 읽어오지 못할 때
+        if (created) {
+          EpisodeInfos.destory({
+            where: { id: episodeId },
+          });
+          Comments.destroy({
+            where: { id },
+          });
+          res.status(500).send(err);
+        }
+      });
   } catch (err) {
-    console.log(err);
     res.status(400).send('Please provide all necessary information');
   }
 };

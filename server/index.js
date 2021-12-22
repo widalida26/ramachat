@@ -18,7 +18,7 @@ app.use(
     allowedHeaders: ['Authorization, Content-Type'],
     //exposedHeaders: ['Authorization'],
     credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
   })
 );
 app.use(cookieParser());
@@ -42,8 +42,8 @@ app.get('/comments', controllers.comments); // 댓글 정보 조회
 app.post('/comments/add', controllers.add); // 댓글 작성
 app.delete('/comments/:commentId', controllers.delete); // 댓글 삭제
 app.patch('/comments/:commentId', controllers.modify); // 댓글 수정
+app.get('/replies', controllers.reply);
 app.post('/comments/likes/:commentId', controllers.like); // 좋아요
-//app.put('/modify', controllers.modify);
 
 //PUT
 app.put('/passwordModify', controllers.passwordModify);

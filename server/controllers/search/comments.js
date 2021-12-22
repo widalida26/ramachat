@@ -1,12 +1,11 @@
 const sequelize = require('../../models').sequelize;
 const Op = require('sequelize').Op;
 const { Comments } = require('../../models');
-
-//
-// 1. 댓글 정보에 접속된 유저가 어떤 댓글에 좋아요를 눌렀는지
-// 2.
+const { isAuthorized } = require('../tokenFunctions');
 
 module.exports = async (req, res) => {
+  const accessTokenData = isAuthorized(req.headers.authorization);
+
   let episodeId = -1;
   try {
     episodeId = req.query['episode-id'];
@@ -35,6 +34,18 @@ module.exports = async (req, res) => {
   })
     .then((result) => result)
     .catch((err) => res.status(500).send(err));
+
+  let userId = accessTokenData === null ? -1 : accessTokenData.id;
+  let likedComments = await sequelize
+    .query(
+      `SELECT c.id FROM Comments AS c JOIN Users AS u ON c.userId = u.id JOIN Likes AS l ON c.id = l.targetId WHERE c.episodeId = ${episodeId} and u.id = ${userId}`
+    )
+    .then((result) => {
+      return result[0].map((el) => el.id);
+    })
+    .catch((err) => {
+      res.status(500).send(err);
+    });
 
   // 답글 개수 조회
   const replyNums = await Comments.findAll({
@@ -69,13 +80,12 @@ module.exports = async (req, res) => {
         likeNum,
         createdAt,
         updatedAt,
-        // 지금 유저가 좋아요한 댓글인지? =>
       } = comment.dataValues);
       commentResponse.replyNum = replyNums[id] === undefined ? 0 : replyNums[id];
+      commentResponse.liked = likedComments.includes(id);
       return commentResponse;
     });
     //
-    // likes : [commentId, commentId, ...]
     res.status(200).json({ comments: commentArr });
   } catch (err) {
     res.status(500).send(err);
