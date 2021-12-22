@@ -94,3 +94,22 @@ export function getReplies(parentCommentId) {
       return result.data.comments;
     });
 }
+
+export function modifyComment(tokenState, commentId, newContent) {
+  return axios
+    .patch(
+      `${process.env.REACT_APP_SERVER_URL}/comments/${commentId}`,
+      {
+        newContent: newContent,
+      },
+      {
+        headers: {
+          'Content-Type': `application/json`,
+          authorization: 'Bearer ' + tokenState,
+        },
+      }
+    )
+    .then((result) => {
+      console.log(result);
+    });
+}

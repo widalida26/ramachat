@@ -3,9 +3,10 @@ import { colors } from '../styles/Colors';
 import IconButton from './IconButton';
 import Modal from './Modal';
 import Reply from './Reply';
-import { deleteComment, getReplies } from '../api/CommentsDataAPI';
+import { deleteComment, getReplies, modifyComment } from '../api/CommentsDataAPI';
 import { useEffect, useState } from 'react';
 import CommentForm from './CommentForm';
+import TextButton from './TextButton';
 
 const CommentContainer = styled.article`
   width: 100%;
@@ -111,8 +112,6 @@ export default function Comment({ tokenState, drama, episode, comment, userId })
     setIsReplyOpen(!isReplyOpen);
   };
 
-  console.log(comment, userId);
-
   const [replies, setReplies] = useState([]);
 
   useEffect(() => {
@@ -137,6 +136,24 @@ export default function Comment({ tokenState, drama, episode, comment, userId })
     setReplies([newReply, ...replies]);
   };
 
+  const [content, setContent] = useState(comment.content);
+  const [editedContent, setEditedContent] = useState(comment.content);
+  const [isEditable, setIsEditable] = useState(false);
+
+  const handleTextarea = (e) => {
+    setEditedContent(e.target.value);
+  };
+
+  const handleEditable = () => {
+    setIsEditable(!isEditable);
+  };
+
+  const handleEditRequest = () => {
+    modifyComment(tokenState, comment.id, editedContent).then((result) => {
+      setIsEditable(!isEditable);
+      setContent(editedContent);
+    });
+  };
   return (
     <>
       <CommentContainer hasDeleted={hasDeleted}>
@@ -144,7 +161,11 @@ export default function Comment({ tokenState, drama, episode, comment, userId })
           <p>이름없는라마</p>
           <p className="created-date">{comment.createdAt}</p>
         </CommentInfoContainer>
-        <p>{comment.content}</p>
+        {isEditable ? (
+          <textarea value={editedContent} onChange={handleTextarea}></textarea>
+        ) : (
+          <p>{content}</p>
+        )}
         <ButtonContainer>
           <div>
             <IconButton color="grey">
@@ -155,13 +176,27 @@ export default function Comment({ tokenState, drama, episode, comment, userId })
             </IconButton>
           </div>
           {comment.userId === userId ? (
-            <div className="edit-comment">
-              <IconButton color="grey">
-                <i class="far fa-edit"></i>
-              </IconButton>
-              <IconButton color="grey" onClick={openModalHandler}>
-                <i class="far fa-trash-alt"></i>
-              </IconButton>
+            <div>
+              {isEditable ? (
+                <div className="edit-comment">
+                  <IconButton color="primary" onClick={handleEditable}>
+                    <i class="fas fa-times"></i>
+                  </IconButton>
+                  <IconButton color="secondary" onClick={handleEditRequest}>
+                    <i class="fas fa-check"></i>
+                  </IconButton>
+                </div>
+              ) : null}
+              {!isEditable ? (
+                <div className="edit-comment">
+                  <IconButton color="grey" onClick={handleEditable}>
+                    <i class="far fa-edit"></i>
+                  </IconButton>
+                  <IconButton color="grey" onClick={openModalHandler}>
+                    <i class="far fa-trash-alt"></i>
+                  </IconButton>
+                </div>
+              ) : null}
             </div>
           ) : null}
         </ButtonContainer>
