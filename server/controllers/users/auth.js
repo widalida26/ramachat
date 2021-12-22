@@ -1,8 +1,14 @@
 const { Users } = require('../../models');
 const { isAuthorized } = require('../tokenFunctions');
+const { checkAuthorization } = require('../tokenFunctions');
 
 module.exports = (req, res) => {
-  console.log(req);
+  if (!checkAuthorization(req)) {
+    res.status(401).send('unauthorized user');
+    return;
+  }
+
+  //  console.log(req);
   console.log('headers', req.headers);
   console.log('authorization', req.headers.authorization);
   const accessTokenData = isAuthorized(req.headers.authorization);
