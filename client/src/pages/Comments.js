@@ -136,7 +136,7 @@ export default function Comments({ tokenState, userInfo }) {
       updatedAt: createdAt,
       userId,
     };
-    setComments([newComment, ...comments]);
+    setComments([...comments, newComment]);
   };
 
   useEffect(() => {
