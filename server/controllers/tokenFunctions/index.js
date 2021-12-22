@@ -3,7 +3,7 @@ const { sign, verify } = require('jsonwebtoken');
 
 module.exports = {
   generateAccessToken: (data) => {
-    return sign(data, process.env.ACCESS_SECRET, { expiresIn: '1h' });
+    return sign(data, process.env.ACCESS_SECRET, { expiresIn: '6h' });
   },
   sendAccessToken: (res, accessToken) => {
     return res.status(200).cookie('jwt', accessToken, {
