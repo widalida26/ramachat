@@ -1,9 +1,15 @@
 const sequelize = require('../../models').sequelize;
 const Op = require('sequelize').Op;
 const { Comments } = require('../../models');
-const { isAuthorized } = require('../tokenFunctions');
+const { isAuthorized, checkAuthorization } = require('../tokenFunctions');
 
 module.exports = async (req, res) => {
+  // 요청 헤더에 authorization이 없을 경우
+  if (!checkAuthorization(req)) {
+    res.status(401).send('unauthorized user');
+    return;
+  }
+
   const accessTokenData = isAuthorized(req.headers.authorization);
 
   let episodeId = -1;
@@ -48,6 +54,7 @@ module.exports = async (req, res) => {
     .catch((err) => {
       res.status(500).send('err');
     });
+  console.log('likedComments', likedComments);
 
   // 답글 개수 조회
   const replyNums = await Comments.findAll({
