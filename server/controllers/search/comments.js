@@ -49,8 +49,6 @@ module.exports = async (req, res) => {
       res.status(500).send(err);
     });
 
-  //console.log(likedComments);
-
   // 답글 개수 조회
   const replyNums = await Comments.findAll({
     attributes: [
