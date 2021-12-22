@@ -133,7 +133,7 @@ export default function Comment({ tokenState, drama, episode, comment, userId })
       updatedAt: createdAt,
       userId,
     };
-    setReplies([newReply, ...replies]);
+    setReplies([...replies, newReply]);
   };
 
   const [content, setContent] = useState(comment.content);

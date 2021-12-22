@@ -18,7 +18,7 @@ export function getEpisodeComments(episodeId) {
   return axios
     .get(`${process.env.REACT_APP_SERVER_URL}/comments?episode-id=${episodeId}`)
     .then((result) => {
-      return result.data.comments;
+      return result.data.comments.reverse();
     });
 }
 
@@ -68,7 +68,10 @@ export function postComment(
         },
       }
     )
-    .then((result) => result);
+    .then((result) => {
+      console.log(result);
+      return result;
+    });
 }
 
 export function deleteComment(tokenState, commentId) {
@@ -91,7 +94,7 @@ export function getReplies(parentCommentId) {
     )
     .then((result) => {
       console.log('replies: ', result);
-      return result.data.comments;
+      return result.data.comments.reverse();
     });
 }
 
