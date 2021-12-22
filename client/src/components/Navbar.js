@@ -12,6 +12,8 @@ const NavContainer = styled.div`
   display: flex;
   justify-content: center;
   background-color: ${colors.primary};
+  position: relative;
+  z-index: 100;
 
   nav {
     width: 850px;
