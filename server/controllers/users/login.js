@@ -27,7 +27,7 @@ module.exports = (req, res) => {
 
       // sendAccessToken(res, accessToken);
 
-      // res.status(200).json({ data: { accessToken: accessToken }, message: 'ok' });
+      res.status(200).json({ data: { accessToken: accessToken }, message: 'ok' });
     })
     .catch((err) => {
       console.log(err);

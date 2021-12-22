@@ -25,7 +25,7 @@ function App() {
       .get(`${process.env.REACT_APP_SERVER_URL}/auth`, {
         headers: {
           'Content-Type': `application/json`,
-          authorization: 'Bearer ' + tokenState,
+          authorization: 'Bearer ' + localStorage.getItem('key'),
         },
         withCredentials: true,
       })
@@ -43,6 +43,7 @@ function App() {
 
   const handleResponseSuccess = (data) => {
     console.log(data.accessToken);
+    localStorage.setItem('key', data.accessToken);
     setTokenState(data.accessToken);
     // isAuthenticated();
   };

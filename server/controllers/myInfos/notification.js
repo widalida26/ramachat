@@ -3,8 +3,6 @@ const { isAuthorized } = require('../tokenFunctions');
 const sequelize = require('../../models').sequelize;
 
 module.exports = (req, res) => {
-  const dataResult = [];
-
   const accessTokenData = isAuthorized(req.headers.authorization);
 
   if (accessTokenData === null) {
@@ -15,17 +13,33 @@ module.exports = (req, res) => {
 
   const id = accessTokenData.id;
 
-  console.log(id);
-  const sql = `select n.id,n.userId,n.commentId,c.content,c.parentCommentId from Notifications as n join Comments as c on n.commentId = c.id where  n.userId= ${id}`;
-  console.log('hi');
-  sequelize.query(sql, { type: sequelize.QueryTypes.SELECT }).then((data) => {
-    data.forEach((ele) => {
-      if (ele.parentCommentId !== null) {
-        const result = ele;
-        console.log(result);
-      }
-      console.log(555, dataResult);
+  // const sql = `select n.id,n.userId,n.commentId,c.content,c.parentCommentId from Notifications as n join Comments as c on n.commentId = c.id where  n.userId= ${id}`;
+  // sequelize.query(sql, { type: sequelize.QueryTypes.SELECT }).then((data) => {
+
+  Comments.findAll({
+    where: { userId: id },
+  }).then((data) => {
+    if (!data) {
+      return res.status(401).send('invalid user');
+    }
+    const id = data.id;
+    Notifications.findAll({
+      where: { commentId: id },
+    }).then((result) => {
+      console.log(999, result);
     });
-    return res.status(200).json({ data: data });
   });
+
+  // const result = data.map((ele) => {
+  //     const dataResult = {
+  //       id: ele.id,
+  //       userId: ele.userId,
+  //       commentId: ele.commentId,
+  //       content: ele.content,
+  //       parentCommentId: ele.parentCommentId,
+  //     };
+  //     return dataResult;
+  //   });
+  //   console.log(888, result);
+  // });
 };
