@@ -15,10 +15,14 @@ const NavContainer = styled.div`
 
   nav {
     width: 850px;
-    padding: 1rem;
+    padding: 0.5rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
+  }
+
+  img {
+    margin-top: -0.5rem;
   }
 `;
 
@@ -55,11 +59,11 @@ function Navbar({ isLogin, handleLogout }) {
                 width="fit"
                 onClick={handleLogoutButton}
               >
-                LOG OUT
+                로그아웃
               </TextButton>
               <Link to="/mypage/personal-information">
                 <TextButton color="secondary" isTransparent={false} width="fit">
-                  MY PAGE
+                  마이페이지
                 </TextButton>
               </Link>
             </ButtonGroup>
@@ -67,12 +71,12 @@ function Navbar({ isLogin, handleLogout }) {
             <ButtonGroup>
               <Link to="/login">
                 <TextButton color="white" isTransparent={true} width="fit">
-                  LOG IN
+                  로그인
                 </TextButton>
               </Link>
               <Link to="/signup">
                 <TextButton color="secondary" isTransparent={false} width="fit">
-                  SIGN UP
+                  회원가입
                 </TextButton>
               </Link>
             </ButtonGroup>
