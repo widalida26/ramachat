@@ -34,7 +34,7 @@ module.exports = async (req, res) => {
   const searchedComment = await Comments.findOne({
     attributes: ['id', 'updatedAt'],
     where: { id: commentId },
-  }).catch((err) => res.status(500).send(err));
+  }).catch((err) => res.status(500).send('err'));
 
   res.status(201).json(searchedComment);
 };

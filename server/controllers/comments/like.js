@@ -25,7 +25,7 @@ module.exports = async (req, res) => {
   const [info, liked] = await Likes.findOrCreate({
     where: newLike,
     defaults: newLike,
-  }).catch((err) => res.status(500).send(err));
+  }).catch((err) => res.status(500).send('err'));
 
   if (!liked) {
     Likes.destroy({ where: { id: info.dataValues.id } }); // 좋아요가 있을 경우 취소

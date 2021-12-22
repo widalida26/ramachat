@@ -41,7 +41,7 @@ module.exports = async (req, res) => {
         return result[0].map((el) => el.id);
       })
       .catch((err) => {
-        res.status(500).send(err);
+        res.status(500).send('err');
       });
 
     let replyResponse = searchedReplies.map((el) => {
@@ -53,7 +53,7 @@ module.exports = async (req, res) => {
     res.status(200).json({ comments: replyResponse });
   } catch (err) {
     {
-      res.status(500).send(err);
+      res.status(500).send('err');
     }
   }
 };
