@@ -4,7 +4,7 @@ module.exports = {
   auth: require('./users/auth'),
   userInfo: require('./myInfos/userInfo'),
   logout: require('./users/logout'),
-  passwordModify: require('./myInfos/modify'),
+  passwordModify: require('./myInfos/passwordModify'),
   signout: require('./users/signout'),
   activity: require('./myInfos/activity'),
   episodeInfos: require('./search/episodeInfos'),
@@ -16,4 +16,5 @@ module.exports = {
   reply: require('./comments/reply'),
   notification: require('./myInfos/notification'),
   deleteNotification: require('./myInfos/deleteNotification.'),
+  checkNotification: require('./myInfos/checkNotification'),
 };
