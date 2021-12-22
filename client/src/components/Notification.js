@@ -33,39 +33,39 @@ const NotificationContainer = styled.div`
   }
 `;
 
-export default function Notification() {
+export default function Notification({ content }) {
   // 삭제 기능
-  const [isDeleted, setIsdeleted] = useState(false);
+  const [isDeleted, setIsDeleted] = useState(false);
   const handleDelete = () => {
-    setIsdeleted(true);
+    setIsDeleted(true);
   };
 
   // 체크 기능
-  const [isChecked, setIsChecked] = useState(false);
+  const [isChecked, setIsChecked] = useState(0);
   const handleCheck = () => {
-    setIsChecked(!isChecked);
+    setIsChecked(1);
   };
+
+  console.log(isChecked);
 
   return (
     <>
       <Main>
-        <NotificationContainer isDeleted={isDeleted} isChecked={isChecked}>
-          <p>api 요청 comment로 변경하기 "comment 내용" 댓글에 답변이 달렸습니다.</p>
-          <div>
-            <IconButton color="grey" onClick={handleCheck}>
-              <i class="far fa-check-square"></i>
-            </IconButton>
-            <IconButton color="grey" onClick={handleDelete}>
-              <i class="far fa-trash-alt"></i>
-            </IconButton>
-          </div>
-        </NotificationContainer>
-        <NotificationContainer>
-          <p>You have a new reply on your comment</p>
-        </NotificationContainer>
-        <NotificationContainer>
-          <p>You have a new reply on your comment</p>
-        </NotificationContainer>
+        {isChecked === 0 ? (
+          <NotificationContainer isDeleted={isDeleted} isChecked={isChecked}>
+            <p>"{content}" 댓글에 답변이 달렸습니다.</p>
+            <div>
+              <IconButton color="grey" onClick={handleCheck}>
+                <i class="far fa-check-square"></i>
+              </IconButton>
+              <IconButton color="grey" onClick={handleDelete}>
+                <i class="far fa-trash-alt"></i>
+              </IconButton>
+            </div>
+          </NotificationContainer>
+        ) : (
+          ''
+        )}
       </Main>
     </>
   );

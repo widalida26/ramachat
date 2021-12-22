@@ -19,14 +19,23 @@ const Main = styled.main`
   }
 `;
 
+const NotificationsList = styled.ul`
+  padding: 0;
+  margin-top: 1px;
+  margin-bottom: 100px;
+
+  @media ${device.tablet} {
+    margin-bottom: 2rem;
+  }
+`;
+
 export default function MyPageNotifications({ tokenState }) {
   const token = tokenState ? tokenState : sessionStorage.getItem('token');
-  const [myComments, setMyComments] = useState({});
-  const commentsArray = myComments ? myComments : undefined;
-  // console.log('Comments', Object.values(myComments));
-  console.log(commentsArray);
+  const [myNotifications, setMyNotifications] = useState([]);
+  const notiArray = myNotifications ? myNotifications : [];
+  console.log(notiArray);
 
-  const getMyComment = () => {
+  const getMyNotifications = () => {
     axios
       .get(`${process.env.REACT_APP_SERVER_URL}/notification`, {
         headers: {
@@ -36,21 +45,24 @@ export default function MyPageNotifications({ tokenState }) {
         withCredentials: true,
       })
       .then((data) => {
-        console.log(data);
-        setMyComments(data.data.data);
+        setMyNotifications(data.data.data);
       })
-      .catch(() => console.log('getMyComment 에러'));
+      .catch(() => console.log('getMyNotifications 에러'));
   };
 
   useEffect(() => {
-    getMyComment();
+    getMyNotifications();
   }, []);
 
   return (
     <>
       <Main>
         <Tabbar></Tabbar>
-        <Notification></Notification>
+        <NotificationsList>
+          {notiArray.map((noti) => (
+            <Notification content={noti.content} isChecked={noti.isChecked} />
+          ))}
+        </NotificationsList>
       </Main>
     </>
   );
