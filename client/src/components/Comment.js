@@ -12,7 +12,7 @@ const CommentContainer = styled.article`
   width: 100%;
   padding: 1rem;
   border-top: 1px solid ${colors.primary};
-  display: ${(props) => (props.hasDeleted ? 'none' : 'block')};
+  /* display: ${(props) => (props.hasDeleted ? 'none' : 'block')}; */
 `;
 
 const ButtonContainer = styled.div`
@@ -40,7 +40,15 @@ const ReplyFormContainer = styled.div`
   background-color: ${colors.greyL};
 `;
 
-export default function Comment({ tokenState, drama, episode, comment, userId }) {
+export default function Comment({
+  tokenState,
+  drama,
+  episode,
+  comment,
+  userId,
+  editHandler,
+  deleteHandler,
+}) {
   // const [replies, setReplies] = useState([
   //   {
   //     id: 125,
@@ -90,7 +98,7 @@ export default function Comment({ tokenState, drama, episode, comment, userId })
   // ]
 
   const [isModelOpen, setIsModalOpen] = useState(false);
-  const [hasDeleted, setHasdeleted] = useState(false);
+  // const [hasDeleted, setHasdeleted] = useState(false);
 
   const openModalHandler = () => {
     setIsModalOpen(!isModelOpen);
@@ -100,8 +108,9 @@ export default function Comment({ tokenState, drama, episode, comment, userId })
     deleteComment(tokenState, comment.id).then((result) => {
       console.log('delete response', result);
       if (result.status === 200) {
-        setHasdeleted(true);
+        // setHasdeleted(true);
         openModalHandler();
+        deleteHandler(comment.id);
       }
     });
   };
@@ -133,10 +142,10 @@ export default function Comment({ tokenState, drama, episode, comment, userId })
       updatedAt: createdAt,
       userId,
     };
-    setReplies([...replies, newReply]);
+    setReplies([newReply, ...replies]);
   };
 
-  const [content, setContent] = useState(comment.content);
+  // const [content, setContent] = useState(comment.content);
   const [editedContent, setEditedContent] = useState(comment.content);
   const [isEditable, setIsEditable] = useState(false);
 
@@ -146,17 +155,20 @@ export default function Comment({ tokenState, drama, episode, comment, userId })
 
   const handleEditable = () => {
     setIsEditable(!isEditable);
+    setEditedContent(comment.content);
   };
 
   const handleEditRequest = () => {
     modifyComment(tokenState, comment.id, editedContent).then((result) => {
       setIsEditable(!isEditable);
-      setContent(editedContent);
+      editHandler(comment.id, editedContent);
+      // setContent(editedContent);
     });
   };
   return (
     <>
-      <CommentContainer hasDeleted={hasDeleted}>
+      {/* <CommentContainer hasDeleted={hasDeleted}> */}
+      <CommentContainer>
         <CommentInfoContainer>
           <p>이름없는라마</p>
           <p className="created-date">{comment.createdAt}</p>
@@ -164,7 +176,7 @@ export default function Comment({ tokenState, drama, episode, comment, userId })
         {isEditable ? (
           <textarea value={editedContent} onChange={handleTextarea}></textarea>
         ) : (
-          <p>{content}</p>
+          <p>{comment.content}</p>
         )}
         <ButtonContainer>
           <div>

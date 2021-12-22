@@ -136,7 +136,7 @@ export default function Comments({ tokenState, userInfo }) {
       updatedAt: createdAt,
       userId,
     };
-    setComments([...comments, newComment]);
+    setComments([newComment, ...comments]);
   };
 
   useEffect(() => {
@@ -159,6 +159,24 @@ export default function Comments({ tokenState, userInfo }) {
       : 'https://www.themoviedb.org/t/p/w1280' + episode.still_path;
 
   console.log(comments);
+  console.log('episode id', episode.id);
+
+  const editHandler = (commentId, newContent) => {
+    const idx = comments.findIndex((comment) => comment.id === commentId);
+    // let obj = comments[idx];
+    // obj.content = newContent;
+    // setComments([obj, ...comments.slice(1, comments.length)]);
+    setComments([
+      ...comments.slice(0, idx),
+      { ...comments[idx], content: newContent },
+      ...comments.slice(idx + 1),
+    ]);
+  };
+
+  const deleteHandler = (commentId) => {
+    const idx = comments.findIndex((comment) => comment.id === commentId);
+    setComments([...comments.slice(0, idx), ...comments.slice(idx + 1)]);
+  };
 
   return (
     <Main>
@@ -195,6 +213,8 @@ export default function Comments({ tokenState, userInfo }) {
               episode={episode}
               comment={comment}
               userId={userId}
+              editHandler={editHandler}
+              deleteHandler={deleteHandler}
             />
           ))}
         </CommentsList>

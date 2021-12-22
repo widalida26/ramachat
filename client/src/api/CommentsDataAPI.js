@@ -18,7 +18,7 @@ export function getEpisodeComments(episodeId) {
   return axios
     .get(`${process.env.REACT_APP_SERVER_URL}/comments?episode-id=${episodeId}`)
     .then((result) => {
-      return result.data.comments.reverse();
+      return result.data.comments;
     });
 }
 
@@ -94,7 +94,7 @@ export function getReplies(parentCommentId) {
     )
     .then((result) => {
       console.log('replies: ', result);
-      return result.data.comments.reverse();
+      return result.data.comments;
     });
 }
 
