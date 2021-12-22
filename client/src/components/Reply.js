@@ -1,6 +1,9 @@
 import styled from 'styled-components';
+import { useState } from 'react';
 import { colors } from '../styles/Colors';
 import IconButton from './IconButton';
+import { modifyComment, deleteComment } from '../api/CommentsDataAPI';
+import Modal from './Modal';
 
 const ReplyContainer = styled.article`
   width: 100%;
@@ -29,14 +32,60 @@ const ButtonContainer = styled.div`
   }
 `;
 
-export default function Reply({ reply, userId }) {
+export default function Reply({
+  tokenState,
+  reply,
+  userId,
+  userRole,
+  editHandler,
+  deleteReplyHandler,
+}) {
+  const [editedContent, setEditedContent] = useState(reply.content);
+  const [isEditable, setIsEditable] = useState(false);
+  const [isModelOpen, setIsModalOpen] = useState(false);
+
+  const handleTextarea = (e) => {
+    setEditedContent(e.target.value);
+  };
+
+  const handleEditable = () => {
+    setIsEditable(!isEditable);
+    setEditedContent(reply.content);
+  };
+
+  const handleEditRequest = () => {
+    modifyComment(tokenState, reply.id, editedContent).then((result) => {
+      setIsEditable(!isEditable);
+      editHandler(reply.id, editedContent);
+    });
+  };
+
+  const openModalHandler = () => {
+    setIsModalOpen(!isModelOpen);
+  };
+
+  const handleDelete = () => {
+    deleteComment(tokenState, reply.id).then((result) => {
+      console.log('delete response', result);
+      if (result.status === 200) {
+        // setHasdeleted(true);
+        openModalHandler();
+        deleteReplyHandler(reply.id);
+      }
+    });
+  };
+
   return (
     <ReplyContainer>
       <ReplyInfoContainer>
         <p>└ 이름없는라마</p>
         <p className="created-date">{reply.createdAt}</p>
       </ReplyInfoContainer>
-      <p>{reply.content}</p>
+      {isEditable ? (
+        <textarea value={editedContent} onChange={handleTextarea}></textarea>
+      ) : (
+        <p>{reply.content}</p>
+      )}
       <ButtonContainer>
         <div>
           <IconButton color="grey">
@@ -44,16 +93,42 @@ export default function Reply({ reply, userId }) {
           </IconButton>
         </div>
         {reply.userId === userId ? (
-          <div className="edit-comment">
-            <IconButton color="grey">
-              <i class="far fa-edit"></i>
-            </IconButton>
-            <IconButton color="grey">
-              <i class="far fa-trash-alt"></i>
-            </IconButton>
+          <div>
+            {isEditable ? (
+              <div className="edit-comment">
+                <IconButton color="primary" onClick={handleEditable}>
+                  <i class="fas fa-times"></i>
+                </IconButton>
+                <IconButton color="secondary" onClick={handleEditRequest}>
+                  <i class="fas fa-check"></i>
+                </IconButton>
+              </div>
+            ) : null}
+            {!isEditable ? (
+              <div className="edit-comment">
+                <IconButton color="grey" onClick={handleEditable}>
+                  <i class="far fa-edit"></i>
+                </IconButton>
+                <IconButton color="grey" onClick={openModalHandler}>
+                  <i class="far fa-trash-alt"></i>
+                </IconButton>
+              </div>
+            ) : null}
           </div>
         ) : null}
+        {userRole === 'admin' && reply.userId !== userId ? (
+          <IconButton color="grey" onClick={openModalHandler}>
+            <i class="far fa-trash-alt"></i>
+          </IconButton>
+        ) : null}
       </ButtonContainer>
+      <Modal
+        isOpen={isModelOpen}
+        openModalHandler={openModalHandler}
+        modalActionlHandler={handleDelete}
+        noticeMessage={'정말 삭제하시겠습니까?'}
+        buttonMessage={'삭제'}
+      />
     </ReplyContainer>
   );
 }

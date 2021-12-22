@@ -12,7 +12,7 @@ const CommentContainer = styled.article`
   width: 100%;
   padding: 1rem;
   border-top: 1px solid ${colors.primary};
-  display: ${(props) => (props.hasDeleted ? 'none' : 'block')};
+  /* display: ${(props) => (props.hasDeleted ? 'none' : 'block')}; */
 `;
 
 const ButtonContainer = styled.div`
@@ -40,7 +40,16 @@ const ReplyFormContainer = styled.div`
   background-color: ${colors.greyL};
 `;
 
-export default function Comment({ tokenState, drama, episode, comment, userId }) {
+export default function Comment({
+  tokenState,
+  drama,
+  episode,
+  comment,
+  userId,
+  userRole,
+  editHandler,
+  deleteHandler,
+}) {
   // const [replies, setReplies] = useState([
   //   {
   //     id: 125,
@@ -90,7 +99,7 @@ export default function Comment({ tokenState, drama, episode, comment, userId })
   // ]
 
   const [isModelOpen, setIsModalOpen] = useState(false);
-  const [hasDeleted, setHasdeleted] = useState(false);
+  // const [hasDeleted, setHasdeleted] = useState(false);
 
   const openModalHandler = () => {
     setIsModalOpen(!isModelOpen);
@@ -100,8 +109,9 @@ export default function Comment({ tokenState, drama, episode, comment, userId })
     deleteComment(tokenState, comment.id).then((result) => {
       console.log('delete response', result);
       if (result.status === 200) {
-        setHasdeleted(true);
+        // setHasdeleted(true);
         openModalHandler();
+        deleteHandler(comment.id);
       }
     });
   };
@@ -133,10 +143,10 @@ export default function Comment({ tokenState, drama, episode, comment, userId })
       updatedAt: createdAt,
       userId,
     };
-    setReplies([...replies, newReply]);
+    setReplies([newReply, ...replies]);
   };
 
-  const [content, setContent] = useState(comment.content);
+  // const [content, setContent] = useState(comment.content);
   const [editedContent, setEditedContent] = useState(comment.content);
   const [isEditable, setIsEditable] = useState(false);
 
@@ -146,17 +156,38 @@ export default function Comment({ tokenState, drama, episode, comment, userId })
 
   const handleEditable = () => {
     setIsEditable(!isEditable);
+    setEditedContent(comment.content);
   };
 
   const handleEditRequest = () => {
     modifyComment(tokenState, comment.id, editedContent).then((result) => {
       setIsEditable(!isEditable);
-      setContent(editedContent);
+      editHandler(comment.id, editedContent);
+      // setContent(editedContent);
     });
   };
+
+  const editReplyHandler = (replyId, newContent) => {
+    const idx = replies.findIndex((rep) => rep.id === replyId);
+    // let obj = comments[idx];
+    // obj.content = newContent;
+    // setComments([obj, ...comments.slice(1, comments.length)]);
+    setReplies([
+      ...replies.slice(0, idx),
+      { ...replies[idx], content: newContent },
+      ...replies.slice(idx + 1),
+    ]);
+  };
+
+  const deleteReplyHandler = (replyId) => {
+    const idx = replies.findIndex((rep) => rep.id === replyId);
+    setReplies([...replies.slice(0, idx), ...replies.slice(idx + 1)]);
+  };
+
   return (
     <>
-      <CommentContainer hasDeleted={hasDeleted}>
+      {/* <CommentContainer hasDeleted={hasDeleted}> */}
+      <CommentContainer>
         <CommentInfoContainer>
           <p>이름없는라마</p>
           <p className="created-date">{comment.createdAt}</p>
@@ -164,7 +195,7 @@ export default function Comment({ tokenState, drama, episode, comment, userId })
         {isEditable ? (
           <textarea value={editedContent} onChange={handleTextarea}></textarea>
         ) : (
-          <p>{content}</p>
+          <p>{comment.content}</p>
         )}
         <ButtonContainer>
           <div>
@@ -199,6 +230,11 @@ export default function Comment({ tokenState, drama, episode, comment, userId })
               ) : null}
             </div>
           ) : null}
+          {userRole === 'admin' && comment.userId !== userId ? (
+            <IconButton color="grey" onClick={openModalHandler}>
+              <i class="far fa-trash-alt"></i>
+            </IconButton>
+          ) : null}
         </ButtonContainer>
         <Modal
           isOpen={isModelOpen}
@@ -211,7 +247,16 @@ export default function Comment({ tokenState, drama, episode, comment, userId })
       {isReplyOpen ? (
         <div>
           {replies
-            ? replies.map((reply) => <Reply reply={reply} userId={userId} />)
+            ? replies.map((reply) => (
+                <Reply
+                  tokenState={tokenState}
+                  reply={reply}
+                  userId={userId}
+                  userRole={userRole}
+                  editHandler={editReplyHandler}
+                  deleteReplyHandler={deleteReplyHandler}
+                />
+              ))
             : null}
           <ReplyFormContainer>
             <CommentForm
