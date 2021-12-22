@@ -22,8 +22,7 @@ module.exports = async (req, res) => {
             `(SELECT COUNT(*)
                     FROM Likes
                     WHERE
-                    Comments.id = Likes.targetId && 
-                    Comments.userId=Likes.userId)`
+                    Comments.id = Likes.targetId)`
           ),
           'likeNum',
         ],
@@ -38,10 +37,13 @@ module.exports = async (req, res) => {
   let userId = accessTokenData === null ? -1 : accessTokenData.id;
   let likedComments = await sequelize
     .query(
-      `SELECT c.id FROM Comments AS c JOIN Users AS u ON c.userId = u.id JOIN Likes AS l ON c.id = l.targetId WHERE c.episodeId = ${episodeId} and u.id = ${userId}`
+      `SELECT c.id FROM Comments AS c JOIN Likes AS l ON c.id = l.targetId WHERE c.episodeId = ${episodeId} and l.userId = ${userId}`
     )
     .then((result) => {
-      return result[0].map((el) => el.id);
+      return result[0].map((el) => {
+        console.log('id', el.id);
+        return el.id;
+      });
     })
     .catch((err) => {
       res.status(500).send(err);
@@ -53,10 +55,11 @@ module.exports = async (req, res) => {
       'parentCommentId',
       [sequelize.fn('COUNT', 'parentCommentId'), 'replyNum'],
     ],
-    where: { parentCommentId: { [Op.ne]: null } },
+    where: { parentCommentId: { [Op.ne]: null }, episodeId },
     group: ['parentCommentId'],
   })
     .then((result) => {
+      //console.log(result);
       let cnt = {};
       result.forEach((data) => {
         const { parentCommentId, replyNum } = data.dataValues;
@@ -67,6 +70,7 @@ module.exports = async (req, res) => {
     .catch((err) => {
       res.status(500).send(err);
     });
+  //console.log(replyNums);
 
   try {
     // 응답 객체 세팅 => 댓글 정보
@@ -88,6 +92,6 @@ module.exports = async (req, res) => {
     //
     res.status(200).json({ comments: commentArr });
   } catch (err) {
-    res.status(500).send(err);
+    //res.status(500).send(err);
   }
 };
