@@ -3,7 +3,12 @@ const { Comments } = require('../../models');
 const { isAuthorized } = require('../tokenFunctions');
 
 module.exports = async (req, res) => {
-  const accessTokenData = isAuthorized(req.headers.authorization);
+  // 요청 헤더에 authorization이 없을 경우
+  let authorization = '';
+  if (checkAuthorization(req)) {
+    authorization = req.headers.authorization;
+  }
+  const accessTokenData = isAuthorized(authorization);
 
   let parentCommentId = -1;
   try {
