@@ -8,6 +8,13 @@ import InputForm from '../components/InputForm';
 import Modal from '../components/Modal';
 import { useEffect, useState } from 'react';
 
+const Section = styled.section`
+  margin-left: 10%;
+  p {
+    line-height: 2.5;
+  }
+`;
+
 const Main = styled.main`
   width: 100%;
   @media ${device.tablet} {
@@ -118,10 +125,13 @@ export default function MyPagePersonal({ tokenState, handleLogout }) {
     <>
       <Main>
         <Tabbar></Tabbar>
-        <section>
+        <Section>
           <h1>My Page</h1>
-          <p>User Id : {userId}</p>
-          <p>E-mail : {email}</p>
+          <p>
+            User Id : {userId}
+            <br />
+            E-mail : {email}
+          </p>
           {isChange ? (
             <>
               <p>Now Password</p>
@@ -188,7 +198,7 @@ export default function MyPagePersonal({ tokenState, handleLogout }) {
               />
             </>
           )}
-        </section>
+        </Section>
       </Main>
     </>
   );

@@ -8,6 +8,10 @@ import { useState, useEffect } from 'react';
 
 axios.defaults.withCredentials = true;
 
+const Section = styled.section`
+  margin-left: 10%;
+`;
+
 const Main = styled.main`
   width: 100%;
   @media ${device.tablet} {
@@ -61,16 +65,18 @@ export default function MyPageActivities({ tokenState }) {
     <>
       <Main>
         <Tabbar></Tabbar>
-        <CommentsList>
-          <h1>My Comments</h1>
-          {commentsArray.map((comment) => (
-            <ActivityComment
-              tokenState={tokenState}
-              comment={comment}
-              userId={comment.userId}
-            />
-          ))}
-        </CommentsList>
+        <Section>
+          <CommentsList>
+            <h1>My Comments</h1>
+            {commentsArray.map((comment) => (
+              <ActivityComment
+                tokenState={tokenState}
+                comment={comment}
+                userId={comment.userId}
+              />
+            ))}
+          </CommentsList>
+        </Section>
       </Main>
     </>
   );

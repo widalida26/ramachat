@@ -86,15 +86,15 @@ export default function Login({ handleResponseSuccess }) {
     <Main>
       <LoginContainer>
         <form onSubmit={(e) => e.preventDefault()}>
-          <h1>Log In</h1>
+          <h1>로그인</h1>
           <InputForm
             target="userId"
-            label="User ID"
+            label="아이디"
             handleInputValue={handleInputValue}
           ></InputForm>
           <InputForm
             target="password"
-            label="Password"
+            label="패스워드"
             type="password"
             handleInputValue={handleInputValue}
           ></InputForm>
@@ -105,11 +105,10 @@ export default function Login({ handleResponseSuccess }) {
             width="full"
             onClick={handleLogin}
           >
-            Log In
+            로그인
           </TextButton>
-          <br />
           <Link to="/signup">
-            <LinkSpan>Sign up</LinkSpan>
+            <LinkSpan>아직 계정이 없으신가요?</LinkSpan>
           </Link>
         </form>
       </LoginContainer>

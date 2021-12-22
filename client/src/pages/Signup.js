@@ -80,7 +80,6 @@ export default function Signup() {
       .then(() => setIsOpen(!isOpen)) // 회원가입 버튼 클릭시 모달 열기
       .catch(() => {
         setErrorMessage('이미 존재하는 회원입니다');
-        console.log('axios 에러');
       });
   };
 
@@ -193,7 +192,7 @@ export default function Signup() {
           <p>모든 항목은 필수입니다.</p>
           <InputForm
             target="email"
-            label="Email"
+            label="이메일"
             type="email"
             handleInputValue={(target) => (e) => {
               onChangeEmail(e);
@@ -202,7 +201,7 @@ export default function Signup() {
           {email.length > 0 && <span>{emailMessage}</span>}
           <InputForm
             target="userId"
-            label="User ID"
+            label="아이디"
             handleInputValue={(target) => (e) => {
               onChangeUserId(e);
             }}
@@ -210,7 +209,7 @@ export default function Signup() {
           {userId.length > 0 && <span>{userIdMessage}</span>}
           <InputForm
             target="password"
-            label="Password"
+            label="패스워드"
             type="password"
             handleInputValue={(target) => (e) => {
               onChangePassword(e);
@@ -219,7 +218,7 @@ export default function Signup() {
           {password.length > 0 && <span>{passwordMessage}</span>}
           <InputForm
             target="passwordConfirmation"
-            label="Password Confirmation"
+            label="패스워드 확인"
             type="password"
             handleInputValue={(target) => (e) => {
               onChangePasswordConfirm(e);
@@ -236,11 +235,11 @@ export default function Signup() {
                 : handleSignup()
             }
           >
-            Sign Up
+            회원가입
           </TextButton>
           {errorMessage ? <AlertBox>{errorMessage}</AlertBox> : ''}
           <Link to="/login">
-            <LinkSpan>Back To Log In</LinkSpan>
+            <LinkSpan>로그인하러 가기</LinkSpan>
           </Link>
           <Modal
             isOpen={isOpen}

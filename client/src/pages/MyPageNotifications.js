@@ -8,6 +8,10 @@ import { useState, useEffect } from 'react';
 
 axios.defaults.withCredentials = true;
 
+const Section = styled.section`
+  margin-left: 10%;
+`;
+
 const Main = styled.main`
   width: 100%;
   @media ${device.tablet} {
@@ -62,17 +66,19 @@ export default function MyPageNotifications({ tokenState }) {
     <>
       <Main>
         <Tabbar></Tabbar>
-        <NotificationsList>
-          <h1>My Notification</h1>
-          {notiArray.map((noti) => (
-            <Notification
-              content={noti.content}
-              propsIsCheckedFromDb={noti.isChecked}
-              tokenState={tokenState}
-              notiId={noti.id}
-            />
-          ))}
-        </NotificationsList>
+        <Section>
+          <NotificationsList>
+            <h1>My Notification</h1>
+            {notiArray.map((noti) => (
+              <Notification
+                content={noti.content}
+                propsIsCheckedFromDb={noti.isChecked}
+                tokenState={tokenState}
+                notiId={noti.id}
+              />
+            ))}
+          </NotificationsList>
+        </Section>
       </Main>
     </>
   );

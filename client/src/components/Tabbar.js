@@ -10,18 +10,17 @@ const TabContainer = styled.div`
   width: 10%;
   justify-content: left;
   align-items: center;
-  /* position: fixed;
+  position: fixed;
   left: 0;
   top: 0;
-  bottom: 0; */
-
+  bottom: 0;
   padding: 1.3rem;
+  padding-top: 100px;
   cursor: pointer;
   background-color: ${colors.primaryL};
 
   @media ${device.tablet} {
     // ! 반응형 수정
-    height: calc(100vh - 80px);
     display: flex;
     justify-content: left;
     align-items: left;
