@@ -13,9 +13,9 @@ const TabContainer = styled.div`
 
   padding: 1.3rem;
   cursor: pointer;
+  background-color: ${colors.primaryL};
 
   @media ${device.tablet} {
-    background-color: ${colors.primaryL};
     // ! 반응형 수정
     height: calc(100vh - 80px);
     display: flex;

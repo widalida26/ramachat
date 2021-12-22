@@ -3,6 +3,7 @@ import axios from 'axios';
 import styled from 'styled-components';
 import { colors } from '../styles/Colors';
 import { device } from '../styles/Breakpoints';
+import Notification from '../components/Notification';
 
 axios.defaults.withCredentials = true;
 
@@ -22,7 +23,7 @@ export default function MyPageNotifications() {
     <>
       <Main>
         <Tabbar></Tabbar>
-        <span>여기는 알림</span>
+        <Notification></Notification>
       </Main>
     </>
   );

@@ -1,7 +1,8 @@
 import Tabbar from '../components/Tabbar';
 import axios from 'axios';
 import styled from 'styled-components';
-import Comment from '../components/Comment';
+// import Comment from '../components/Comment';
+import ActivityComment from '../components/ActivityComment';
 import { getDrama, getEpisode } from '../api/DramaDataAPI';
 import { colors } from '../styles/Colors';
 import { device } from '../styles/Breakpoints';
@@ -22,6 +23,7 @@ const Main = styled.main`
 
 const CommentsList = styled.ul`
   padding: 0;
+  margin-top: 1px;
   margin-bottom: 100px;
 
   @media ${device.tablet} {
@@ -53,7 +55,7 @@ export default function MyPageActivities({ tokenState }) {
   };
 
   // 드라마, 에피소드는 API
-  const [drama, setDrama] = useState({});
+  // const [drama, setDrama] = useState({});
   // const dramaId = useParams().id;
   // const seasonNum = useParams().season;
   // const episodeNum = useParams().episode;
@@ -93,7 +95,11 @@ export default function MyPageActivities({ tokenState }) {
             <div>{el.content}</div>
           ))} */}
           {commentsArray.map((comment) => (
-            <Comment comment={comment} userId={comment.userId} />
+            <ActivityComment
+              tokenState={tokenState}
+              comment={comment}
+              userId={comment.userId}
+            />
           ))}
         </CommentsList>
       </Main>
