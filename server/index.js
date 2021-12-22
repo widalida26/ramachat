@@ -44,13 +44,14 @@ app.delete('/comments/:commentId', controllers.delete); // 댓글 삭제
 app.patch('/comments/:commentId', controllers.modify); // 댓글 수정
 app.get('/replies', controllers.reply);
 app.post('/comments/likes/:commentId', controllers.like); // 좋아요
+app.patch('/checkNotification/:notiId', controllers.checkNotification);
 
 //PUT
-app.put('/passwordModify', controllers.passwordModify);
+app.patch('/passwordModify', controllers.passwordModify);
 
 //DELETE
 app.delete('/signout', controllers.signout);
-app.delete('./deleteNotification', controllers.deleteNotification);
+app.delete('/deleteNotification/:notiId', controllers.deleteNotification);
 
 const HTTPS_PORT = process.env.HTTPS_PORT || 8000;
 
