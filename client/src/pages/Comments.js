@@ -143,7 +143,7 @@ export default function Comments({ tokenState, userInfo }) {
     // setComments([]);
     if (episode.id) {
       const sendAPICall = async () => {
-        const data = await getEpisodeComments(episode.id);
+        const data = await getEpisodeComments(tokenState, episode.id);
         // setComments([...data]);
         setComments(data);
       };
