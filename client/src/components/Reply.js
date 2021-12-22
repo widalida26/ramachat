@@ -39,6 +39,7 @@ export default function Reply({
   userRole,
   editHandler,
   deleteReplyHandler,
+  likeHandler,
 }) {
   const [editedContent, setEditedContent] = useState(reply.content);
   const [isEditable, setIsEditable] = useState(false);
@@ -79,13 +80,7 @@ export default function Reply({
 
   const handleLike = () => {
     likeComment(tokenState, reply.id).then((result) => {
-      if (result) {
-        setLiked(true);
-        setLikedNum(likedNum + 1);
-      } else {
-        setLiked(false);
-        setLikedNum(likedNum - 1);
-      }
+      likeHandler(reply.id, result);
     });
   };
 
@@ -102,13 +97,13 @@ export default function Reply({
       )}
       <ButtonContainer>
         <div>
-          {liked ? (
+          {reply.liked ? (
             <IconButton color="primary" onClick={handleLike}>
-              <i class="fas fa-heart"></i> Like {likedNum}
+              <i class="fas fa-heart"></i> Like {reply.likeNum}
             </IconButton>
           ) : (
             <IconButton color="grey" onClick={handleLike}>
-              <i class="fas fa-heart"></i> Like {likedNum}
+              <i class="fas fa-heart"></i> Like {reply.likeNum}
             </IconButton>
           )}
         </div>
