@@ -22,8 +22,7 @@ module.exports = async (req, res) => {
             `(SELECT COUNT(*)
                     FROM Likes
                     WHERE
-                    Comments.id = Likes.targetId && 
-                    Comments.userId=Likes.userId)`
+                    Comments.id = Likes.targetId)`
           ),
           'likeNum',
         ],
@@ -53,10 +52,11 @@ module.exports = async (req, res) => {
       'parentCommentId',
       [sequelize.fn('COUNT', 'parentCommentId'), 'replyNum'],
     ],
-    where: { parentCommentId: { [Op.ne]: null } },
+    where: { parentCommentId: { [Op.ne]: null }, episodeId },
     group: ['parentCommentId'],
   })
     .then((result) => {
+      console.log(result);
       let cnt = {};
       result.forEach((data) => {
         const { parentCommentId, replyNum } = data.dataValues;
@@ -67,6 +67,7 @@ module.exports = async (req, res) => {
     .catch((err) => {
       res.status(500).send(err);
     });
+  console.log(replyNums);
 
   try {
     // 응답 객체 세팅 => 댓글 정보
@@ -88,6 +89,6 @@ module.exports = async (req, res) => {
     //
     res.status(200).json({ comments: commentArr });
   } catch (err) {
-    res.status(500).send(err);
+    //res.status(500).send(err);
   }
 };
