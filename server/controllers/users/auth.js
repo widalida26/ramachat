@@ -13,8 +13,6 @@ module.exports = (req, res) => {
   //  console.log(req);
   console.log('authorization', req.headers.authorization);
   const accessTokenData = isAuthorized(req.headers.authorization);
-  console.log('get right header?');
-  console.log('HEADER', req.headers.authorization);
 
   if (accessTokenData === null) {
     return res.status(401).send({ data: null, message: 'not authorized' });

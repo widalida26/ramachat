@@ -15,4 +15,5 @@ module.exports = {
   like: require('./comments/like'),
   reply: require('./comments/reply'),
   notification: require('./myInfos/notification'),
+  deleteNotification: require('./myInfos/deleteNotification.'),
 };

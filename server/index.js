@@ -50,6 +50,7 @@ app.put('/passwordModify', controllers.passwordModify);
 
 //DELETE
 app.delete('/signout', controllers.signout);
+app.delete('./deleteNotification', controllers.deleteNotification);
 
 const HTTPS_PORT = process.env.HTTPS_PORT || 8000;
 
