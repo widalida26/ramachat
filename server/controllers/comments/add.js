@@ -1,11 +1,15 @@
 const { Comments } = require('../../models');
 const { EpisodeInfos } = require('../../models');
 const { Notifications } = require('../../models');
+const { checkAuthorization } = require('../tokenFunctions');
 const { isAuthorized } = require('../tokenFunctions');
 
 module.exports = async (req, res) => {
-  console.log(req.headers);
-  console.log(req.headers.authorization);
+  // 요청 헤더에 authorization이 없을 경우
+  if (!checkAuthorization(req)) {
+    res.status(401).send('unauthorized user');
+    return;
+  }
 
   const accessTokenData = isAuthorized(req.headers.authorization);
   // 인증 실패
