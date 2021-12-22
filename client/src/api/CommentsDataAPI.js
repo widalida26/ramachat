@@ -83,3 +83,14 @@ export function deleteComment(tokenState, commentId) {
       return result;
     });
 }
+
+export function getReplies(parentCommentId) {
+  return axios
+    .get(
+      `${process.env.REACT_APP_SERVER_URL}/replies?parent-comment-id=${parentCommentId}`
+    )
+    .then((result) => {
+      console.log('replies: ', result);
+      return result.data.comments;
+    });
+}
