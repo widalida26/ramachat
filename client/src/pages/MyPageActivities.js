@@ -1,7 +1,8 @@
 import Tabbar from '../components/Tabbar';
 import axios from 'axios';
 import styled from 'styled-components';
-import Comment from '../components/Comment';
+// import Comment from '../components/Comment';
+import ActivityComment from '../components/ActivityComment';
 import { getDrama, getEpisode } from '../api/DramaDataAPI';
 import { colors } from '../styles/Colors';
 import { device } from '../styles/Breakpoints';
@@ -22,6 +23,7 @@ const Main = styled.main`
 
 const CommentsList = styled.ul`
   padding: 0;
+  margin-top: 1px;
   margin-bottom: 100px;
 
   @media ${device.tablet} {
@@ -31,10 +33,11 @@ const CommentsList = styled.ul`
 
 export default function MyPageActivities({ tokenState }) {
   const token = tokenState ? tokenState : sessionStorage.getItem('token');
-  const [myComments, setMyComments] = useState(null);
-  const userId = myComments ? myComments : '댓글없다';
+  const [myComments, setMyComments] = useState({});
+  const commentsArray = myComments ? Object.values(myComments) : undefined;
+  // console.log('Comments', Object.values(myComments));
+  console.log(commentsArray);
   // ! 댓글 없을 경우 방어코드 작성 => myComments[0].userId 못읽음
-  console.log(userId);
 
   const getMyComment = () => {
     axios
@@ -46,17 +49,13 @@ export default function MyPageActivities({ tokenState }) {
         withCredentials: true,
       })
       .then((data) => {
-        console.log(data);
         setMyComments(data.data.data);
-      });
-    // .catch(() => console.log('getMyComment 에러'));
+      })
+      .catch(() => console.log('getMyComment 에러'));
   };
 
-  console.log('유저아이디', userId);
-  console.log('Comments배열', myComments);
-
   // 드라마, 에피소드는 API
-  const [drama, setDrama] = useState({});
+  // const [drama, setDrama] = useState({});
   // const dramaId = useParams().id;
   // const seasonNum = useParams().season;
   // const episodeNum = useParams().episode;
@@ -89,12 +88,19 @@ export default function MyPageActivities({ tokenState }) {
     <>
       <Main>
         <Tabbar></Tabbar>
-        <span>여기는 내 활동기록</span>
+        {/* <span>여기는 내 활동기록</span> */}
         <CommentsList>
-          {/* Comments */}
-          {/* {myComments.map((comment) => (
-            <Comment comment={comment} userId={userId} />
+          {/* <div>{test}</div> */}
+          {/* {commentsArray.map((el) => (
+            <div>{el.content}</div>
           ))} */}
+          {commentsArray.map((comment) => (
+            <ActivityComment
+              tokenState={tokenState}
+              comment={comment}
+              userId={comment.userId}
+            />
+          ))}
         </CommentsList>
       </Main>
     </>
