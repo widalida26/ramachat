@@ -68,7 +68,7 @@ export default function MyPagePersonal({ tokenState, handleLogout }) {
   const changePassword = () => {
     // 비밀번호 변경 성공 모달띄우기...
     axios
-      .put(
+      .patch(
         `${process.env.REACT_APP_SERVER_URL}/passwordModify`,
         {
           withCredentials: true,
