@@ -46,6 +46,7 @@ export default function Comment({
   episode,
   comment,
   userId,
+  userRole,
   editHandler,
   deleteHandler,
 }) {
@@ -229,6 +230,11 @@ export default function Comment({
               ) : null}
             </div>
           ) : null}
+          {userRole === 'admin' && comment.userId !== userId ? (
+            <IconButton color="grey" onClick={openModalHandler}>
+              <i class="far fa-trash-alt"></i>
+            </IconButton>
+          ) : null}
         </ButtonContainer>
         <Modal
           isOpen={isModelOpen}
@@ -246,6 +252,7 @@ export default function Comment({
                   tokenState={tokenState}
                   reply={reply}
                   userId={userId}
+                  userRole={userRole}
                   editHandler={editReplyHandler}
                   deleteReplyHandler={deleteReplyHandler}
                 />

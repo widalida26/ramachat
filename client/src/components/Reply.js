@@ -36,6 +36,7 @@ export default function Reply({
   tokenState,
   reply,
   userId,
+  userRole,
   editHandler,
   deleteReplyHandler,
 }) {
@@ -114,6 +115,11 @@ export default function Reply({
               </div>
             ) : null}
           </div>
+        ) : null}
+        {userRole === 'admin' && reply.userId !== userId ? (
+          <IconButton color="grey" onClick={openModalHandler}>
+            <i class="far fa-trash-alt"></i>
+          </IconButton>
         ) : null}
       </ButtonContainer>
       <Modal
