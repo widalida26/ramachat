@@ -149,6 +149,7 @@ export default function Comment({
       userId,
     };
     setReplies([newReply, ...replies]);
+    setReplyNum(replyNum + 1);
   };
 
   // const [content, setContent] = useState(comment.content);
@@ -184,9 +185,12 @@ export default function Comment({
     ]);
   };
 
+  const [replyNum, setReplyNum] = useState(comment.replyNum);
+
   const deleteReplyHandler = (replyId) => {
     const idx = replies.findIndex((rep) => rep.id === replyId);
     setReplies([...replies.slice(0, idx), ...replies.slice(idx + 1)]);
+    setReplyNum(replyNum - 1);
   };
 
   const [liked, setLiked] = useState(comment.liked);
@@ -237,7 +241,7 @@ export default function Comment({
             )}
 
             <IconButton color="grey" onClick={openReplyHandler}>
-              <i class="fas fa-comment-alt"></i> Reply {comment.replyNum}
+              <i class="fas fa-comment-alt"></i> Reply {replyNum}
             </IconButton>
           </div>
           {comment.userId === userId ? (
