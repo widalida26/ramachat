@@ -32,7 +32,6 @@ module.exports = async (req, res) => {
       parentCommentId,
     };
 
-    console.log(episodeId);
     // EpisodeInfos 테이블에 해당 에피소드 아이디를 가진 값이 없을 때  => 첫 댓글
     const [info, created] = await EpisodeInfos.findOrCreate({
       where: { id: episodeId },
@@ -43,7 +42,7 @@ module.exports = async (req, res) => {
         seasonIndex,
         episodeIndex,
       },
-    });
+    }).catch((err) => res.send.status(500).send(err));
 
     // 에피소드 정보를 찾거나 만드는데 실패했을 경우
     if (!info) {
