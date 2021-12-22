@@ -123,17 +123,17 @@ export default function MyPagePersonal({ tokenState, handleLogout }) {
       }) // 비밀번호 변경 버튼 클릭시 모달 열기
       .catch((err) => {
         // * 에러 메시지
-        console.log(err.response.status);
         const errCode = err.response.status;
-        console.log('is400', errCode === err.response.status);
         if (errCode === 400) {
           console.log('400!!');
-          setModalMsg('현재 입력하신 비밀번호가 일치하지 않습니다!');
+          setModalMsg('현재 입력하신 비밀번호가\n일치하지 않습니다!');
+          setIsOpen(!isOpen);
         } else if (errCode === 422) {
-          console.log('422');
-          setModalMsg('현재 입력하신 비밀번호가 이전 비밀번호와 같습니다!');
+          setModalMsg('현재 입력하신 비밀번호가\n이전 비밀번호와 같습니다!');
+          setIsOpen(!isOpen);
         } else {
           setModalMsg('비밀번호 변경에 실패하였습니다!');
+          setIsOpen(!isOpen);
         }
         console.log('changePassword 에러');
       });
@@ -161,6 +161,17 @@ export default function MyPagePersonal({ tokenState, handleLogout }) {
 
   const openModalHandler = () => {
     setIsOpen(!isOpen);
+  };
+
+  // 패스워드 바뀐 후
+  const closeChangeHandler = () => {
+    setIsOpen(!isOpen);
+    setIsChange(false);
+    setPasswordInfo({
+      nowPassword: '',
+      newPassword: '',
+      newPasswordConfirm: '',
+    });
   };
 
   useEffect(() => {
@@ -212,7 +223,7 @@ export default function MyPagePersonal({ tokenState, handleLogout }) {
               <Modal
                 isOpen={isOpen}
                 openModalHandler={openModalHandler}
-                modalActionlHandler={openModalHandler}
+                modalActionlHandler={closeChangeHandler}
                 noticeMessage={modalMsg}
                 buttonMessage={'확인'}
                 endPoint={'/mypage/personal-information'}
