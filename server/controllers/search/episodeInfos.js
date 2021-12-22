@@ -32,7 +32,7 @@ module.exports = async (req, res) => {
   })
     .then((result) => result)
     .catch((err) => {
-      res.status(500).send(err);
+      res.status(500).send('err');
     });
 
   let episodeInfos = [];
@@ -65,7 +65,7 @@ module.exports = async (req, res) => {
     }
     res.status(200).json(episodeInfos);
   } catch (err) {
-    return res.status(500).send(err);
+    return res.status(500).send('err');
   }
   res.end();
 };

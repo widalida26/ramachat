@@ -62,7 +62,7 @@ module.exports = async (req, res) => {
       .then((result) => result)
       .catch((err) => {
         // 댓글 삽입에 실패할 때
-        res.status(500).send(err);
+        res.status(500).send('err');
         return;
       });
 
@@ -91,7 +91,7 @@ module.exports = async (req, res) => {
           Comments.destroy({
             where: { id },
           });
-          res.status(500).send(err);
+          res.status(500).send('err');
         }
       });
   } catch (err) {
