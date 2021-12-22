@@ -21,8 +21,11 @@ const Main = styled.main`
 
 const CommentsList = styled.ul`
   padding: 0;
-  margin-top: 1px;
   margin-bottom: 100px;
+
+  h1 {
+    padding-left: 10px;
+  }
 
   @media ${device.tablet} {
     margin-bottom: 2rem;
@@ -59,6 +62,7 @@ export default function MyPageActivities({ tokenState }) {
       <Main>
         <Tabbar></Tabbar>
         <CommentsList>
+          <h1>My Comments</h1>
           {commentsArray.map((comment) => (
             <ActivityComment
               tokenState={tokenState}

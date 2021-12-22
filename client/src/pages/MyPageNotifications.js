@@ -27,6 +27,10 @@ const NotificationsList = styled.ul`
   @media ${device.tablet} {
     margin-bottom: 2rem;
   }
+
+  h1 {
+    padding-left: 1rem;
+  }
 `;
 
 export default function MyPageNotifications({ tokenState }) {
@@ -45,7 +49,7 @@ export default function MyPageNotifications({ tokenState }) {
         withCredentials: true,
       })
       .then((data) => {
-        setMyNotifications(data.data.data);
+        setMyNotifications(data.data.data.reverse());
       })
       .catch(() => console.log('getMyNotifications 에러'));
   };
@@ -59,8 +63,14 @@ export default function MyPageNotifications({ tokenState }) {
       <Main>
         <Tabbar></Tabbar>
         <NotificationsList>
+          <h1>My Notification</h1>
           {notiArray.map((noti) => (
-            <Notification content={noti.content} isChecked={noti.isChecked} />
+            <Notification
+              content={noti.content}
+              propsIsCheckedFromDb={noti.isChecked}
+              tokenState={tokenState}
+              notiId={noti.id}
+            />
           ))}
         </NotificationsList>
       </Main>

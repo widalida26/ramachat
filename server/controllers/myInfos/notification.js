@@ -13,7 +13,9 @@ module.exports = (req, res) => {
   console.log(accessTokenData);
   const id = accessTokenData.id;
 
-  const sql = `select n.id,n.userId,n.commentId,c.content,c.parentCommentId ,n.isChecked from Notifications as n join Comments as c on n.commentId = c.id where  n.userId= ${id}`;
+  const sql = `Select n.id, n.userId, n.commentId, c.content, n.isChecked as isChecked from Comments as c join (
+    Select noti.id , noti.userId , noti.commentId ,noti.isChecked, com.parentCommentId From Notifications as noti 
+    Join Comments as com on noti.commentId = com.id where noti.userId = ${id}) as n On n.parentCommentId = c.id`;
   sequelize.query(sql, { type: sequelize.QueryTypes.SELECT }).then((data) => {
     console.log(333, data);
     return res.status(200).json({ data: data });
