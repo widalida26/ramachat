@@ -10,14 +10,16 @@ module.exports = (req, res) => {
 
   const notiId = req.params.notiId;
 
-  if (notiId) {
+  console.log(notiId);
+
+  if (!notiId) {
     return res.status(500).send('err');
   }
 
   Notifications.destroy({
-    where: notiId,
+    where: { id: notiId },
   });
-  return res.status(201).send('delete notification');
+  return res.status(200).send('delete notification');
 };
 
 //삭제
