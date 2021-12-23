@@ -59,6 +59,13 @@ export default function MyPagePersonal({ tokenState, handleLogout }) {
   // *모달 메시지
   const [modalMsg, setModalMsg] = useState('');
 
+  // * signout 확인
+  const [checkSignout, setCheckSignout] = useState(false);
+  const handleCheckSignout = () => {
+    setIsOpen(!isOpen);
+    handleLogout(); // 로그아웃 처리
+  };
+
   // 비밀번호 변경
   // ! 유효성 검사 추가?
   const [passwordInfo, setPasswordInfo] = useState({
@@ -166,11 +173,11 @@ export default function MyPagePersonal({ tokenState, handleLogout }) {
         withCredentials: true,
       })
       .then(() => {
-        setIsOpen(!isOpen); // 회원탈퇴 버튼 클릭시 모달 열기
-        handleLogout(); // 로그아웃 처리
+        setCheckSignout(true);
       })
       .catch(() => console.log('signOut 에러'));
   };
+  console.log(checkSignout);
 
   // 모달 코드
   const [isOpen, setIsOpen] = useState(false);
@@ -269,18 +276,28 @@ export default function MyPagePersonal({ tokenState, handleLogout }) {
                 color="secondary"
                 isTransparent={true}
                 width="fit"
-                onClick={signOut}
+                onClick={openModalHandler}
               >
                 Sign out
               </TextButton>
-              <Modal
-                isOpen={isOpen}
-                openModalHandler={openModalHandler}
-                modalActionlHandler={openModalHandler}
-                noticeMessage={'회원 탈퇴가 완료되었습니다!'}
-                buttonMessage={'홈으로 가기'}
-                endPoint={'/'}
-              />
+              {isOpen && checkSignout ? (
+                <Modal
+                  isOpen={isOpen}
+                  openModalHandler={openModalHandler}
+                  modalActionlHandler={handleCheckSignout}
+                  noticeMessage={'회원 탈퇴가 완료되었습니다!'}
+                  buttonMessage={'홈으로 가기'}
+                  endPoint={'/'}
+                />
+              ) : (
+                <Modal
+                  isOpen={isOpen}
+                  openModalHandler={openModalHandler}
+                  modalActionlHandler={signOut}
+                  noticeMessage={'정말 회원 탈퇴 하실건가요?'}
+                  buttonMessage={'네, 탈퇴할래요'}
+                />
+              )}
             </>
           )}
         </Section>
