@@ -160,9 +160,6 @@ export default function Comments({ tokenState, userInfo }) {
       ? 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/624px-No-Image-Placeholder.svg.png'
       : 'https://www.themoviedb.org/t/p/w1280' + episode.still_path;
 
-  console.log(comments);
-  console.log('episode id', episode.id);
-
   const editHandler = (commentId, newContent) => {
     const idx = comments.findIndex((comment) => comment.id === commentId);
     // let obj = comments[idx];

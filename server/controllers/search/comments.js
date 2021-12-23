@@ -16,7 +16,6 @@ module.exports = async (req, res) => {
   try {
     episodeId = req.query['episode-id'];
   } catch (err) {
-    console.log('err');
     res.status(400).send('Please provide all necessary information');
   }
 
@@ -38,7 +37,6 @@ module.exports = async (req, res) => {
     where: { episodeId, parentCommentId: null },
     order: [['createdAt', 'DESC']],
   }).catch((err) => {
-    console.log(err);
     res.status(500).send('err');
   });
 
@@ -54,7 +52,6 @@ module.exports = async (req, res) => {
       });
     })
     .catch((err) => {
-      console.log(err);
       res.status(500).send('err');
     });
 
@@ -68,7 +65,7 @@ module.exports = async (req, res) => {
     group: ['parentCommentId'],
   })
     .then((result) => {
-      //console.log(result);
+      //
       if (result.length === 0) return {};
       else {
         let cnt = {};
@@ -79,9 +76,7 @@ module.exports = async (req, res) => {
         return cnt;
       }
     })
-    .catch((err) => {
-      console.log(err);
-    });
+    .catch((err) => {});
 
   try {
     // 응답 객체 세팅 => 댓글 정보
@@ -103,7 +98,6 @@ module.exports = async (req, res) => {
     });
     res.status(200).json({ comments: commentArr });
   } catch (err) {
-    console.log(err);
     res.status(500).send('err');
   }
 };
