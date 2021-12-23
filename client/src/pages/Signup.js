@@ -14,7 +14,7 @@ const Main = styled.main`
   width: 100%;
   @media ${device.tablet} {
     background-color: ${colors.primaryL};
-    height: calc(100vh - 80px);
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -33,8 +33,11 @@ const LoginContainer = styled.div`
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1rem;
     align-items: center;
+  }
+  .alert {
+    font-family: SpoqaHanSansNeo-Regular;
   }
 `;
 
@@ -198,7 +201,7 @@ export default function Signup() {
               onChangeEmail(e);
             }}
           ></InputForm>
-          {email.length > 0 && <span>{emailMessage}</span>}
+          {email.length > 0 && <span className="alert">{emailMessage}</span>}
           <InputForm
             target="userId"
             label="아이디"
@@ -206,7 +209,7 @@ export default function Signup() {
               onChangeUserId(e);
             }}
           ></InputForm>
-          {userId.length > 0 && <span>{userIdMessage}</span>}
+          {userId.length > 0 && <span className="alert">{userIdMessage}</span>}
           <InputForm
             target="password"
             label="패스워드"
@@ -215,7 +218,7 @@ export default function Signup() {
               onChangePassword(e);
             }}
           ></InputForm>
-          {password.length > 0 && <span>{passwordMessage}</span>}
+          {password.length > 0 && <span className="alert">{passwordMessage}</span>}
           <InputForm
             target="passwordConfirmation"
             label="패스워드 확인"
@@ -224,7 +227,9 @@ export default function Signup() {
               onChangePasswordConfirm(e);
             }}
           ></InputForm>
-          {passwordConfirm.length > 0 && <span>{passwordConfirmMessage}</span>}
+          {passwordConfirm.length > 0 && (
+            <span className="alert">{passwordConfirmMessage}</span>
+          )}
           <TextButton
             color="secondary"
             isTransparent={false}
