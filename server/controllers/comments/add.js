@@ -25,7 +25,7 @@ module.exports = async (req, res) => {
       'content',
       'episodeId',
       'dramaId',
-      'dranaName',
+      'dramaName',
       'episodeIndex'
     )
   ) {
