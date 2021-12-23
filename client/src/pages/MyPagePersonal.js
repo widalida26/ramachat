@@ -33,6 +33,7 @@ const Section = styled.section`
   .alert {
     font-family: SpoqaHanSansNeo-Regular;
     margin-bottom: 1rem;
+    white-space: pre-line;
   }
   @media ${device.tablet} {
     margin-left: 240px;
@@ -88,7 +89,9 @@ export default function MyPagePersonal({ tokenState, handleLogout }) {
     if (target === 'newPassword') {
       let passwordCurrent = e.target.value;
       if (!passwordRegex.test(passwordCurrent)) {
-        setPasswordMessage('숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요!');
+        setPasswordMessage(`숫자+영문자+특수문자 조합으로
+        8자리 이상 입력해주세요!
+        사용 가능한 특수문자는 !@#$%^*+=- 입니다.`);
         setIsPassword(false);
       } else {
         setPasswordMessage('안전한 비밀번호에요 :)');
