@@ -14,6 +14,7 @@ const Main = styled.article`
   /* padding: 1rem; */
   /* border: 1px solid ${colors.black}; */
   display: ${(props) => (props.isDeleted ? 'none' : 'block')};
+  cursor: pointer;
 `;
 
 const NotificationContainer = styled.div`
@@ -103,7 +104,7 @@ export default function Notification({
 
   return (
     <>
-      <Main isDeleted={isDeleted}>
+      <Main isDeleted={isDeleted} onClick={handleCheck}>
         <NotificationContainer
           propsIsCheckedFromDb={propsIsCheckedFromDb}
           colorChangeIsChecked={colorChangeIsChecked}
@@ -112,20 +113,9 @@ export default function Notification({
             [<span className="quote">{content}</span>]에 답글이 달렸습니다.
           </p>
           <div>
-            {isHidden ? (
-              <IconButton color="grey" onClick={handleDelete}>
-                <i className="far fa-trash-alt"></i>
-              </IconButton>
-            ) : (
-              <>
-                <IconButton color="grey" onClick={handleCheck}>
-                  <i className="far fa-check-square"></i>
-                </IconButton>
-                <IconButton color="grey" onClick={handleDelete}>
-                  <i className="far fa-trash-alt"></i>
-                </IconButton>
-              </>
-            )}
+            <IconButton color="grey" onClick={handleDelete}>
+              <i class="fas fa-times"></i>
+            </IconButton>
           </div>
         </NotificationContainer>
       </Main>
