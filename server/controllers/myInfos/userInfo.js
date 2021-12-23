@@ -14,11 +14,10 @@ module.exports = (req, res) => {
       userId,
     },
   }).then((data) => {
-    const dbem = decrypt(data.email);
     delete data.dataValues.password;
     const userInfo = {
       userId: data.dataValues.userId,
-      email: dbem,
+      email: data.dataValues.email,
     };
 
     if (!data) {
