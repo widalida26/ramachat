@@ -34,7 +34,7 @@ const CommentsList = styled.ul`
   margin-bottom: 100px;
 
   h1 {
-    padding-left: 10px;
+    padding-left: 1rem;
   }
 
   @media ${device.tablet} {

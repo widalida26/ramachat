@@ -11,7 +11,7 @@ const Main = styled.main`
   width: 100%;
   @media ${device.tablet} {
     background-color: ${colors.primaryL};
-    height: calc(100vh - 80px);
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -32,7 +32,7 @@ const LoginContainer = styled.div`
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1rem;
     align-items: center;
   }
 `;

@@ -31,6 +31,7 @@ const Section = styled.section`
     line-height: 2;
   }
   .alert {
+    font-family: SpoqaHanSansNeo-Regular;
     margin-bottom: 1rem;
   }
   @media ${device.tablet} {
