@@ -16,7 +16,7 @@ module.exports = async (req, res) => {
   //EpisodeInfos 찾기
   // const sqlReplyNum = `select count(*) as replyNum from Comments as c join Users as u on u.id = c.userId where c.userId = ${id} && parentCommentId IS NOT NULL`;
   // const sqlLikeNum = `select count(*) as likeNum from Comments as c join Likes as l on c.id = l.targetId`;
-  const sql = `select DISTINCT c.id,c.content,c.parentCommentId, e.dramaId, e.seasonIndex, e.episodeIndex ,c.createdAt from EpisodeInfos as e join Comments as c on e.id=c.episodeId join Users as u on u.id = c.userId where u.id = ${id} && c.parentCommentId IS NULL;`;
+  const sql = `select DISTINCT c.id,c.content,c.parentCommentId, e.dramaId, e.seasonIndex, e.episodeIndex ,c.createdAt from EpisodeInfos as e join Comments as c on e.id=c.episodeId join Users as u on u.id = c.userId where u.id = ${id});`;
   const epiData = await sequelize
     .query(sql, { type: sequelize.QueryTypes.SELECT })
     .then((data) => {
