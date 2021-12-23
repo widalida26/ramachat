@@ -125,6 +125,7 @@ export default function Comments({ tokenState, userInfo }) {
   const [comments, setComments] = useState([]);
 
   const addNewComment = (content, createdAt, episodeId, id, userId) => {
+    const idx = comments.findIndex((comment) => comment.id === id);
     const newComment = {
       content,
       createdAt,
@@ -192,6 +193,21 @@ export default function Comments({ tokenState, userInfo }) {
     ]);
   };
 
+  const replyHandler = (commentId, addNum) => {
+    const idx = comments.findIndex((comment) => comment.id === commentId);
+    let newReplyNum = comments[idx].replyNum + addNum;
+    setComments([
+      ...comments.slice(0, idx),
+      {
+        ...comments[idx],
+        //liked: isLiked,
+        replyNum: newReplyNum,
+        //isReplyOpen:
+      },
+      ...comments.slice(idx + 1),
+    ]);
+  };
+
   return (
     <Main>
       <EpisodeInfo>
@@ -231,6 +247,7 @@ export default function Comments({ tokenState, userInfo }) {
               editHandler={editHandler}
               deleteHandler={deleteHandler}
               likeHandler={likeHandler}
+              replyHandeler={replyHandler}
             />
           ))}
         </CommentsList>
