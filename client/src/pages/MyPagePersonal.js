@@ -9,27 +9,35 @@ import Modal from '../components/Modal';
 import { useEffect, useState } from 'react';
 
 const Section = styled.section`
-  margin-left: 10%;
+  margin-left: 60px;
+  width: 100%;
+  height: calc(100vh - 80px);
+  display: flex;
+  flex-direction: column;
+  padding-left: 20px;
+  padding-top: 20px;
+  border-right: 1px solid ${colors.primary};
   p {
     line-height: 2.5;
+  }
+  @media ${device.tablet} {
+    margin-left: 240px;
   }
 `;
 
 const Main = styled.main`
   width: 100%;
-  @media ${device.tablet} {
-    background-color: ${colors.white};
-    height: calc(100vh - 80px);
-    display: flex;
-  }
+  max-width: 850px;
+  margin: 0 auto;
+  display: flex;
+  position: relative;
+`;
 
-  section {
-    display: flex;
-    flex-direction: column;
-    /* justify-content: center; */
-    padding-left: 20px;
-    padding-top: 20px;
-  }
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-right: 1rem;
 `;
 
 axios.defaults.withCredentials = true;
@@ -133,33 +141,35 @@ export default function MyPagePersonal({ tokenState, handleLogout }) {
             E-mail : {email}
           </p>
           {isChange ? (
-            <>
-              <p>Now Password</p>
-              <InputForm
-                target="nowPassword"
-                type="password"
-                handleInputValue={handleInputValue}
-              ></InputForm>
-              <p>New Password</p>
-              <InputForm
-                target="newPassword"
-                type="password"
-                handleInputValue={handleInputValue}
-              ></InputForm>
-              <p>New Password Confirmation</p>
-              <InputForm
-                target="newPasswordConfirm"
-                type="password"
-                handleInputValue={handleInputValue}
-              ></InputForm>
-              <br />
-              <TextButton
-                color="secondary"
-                isTransparent={false}
-                onClick={changePassword}
-              >
-                Change
-              </TextButton>
+            <div>
+              <Form>
+                <InputForm
+                  label="현재 패스워드"
+                  target="nowPassword"
+                  type="password"
+                  handleInputValue={handleInputValue}
+                ></InputForm>
+                <InputForm
+                  label="새 패스워드"
+                  target="newPassword"
+                  type="password"
+                  handleInputValue={handleInputValue}
+                ></InputForm>
+                <InputForm
+                  label="새 패스워드 확인"
+                  target="newPasswordConfirm"
+                  type="password"
+                  handleInputValue={handleInputValue}
+                ></InputForm>
+                <br />
+                <TextButton
+                  color="secondary"
+                  isTransparent={false}
+                  onClick={changePassword}
+                >
+                  변경하기
+                </TextButton>
+              </Form>
               <Modal
                 isOpen={isOpen}
                 openModalHandler={openModalHandler}
@@ -168,7 +178,7 @@ export default function MyPagePersonal({ tokenState, handleLogout }) {
                 buttonMessage={'확인'}
                 endPoint={'/mypage/personal-information'}
               />
-            </>
+            </div>
           ) : (
             <>
               <TextButton

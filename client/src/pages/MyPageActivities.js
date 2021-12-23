@@ -9,17 +9,23 @@ import { useState, useEffect } from 'react';
 axios.defaults.withCredentials = true;
 
 const Section = styled.section`
-  margin-left: 10%;
+  margin-left: 60px;
+  width: 100%;
+  height: calc(100vh - 80px);
+  @media ${device.tablet} {
+    margin-left: 240px;
+  }
 `;
 
 const Main = styled.main`
   width: 100%;
+  overflow-y: scroll;
+  max-width: 850px;
+  margin: 0 auto;
+  display: flex;
+  position: relative;
   @media ${device.tablet} {
-    background-color: ${colors.white};
-    height: calc(100vh - 80px);
-    display: flex;
-    justify-content: left;
-    align-items: left;
+    border-right: 1px solid ${colors.primary};
   }
 `;
 
@@ -52,7 +58,7 @@ export default function MyPageActivities({ tokenState }) {
         withCredentials: true,
       })
       .then((data) => {
-        setMyComments(data.data.data);
+        setMyComments(data.data.data.reverse());
       })
       .catch(() => console.log('getMyComment 에러'));
   };
