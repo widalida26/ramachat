@@ -18,6 +18,11 @@ const Main = styled.main`
   }
 `;
 
+const SearchBarContainer = styled.div`
+  margin: 1rem 0;
+  width: 100%;
+`;
+
 const DramaList = styled.ul`
   width: 100%;
   list-style: none;
@@ -54,7 +59,9 @@ export default function Search() {
 
   return (
     <Main>
-      <SearchBar />
+      <SearchBarContainer>
+        <SearchBar />
+      </SearchBarContainer>
       {dramas.length === 0 ? (
         <p>{message}</p>
       ) : (

@@ -9,10 +9,13 @@ import { device } from '../styles/Breakpoints';
 
 const NavContainer = styled.div`
   width: 100%;
+  height: 80px;
   display: flex;
   justify-content: center;
   background-color: ${colors.primary};
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
   z-index: 100;
 
   nav {

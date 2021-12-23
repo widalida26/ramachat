@@ -11,7 +11,7 @@ const Main = styled.main`
   align-items: center;
   padding: 1rem;
 
-  p {
+  h1 {
     font-size: 3rem;
   }
 
@@ -28,9 +28,9 @@ const SearchBarContainer = styled.div`
 export default function Home() {
   return (
     <Main>
-      <p>
+      <h1>
         드<span>라마</span> 이야기는 <span>라마챗</span>에서!
-      </p>
+      </h1>
       <SearchBarContainer>
         <SearchBar />
       </SearchBarContainer>
