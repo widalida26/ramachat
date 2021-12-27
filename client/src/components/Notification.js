@@ -73,7 +73,7 @@ export default function Notification({
       .then(() => {
         setIsDeleted(true);
       })
-      .catch(() => );
+      .catch(() => {});
   };
 
   // 체크 기능
@@ -98,7 +98,7 @@ export default function Notification({
         setColorChangeIsChecked(1);
         setIsHidden(1);
       })
-      .catch(() => );
+      .catch(() => {});
   };
 
   return (

@@ -60,7 +60,7 @@ export default function MyPageNotifications({ tokenState }) {
       .then((data) => {
         setMyNotifications(data.data.data.reverse());
       })
-      .catch(() => );
+      .catch((err) => {});
   };
 
   useEffect(() => {

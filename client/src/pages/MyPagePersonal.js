@@ -120,7 +120,7 @@ export default function MyPagePersonal({ tokenState, handleLogout }) {
       .then((res) => {
         setMyPageInfo(res.data.data.userInfo);
       })
-      .catch(() => );
+      .catch(() => {});
   };
 
   const changePassword = () => {
@@ -176,7 +176,7 @@ export default function MyPagePersonal({ tokenState, handleLogout }) {
       .then(() => {
         setCheckSignout(true);
       })
-      .catch(() => );
+      .catch(() => {});
   };
 
   // 모달 코드

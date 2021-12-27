@@ -59,7 +59,7 @@ export default function MyPageActivities({ tokenState }) {
       .then((data) => {
         setMyComments(data.data.data.reverse());
       })
-      .catch(() => );
+      .catch((err) => {});
   };
 
   useEffect(() => {

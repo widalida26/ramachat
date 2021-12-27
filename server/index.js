@@ -63,11 +63,11 @@ if (fs.existsSync('./key.pem') && fs.existsçSync('./cert.pem')) {
 
   server = https.createServer(credentials, app);
   server.listen(HTTPS_PORT, () =>
-    
+    console.log('https server runnning', `\nport number is ${HTTPS_PORT}`)
   );
 } else {
   server = app.listen(HTTPS_PORT, () =>
-    
+    console.log('http server runnning', `\nport number is ${HTTPS_PORT}`)
   );
 }
 module.exports = server;
