@@ -7,4 +7,4 @@ The server is closed due to cost issues.
 - Developers: 4 people(2 front-end + 2 back-end)
 
 I was in charge of the back-end.  
-The function I implemented is the CRUD of the bulletin board.  
+The function I implemented is the CRUD of the bulletin board.
