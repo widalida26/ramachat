@@ -1,2 +1,2 @@
 # [Ramachat](http://ramachat-client-bucket-1.s3-website.us-east-2.amazonaws.com)
-project for TV series review community 
+project for TV series review community website
